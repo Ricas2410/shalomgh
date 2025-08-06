@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Performance and Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}{{ SITE_NAME }} - {{ CHURCH_NAME }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Welcome to {{ CHURCH_NAME }}, a vibrant community of faith serving God and our community.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}church, faith, community, worship, sermons, events, ministry{% endblock %}">
+    <meta name="author" content="{{ CHURCH_NAME }}">
+    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}{{ SITE_NAME }} - {{ CHURCH_NAME }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Welcome to {{ CHURCH_NAME }}, a vibrant community of faith serving God and our community.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% load static %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}{% endblock %}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ SITE_NAME }} - {{ CHURCH_NAME }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Welcome to {{ CHURCH_NAME }}, a vibrant community of faith serving God and our community.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{% load static %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}{% endblock %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% load static %}{% static 'img/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% load static %}{% static 'img/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% load static %}{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% load static %}{% static 'img/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% load static %}{% static 'img/site.webmanifest' %}">
+
+    <!-- DNS Prefetch for Performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Professional church color palette
+                        'church': {
+                            'primary': '#2563EB',      // Deep blue - trust, stability
+                            'secondary': '#059669',    // Forest green - growth, life
+                            'accent': '#DC2626',       // Deep red - passion, love
+                            'gold': '#D97706',         // Warm gold - divine, precious
+                            'light': '#F8FAFC',       // Very light blue-gray
+                            'dark': '#1E293B',        // Dark slate
+                        },
+                        'neutral': {
+                            '50': '#F8FAFC',
+                            '100': '#F1F5F9',
+                            '200': '#E2E8F0',
+                            '300': '#CBD5E1',
+                            '400': '#94A3B8',
+                            '500': '#64748B',
+                            '600': '#475569',
+                            '700': '#334155',
+                            '800': '#1E293B',
+                            '900': '#0F172A',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'heading': ['Poppins', 'system-ui', 'sans-serif'],
+                        'serif': ['Crimson Text', 'Georgia', 'serif'],
+                    },
+                    spacing: {
+                        '18': '4.5rem',
+                        '88': '22rem',
+                        '128': '32rem',
+                    },
+                    maxWidth: {
+                        '8xl': '88rem',
+                        '9xl': '96rem',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% load static %}{% static 'css/tailwind.css' %}">
+
+    <style>
+        /* Line clamp utilities */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Better focus styles for accessibility */
+        .focus\:ring-church:focus {
+            --tw-ring-color: #2563EB;
+        }
+
+        /* Custom gradient backgrounds */
+        .bg-church-gradient {
+            background: linear-gradient(135deg, #2563EB 0%, #059669 100%);
+        }
+
+        .bg-warm-gradient {
+            background: linear-gradient(135deg, #D97706 0%, #DC2626 100%);
+        }
+    </style>
+
+    <!-- Additional CSS -->
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Church",
+        "name": "{{ CHURCH_NAME }}",
+        "alternateName": "{{ SITE_NAME }}",
+        "url": "{{ request.scheme }}://{{ request.get_host }}",
+        "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.png' %}",
+        "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}",
+        "description": "{% if site_settings.meta_description %}{{ site_settings.meta_description }}{% else %}{{ CHURCH_NAME }} - A vibrant community of faith serving God and our community{% endif %}",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{% if site_settings.address %}{{ site_settings.address|linebreaksbr|striptags }}{% else %}123 Church Street{% endif %}",
+            "addressLocality": "Accra",
+            "addressRegion": "Greater Accra",
+            "addressCountry": "Ghana"
+        },
+        "telephone": "{% if site_settings.phone %}{{ site_settings.phone }}{% else %}+233 XX XXX XXXX{% endif %}",
+        "email": "{% if site_settings.email %}{{ site_settings.email }}{% else %}info@shalomgh.com{% endif %}",
+        "sameAs": [
+            {% if site_settings.facebook_url %}"{{ site_settings.facebook_url }}"{% endif %}
+            {% if site_settings.twitter_url %}{% if site_settings.facebook_url %},{% endif %}"{{ site_settings.twitter_url }}"{% endif %}
+            {% if site_settings.instagram_url %}{% if site_settings.facebook_url or site_settings.twitter_url %},{% endif %}"{{ site_settings.instagram_url }}"{% endif %}
+            {% if site_settings.youtube_url %}{% if site_settings.facebook_url or site_settings.twitter_url or site_settings.instagram_url %},{% endif %}"{{ site_settings.youtube_url }}"{% endif %}
+        ],
+        "openingHours": [
+            "Su 10:00-12:00",
+            "We 19:00-21:00"
+        ]
+    }
+    </script>
+
+    <!-- Additional Structured Data for specific pages -->
+    {% block structured_data %}{% endblock %}
+
+    <!-- Google Analytics -->
+    {% if GOOGLE_ANALYTICS_ID %}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
+    </script>
+    {% endif %}
+</head>
+
+<body class="bg-neutral-50 text-neutral-800 font-sans antialiased">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-church-primary text-white px-4 py-2 rounded-md z-50 transition-all">
+        Skip to main content
+    </a>
+
+    <!-- Top Utility Bar -->
+    <div class="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-2 border-b border-blue-700 fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Desktop View -->
+            <div class="hidden lg:flex items-center justify-between">
+                <!-- Left Side - Social Media & Quick Links -->
+                <div class="flex items-center space-x-6 text-sm">
+                    <!-- Social Media Icons -->
+                    <div class="flex items-center space-x-3">
+                        {% if SOCIAL_MEDIA.facebook %}
+                        <a href="{{ SOCIAL_MEDIA.facebook }}" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white transition-colors" aria-label="Facebook">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+
+                        {% if SOCIAL_MEDIA.youtube %}
+                        <a href="{{ SOCIAL_MEDIA.youtube }}" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white transition-colors" aria-label="YouTube">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+
+                        {% if SOCIAL_MEDIA.instagram %}
+                        <a href="{{ SOCIAL_MEDIA.instagram }}" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white transition-colors" aria-label="Instagram">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.418-3.323C6.001 8.198 7.152 7.708 8.449 7.708s2.448.49 3.323 1.416c.875.875 1.365 2.026 1.365 3.323s-.49 2.448-1.365 3.323c-.875.807-2.026 1.218-3.323 1.218zm7.718-1.297c-.875.807-2.026 1.218-3.323 1.218s-2.448-.411-3.323-1.218c-.875-.875-1.365-2.026-1.365-3.323s.49-2.448 1.365-3.323c.875-.926 2.026-1.416 3.323-1.416s2.448.49 3.323 1.416c.875.875 1.365 2.026 1.365 3.323s-.49 2.448-1.365 3.323z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="h-4 w-px bg-white/30"></div>
+
+                    <a href="{% url 'pages:online_tv' %}" class="flex items-center hover:text-teal-200 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Watch Live
+                    </a>
+                    <a href="{% url 'core:contact' %}" class="hover:text-teal-200 transition-colors duration-200">Contact Us</a>
+                    <a href="{% url 'pages:location' %}" class="hover:text-teal-200 transition-colors duration-200">Visit Us</a>
+                </div>
+
+                <!-- Right Side - Search and Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search Bar -->
+                    <div class="relative">
+                        <form action="{% url 'sermons:list' %}" method="GET" class="flex items-center">
+                            <input type="text" name="search" placeholder="Search sermons..."
+                                   class="bg-white/10 border border-white/20 rounded-lg px-4 py-1.5 text-sm text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 w-64 transition-all duration-200">
+                            <button type="submit" class="absolute right-2 text-white/70 hover:text-white">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Give Button -->
+                    <a href="{% url 'core:giving' %}" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition-colors duration-200 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                        Give
+                    </a>
+
+                    <!-- Member Portal -->
+                    {% if MEMBER_PORTAL_URL and MEMBER_PORTAL_URL != '#' %}
+                    <a href="{{ MEMBER_PORTAL_URL }}" target="_blank" rel="noopener noreferrer" class="border border-white/30 hover:bg-white/10 text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition-colors duration-200">
+                        Member Portal
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="lg:hidden flex items-center justify-between py-1">
+                <!-- Left: Top Menu Toggle -->
+                <button id="topMenuToggle" class="text-white p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <!-- Center: Logo/Church Name -->
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    <span class="text-white font-semibold text-sm">{{ CHURCH_NAME|truncatechars:20 }}</span>
+                </div>
+
+                <!-- Right: Placeholder for balance -->
+                <div class="w-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Top Menu Sidebar (slides from left) -->
+    <div id="topMenuSidebar" class="fixed top-0 left-0 w-80 bg-white shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out z-[60] lg:hidden rounded-r-lg">
+        <div class="flex flex-col">
+            <!-- Header -->
+            <div class="bg-teal-800 text-white p-4 flex items-center justify-between">
+                <h3 class="font-semibold">Quick Access</h3>
+                <button id="topMenuClose" class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 p-4 space-y-4">
+                <!-- Search -->
+                <div>
+                    <h4 class="font-medium text-gray-900 mb-2">Search Sermons</h4>
+                    <form method="GET" action="{% url 'sermons:list' %}">
+                        <div class="relative">
+                            <input type="text" name="search" placeholder="Search sermons..."
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                            <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-teal-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="font-medium text-gray-900 mb-2">Contact</h4>
+                    <p class="text-sm text-gray-600">+233 123 456 789</p>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h4 class="font-medium text-gray-900 mb-2">Follow Us</h4>
+                    <div class="flex space-x-3">
+                        {% if SOCIAL_MEDIA.facebook %}
+                        <a href="{{ SOCIAL_MEDIA.facebook }}" target="_blank" class="text-gray-600 hover:text-teal-600">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        {% if SOCIAL_MEDIA.youtube %}
+                        <a href="{{ SOCIAL_MEDIA.youtube }}" target="_blank" class="text-gray-600 hover:text-teal-600">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        {% if SOCIAL_MEDIA.instagram %}
+                        <a href="{{ SOCIAL_MEDIA.instagram }}" target="_blank" class="text-gray-600 hover:text-teal-600">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modern Header -->
+    <header class="bg-white/95 backdrop-blur-md shadow-lg fixed top-12 left-0 right-0 z-40 border-b border-gray-100" role="banner">
+        {% include 'partials/header.html' %}
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" role="main" class="min-h-screen pt-28">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-800 text-neutral-100" role="contentinfo">
+        {% include 'partials/footer.html' %}
+    </footer>
+
+
+
+    <!-- Scripts -->
+    <script src="{% load static %}{% static 'js/main.js' %}"></script>
+    
+    <!-- Additional JavaScript -->
+    {% block extra_js %}{% endblock %}
+    
+    <!-- Google Analytics (if configured) -->
+    {% if GOOGLE_ANALYTICS_ID %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
+    </script>
+    {% endif %}
+
+    <!-- Top Menu Toggle Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const topMenuToggle = document.getElementById('topMenuToggle');
+        const topMenuSidebar = document.getElementById('topMenuSidebar');
+        const topMenuClose = document.getElementById('topMenuClose');
+
+        function showTopMenu() {
+            topMenuSidebar.classList.remove('-translate-x-full');
+            topMenuSidebar.classList.add('translate-x-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideTopMenu() {
+            topMenuSidebar.classList.remove('translate-x-0');
+            topMenuSidebar.classList.add('-translate-x-full');
+            document.body.style.overflow = '';
+        }
+
+        if (topMenuToggle) {
+            topMenuToggle.addEventListener('click', showTopMenu);
+        }
+
+        if (topMenuClose) {
+            topMenuClose.addEventListener('click', hideTopMenu);
+        }
+
+        // Close on backdrop click
+        topMenuSidebar.addEventListener('click', function(e) {
+            if (e.target === topMenuSidebar) {
+                hideTopMenu();
+            }
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !topMenuSidebar.classList.contains('-translate-x-full')) {
+                hideTopMenu();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

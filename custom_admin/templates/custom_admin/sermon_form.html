@@ -1,0 +1,321 @@
+{% extends 'custom_admin/form_base.html' %}
+
+{% block back_url %}{% url 'custom_admin:sermon_list' %}{% endblock %}
+
+{% block form_fields %}
+    <!-- Basic Information -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200">
+            <i class="fas fa-info-circle mr-2 text-primary-teal"></i>
+            Basic Information
+        </h3>
+    </div>
+    
+    <!-- Title -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.title.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <input 
+            type="text" 
+            name="{{ form.title.name }}" 
+            id="{{ form.title.id_for_label }}"
+            value="{{ form.title.value|default:'' }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Enter sermon title"
+        >
+        {% if form.title.errors %}
+            <div class="mt-1">
+                {% for error in form.title.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Speaker -->
+    <div>
+        <label for="{{ form.speaker.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.speaker.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <select 
+            name="{{ form.speaker.name }}" 
+            id="{{ form.speaker.id_for_label }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+            <option value="">Select a speaker</option>
+            {% for choice in form.speaker.field.choices %}
+                {% if choice.0 %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.speaker.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        {% if form.speaker.errors %}
+            <div class="mt-1">
+                {% for error in form.speaker.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Date Preached -->
+    <div>
+        <label for="{{ form.date_preached.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.date_preached.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <input 
+            type="date" 
+            name="{{ form.date_preached.name }}" 
+            id="{{ form.date_preached.id_for_label }}"
+            value="{{ form.date_preached.value|date:'Y-m-d'|default:'' }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+        {% if form.date_preached.errors %}
+            <div class="mt-1">
+                {% for error in form.date_preached.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Series -->
+    <div>
+        <label for="{{ form.series.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.series.label }}
+        </label>
+        <select 
+            name="{{ form.series.name }}" 
+            id="{{ form.series.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+            <option value="">No series</option>
+            {% for choice in form.series.field.choices %}
+                {% if choice.0 %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.series.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        {% if form.series.errors %}
+            <div class="mt-1">
+                {% for error in form.series.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Scripture Reference -->
+    <div>
+        <label for="{{ form.scripture_reference.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.scripture_reference.label }}
+        </label>
+        <input 
+            type="text" 
+            name="{{ form.scripture_reference.name }}" 
+            id="{{ form.scripture_reference.id_for_label }}"
+            value="{{ form.scripture_reference.value|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="e.g., John 3:16, Romans 8:28-30"
+        >
+        {% if form.scripture_reference.errors %}
+            <div class="mt-1">
+                {% for error in form.scripture_reference.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Content Section -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-file-text mr-2 text-primary-teal"></i>
+            Content
+        </h3>
+    </div>
+    
+    <!-- Summary -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.summary.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.summary.label }}
+        </label>
+        <textarea 
+            name="{{ form.summary.name }}" 
+            id="{{ form.summary.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal resize-vertical min-h-[100px]"
+            placeholder="Brief summary of the sermon..."
+        >{{ form.summary.value|default:'' }}</textarea>
+        {% if form.summary.errors %}
+            <div class="mt-1">
+                {% for error in form.summary.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Content -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.content.label }}
+        </label>
+        <textarea 
+            name="{{ form.content.name }}" 
+            id="{{ form.content.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal resize-vertical min-h-[200px]"
+            placeholder="Full sermon content..."
+        >{{ form.content.value|default:'' }}</textarea>
+        {% if form.content.errors %}
+            <div class="mt-1">
+                {% for error in form.content.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Media Section -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-photo-video mr-2 text-primary-teal"></i>
+            Media
+        </h3>
+    </div>
+    
+    <!-- Featured Image -->
+    <div>
+        <label for="{{ form.featured_image.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.featured_image.label }}
+        </label>
+        <input 
+            type="file" 
+            name="{{ form.featured_image.name }}" 
+            id="{{ form.featured_image.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-teal file:text-white hover:file:bg-cyan-600"
+            accept="image/*"
+        >
+        {% if form.featured_image.value %}
+            <div class="mt-2 text-sm text-gray-500">
+                Current: <a href="{{ form.featured_image.value.url }}" target="_blank" class="text-primary-teal hover:underline">{{ form.featured_image.value.name }}</a>
+            </div>
+        {% endif %}
+        {% if form.featured_image.errors %}
+            <div class="mt-1">
+                {% for error in form.featured_image.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Audio File -->
+    <div>
+        <label for="{{ form.audio_file.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.audio_file.label }}
+        </label>
+        <input 
+            type="file" 
+            name="{{ form.audio_file.name }}" 
+            id="{{ form.audio_file.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-teal file:text-white hover:file:bg-cyan-600"
+            accept="audio/*"
+        >
+        {% if form.audio_file.value %}
+            <div class="mt-2 text-sm text-gray-500">
+                Current: <a href="{{ form.audio_file.value.url }}" target="_blank" class="text-primary-teal hover:underline">{{ form.audio_file.value.name }}</a>
+            </div>
+        {% endif %}
+        {% if form.audio_file.errors %}
+            <div class="mt-1">
+                {% for error in form.audio_file.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Video URL -->
+    <div>
+        <label for="{{ form.video_url.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.video_url.label }}
+        </label>
+        <input 
+            type="url" 
+            name="{{ form.video_url.name }}" 
+            id="{{ form.video_url.id_for_label }}"
+            value="{{ form.video_url.value|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="https://youtube.com/watch?v=..."
+        >
+        {% if form.video_url.errors %}
+            <div class="mt-1">
+                {% for error in form.video_url.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Publishing -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-globe mr-2 text-primary-teal"></i>
+            Publishing
+        </h3>
+    </div>
+    
+    <!-- Is Published -->
+    <div class="lg:col-span-2">
+        <div class="flex items-center">
+            <input 
+                type="checkbox" 
+                name="{{ form.is_published.name }}" 
+                id="{{ form.is_published.id_for_label }}"
+                {% if form.is_published.value %}checked{% endif %}
+                class="h-4 w-4 text-primary-teal focus:ring-primary-teal border-gray-300 rounded"
+            >
+            <label for="{{ form.is_published.id_for_label }}" class="ml-2 text-sm text-gray-700">
+                {{ form.is_published.label }} - Make this sermon visible to the public
+            </label>
+        </div>
+        {% if form.is_published.errors %}
+            <div class="mt-1">
+                {% for error in form.is_published.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_content %}
+    {% if object %}
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-6">
+            <div class="flex items-center">
+                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                <div>
+                    <h4 class="text-sm font-medium text-blue-900">Sermon Information</h4>
+                    <p class="text-sm text-blue-700 mt-1">
+                        Created: {{ object.created_at|date:"M d, Y g:i A" }} | 
+                        Last updated: {{ object.updated_at|date:"M d, Y g:i A" }}
+                        {% if object.view_count %}
+                            | Views: {{ object.view_count }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

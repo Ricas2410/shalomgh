@@ -1,0 +1,1076 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load page_images %}
+
+{% block title %}Welcome to {{ CHURCH_NAME }} - {{ SITE_NAME }}{% endblock %}
+
+{% block meta_description %}{{ site_settings.welcome_message|truncatewords:25|default:"Welcome to our vibrant community of faith. Join us for worship, fellowship, and spiritual growth." }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center"
+         style="background: url('{% get_page_image_url "home_hero_bg" 0 "https://images.unsplash.com/photo-1508780709619-79562169bc64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1650&q=80" %}') center/cover no-repeat;">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-800/60"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Left Content -->
+            <div class="text-white space-y-8">
+                <h1 class="hero-title">
+                    {% if site_settings.hero_title %}
+                        {{ site_settings.hero_title }}
+                    {% else %}
+                        Welcome to Our Church Family
+                    {% endif %}
+                </h1>
+
+                <p class="hero-subtitle">
+                    {% if site_settings.hero_subtitle %}
+                        {{ site_settings.hero_subtitle }}
+                    {% else %}
+                        Join our vibrant community of believers as we worship, grow in faith, and serve with purpose in God's amazing love.
+                    {% endif %}
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="{% url 'core:plan_visit' %}"
+                       class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg inline-flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Plan Your Visit
+                    </a>
+
+                    <a href="{% url 'pages:online_tv' %}"
+                       class="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg inline-flex items-center justify-center animate-glow">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-5-4v4m0 0V8a2 2 0 012-2h4a2 2 0 012 2v8a2 2 0 01-2 2h-4a2 2 0 01-2-2z"></path>
+                        </svg>
+                        Watch Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Image -->
+            <div class="relative lg:order-last">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                    <img src="{% get_page_image_url 'home_hero_side' 0 'https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' %}"
+                         alt="Church Community"
+                         class="w-full h-96 lg:h-[500px] object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Join Us for Worship Section -->
+<section id="service-times" class="py-20 bg-gradient-to-br from-blue-50 via-white to-blue-50 relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-10 right-10 w-64 h-64 bg-gradient-to-br from-blue-200/30 to-blue-400/30 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 left-10 w-80 h-80 bg-gradient-to-br from-blue-200/30 to-blue-400/30 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center bg-white/80 backdrop-blur-sm border border-blue-200 text-blue-700 px-6 py-3 rounded-full text-sm font-semibold mb-6 shadow-lg">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Service Times
+            </div>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+                Join Us for <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Worship</span>
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Experience the joy of worship in a warm, welcoming community where every person matters and God's love transforms lives.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
+            <!-- Saturday Service -->
+            <div class="group relative bg-white/90 backdrop-blur-sm rounded-2xl lg:rounded-3xl shadow-xl p-4 lg:p-8 text-center transform hover:scale-105 transition-all duration-500 border border-white/50 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/5 rounded-2xl lg:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative">
+                    <div class="w-16 h-16 lg:w-24 lg:h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl lg:rounded-3xl flex items-center justify-center mx-auto mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl">
+                        <svg class="w-8 h-8 lg:w-12 lg:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg lg:text-2xl font-bold text-gray-900 mb-3 lg:mb-4">Sabbath Worship</h3>
+                    <div class="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
+                        <div class="bg-blue-50 rounded-xl lg:rounded-2xl p-3 lg:p-4">
+                            <p class="text-xl lg:text-3xl font-bold text-blue-600 mb-1">9:00 AM</p>
+                            <p class="text-sm lg:text-base text-gray-700 font-semibold">Traditional</p>
+                            <p class="text-xs lg:text-sm text-gray-500 hidden lg:block">Hymns & Classic Worship</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl lg:rounded-2xl p-3 lg:p-4">
+                            <p class="text-xl lg:text-3xl font-bold text-blue-600 mb-1">11:00 AM</p>
+                            <p class="text-sm lg:text-base text-gray-700 font-semibold">Contemporary</p>
+                            <p class="text-xs lg:text-sm text-gray-500 hidden lg:block">Modern Music & Worship</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center text-xs lg:text-sm text-gray-500">
+                        <svg class="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        All Ages Welcome
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wednesday Service -->
+            <div class="group relative bg-white/90 backdrop-blur-sm rounded-2xl lg:rounded-3xl shadow-xl p-4 lg:p-8 text-center transform hover:scale-105 transition-all duration-500 border border-white/50 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-orange-600/5 rounded-2xl lg:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative">
+                    <div class="w-16 h-16 lg:w-24 lg:h-24 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl lg:rounded-3xl flex items-center justify-center mx-auto mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl">
+                        <svg class="w-8 h-8 lg:w-12 lg:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg lg:text-2xl font-bold text-gray-900 mb-3 lg:mb-4">Bible Study</h3>
+                    <div class="bg-orange-50 rounded-xl lg:rounded-2xl p-4 lg:p-6 mb-4 lg:mb-6">
+                        <p class="text-xl lg:text-3xl font-bold text-orange-600 mb-1 lg:mb-2">7:00 PM</p>
+                        <p class="text-sm lg:text-base text-gray-700 font-semibold mb-1 lg:mb-2">Wednesday Evening</p>
+                        <p class="text-xs lg:text-sm text-gray-600 leading-relaxed hidden lg:block">Deep dive into God's Word with interactive discussion and prayer</p>
+                    </div>
+                    <div class="flex items-center justify-center text-xs lg:text-sm text-gray-500">
+                        <svg class="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        Bring Your Bible
+                    </div>
+                </div>
+            </div>
+
+            <!-- Youth Service -->
+            <div class="group relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 text-center transform hover:scale-105 transition-all duration-500 border border-white/50 hover:shadow-3xl">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-purple-600/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative">
+                    <div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Youth Ministry</h3>
+                    <div class="bg-purple-50 rounded-2xl p-6 mb-6">
+                        <p class="text-3xl font-bold text-purple-600 mb-2">6:30 PM</p>
+                        <p class="text-gray-700 font-semibold mb-2">Friday Night</p>
+                        <p class="text-sm text-gray-600 leading-relaxed">Fun, fellowship, and faith-building activities for teens</p>
+                    </div>
+                    <div class="flex items-center justify-center text-sm text-gray-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        Ages 12-18
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mt-16">
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-2xl border border-white/50 max-w-4xl mx-auto">
+                {% if CTA_IMAGE or CTA_YOUTUBE_URL %}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                    <!-- Media Content -->
+                    <div class="order-2 lg:order-1">
+                        {% if CTA_YOUTUBE_URL %}
+                        <!-- YouTube Video Embed -->
+                        <div class="relative aspect-video rounded-xl lg:rounded-2xl overflow-hidden shadow-lg">
+                            <iframe
+                                src="https://www.youtube.com/embed/{{ CTA_YOUTUBE_URL|slice:'32:' }}?rel=0&modestbranding=1"
+                                class="absolute inset-0 w-full h-full"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        {% elif CTA_IMAGE %}
+                        <!-- CTA Image -->
+                        <div class="relative rounded-xl lg:rounded-2xl overflow-hidden shadow-lg">
+                            <img src="{{ CTA_IMAGE.url }}" alt="Join Our Church Family" class="w-full h-auto object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Text Content -->
+                    <div class="order-1 lg:order-2 text-center lg:text-left">
+                        <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3 lg:mb-4">Ready to Join Us?</h3>
+                        <p class="text-sm lg:text-base text-gray-600 mb-4 lg:mb-6">We'd love to welcome you into our church family. Come as you are!</p>
+                        <div class="flex flex-col sm:flex-row gap-3 lg:gap-4 justify-center lg:justify-start">
+                            <a href="{% url 'core:plan_visit' %}" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-xl lg:rounded-2xl font-semibold text-sm lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                Plan Your Visit
+                            </a>
+                            <a href="{% url 'pages:online_tv' %}" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-xl lg:rounded-2xl font-semibold text-sm lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                Watch Online
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <!-- Fallback: Text-only CTA -->
+                <div class="text-center">
+                    <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-3 lg:mb-4">Ready to Join Us?</h3>
+                    <p class="text-sm lg:text-base text-gray-600 mb-4 lg:mb-6">We'd love to welcome you into our church family. Come as you are!</p>
+                    <div class="flex flex-col sm:flex-row gap-3 lg:gap-4 justify-center">
+                        <a href="{% url 'core:plan_visit' %}" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-xl lg:rounded-2xl font-semibold text-sm lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            Plan Your Visit
+                        </a>
+                        <a href="{% url 'pages:online_tv' %}" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-xl lg:rounded-2xl font-semibold text-sm lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            Watch Online
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What We Believe In Section -->
+<section class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-orange-500/20 to-orange-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-purple-500/10 to-blue-500/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full text-sm font-semibold mb-6">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+                Our Foundation
+            </div>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                What We <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-orange-400">Believe In</span>
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                Our faith is anchored in timeless biblical truths that transform lives and build lasting community.
+            </p>
+        </div>
+
+        <!-- Mobile Single Card Carousel -->
+        <div class="block sm:hidden">
+            <div class="relative max-w-sm mx-auto">
+                <div class="belief-mobile-carousel overflow-hidden">
+                    <div class="belief-mobile-track flex transition-transform duration-300 ease-in-out">
+                        <!-- Scripture Authority -->
+                        <div class="belief-mobile-slide w-full flex-shrink-0">
+                            <div class="group relative mx-2">
+                                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl">
+                                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-3">Scripture Authority</h3>
+                                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                                        We believe the Bible is God's inspired Word, our ultimate authority for faith, life, and spiritual truth.
+                                    </p>
+                                    <div class="text-xs text-blue-300 font-medium">
+                                        "All Scripture is God-breathed" - 2 Timothy 3:16
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Salvation by Grace -->
+                        <div class="belief-mobile-slide w-full flex-shrink-0">
+                            <div class="group relative mx-2">
+                                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl">
+                                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-3">Salvation by Grace</h3>
+                                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                                        We believe salvation is a free gift from God through faith in Jesus Christ, not by our works.
+                                    </p>
+                                    <div class="text-xs text-orange-300 font-medium">
+                                        "For by grace you have been saved" - Ephesians 2:8
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Christian Community -->
+                        <div class="belief-mobile-slide w-full flex-shrink-0">
+                            <div class="group relative mx-2">
+                                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl">
+                                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white mb-3">Christian Community</h3>
+                                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                                        We believe in the power of authentic fellowship, mutual support, and growing together in faith.
+                                    </p>
+                                    <div class="text-xs text-purple-300 font-medium">
+                                        "Bear one another's burdens" - Galatians 6:2
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Carousel Navigation -->
+                <div class="flex justify-center mt-6 space-x-2">
+                    <button class="belief-mobile-dot w-2 h-2 rounded-full bg-blue-400 transition-colors duration-200" data-slide="0"></button>
+                    <button class="belief-mobile-dot w-2 h-2 rounded-full bg-white/30 transition-colors duration-200" data-slide="1"></button>
+                    <button class="belief-mobile-dot w-2 h-2 rounded-full bg-white/30 transition-colors duration-200" data-slide="2"></button>
+                </div>
+
+                <!-- Mobile Carousel Arrows - Positioned outside the cards -->
+                <button class="belief-mobile-prev absolute -left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 border border-white/20 z-20">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <button class="belief-mobile-next absolute -right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 border border-white/20 z-20">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tablet/Desktop Grid -->
+        <div class="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
+            <!-- Scripture Authority -->
+            <div class="group relative">
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl lg:rounded-3xl p-4 lg:p-8 text-center transform hover:scale-105 transition-all duration-500 border border-white/20 hover:border-white/40 hover:bg-white/15">
+                    <div class="w-16 h-16 lg:w-24 lg:h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl lg:rounded-3xl flex items-center justify-center mx-auto mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-2xl">
+                        <svg class="w-8 h-8 lg:w-12 lg:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg lg:text-2xl font-bold text-white mb-3 lg:mb-4">Scripture Authority</h3>
+                    <p class="text-sm lg:text-base text-gray-300 leading-relaxed mb-4 lg:mb-6">
+                        We believe the Bible is God's inspired Word, our ultimate authority for faith, life, and spiritual truth.
+                    </p>
+                    <div class="text-xs lg:text-sm text-blue-300 font-medium">
+                        "All Scripture is God-breathed" - 2 Timothy 3:16
+                    </div>
+                </div>
+            </div>
+
+            <!-- Salvation by Grace -->
+            <div class="group relative">
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center transform hover:scale-105 transition-all duration-500 border border-white/20 hover:border-white/40 hover:bg-white/15">
+                    <div class="w-24 h-24 bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-2xl">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Salvation by Grace</h3>
+                    <p class="text-gray-300 leading-relaxed mb-6">
+                        We believe salvation is a free gift from God through faith in Jesus Christ, not by our works.
+                    </p>
+                    <div class="text-sm text-orange-300 font-medium">
+                        "For by grace you have been saved" - Ephesians 2:8
+                    </div>
+                </div>
+            </div>
+
+            <!-- Christian Community -->
+            <div class="group relative">
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center transform hover:scale-105 transition-all duration-500 border border-white/20 hover:border-white/40 hover:bg-white/15">
+                    <div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-2xl">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Christian Community</h3>
+                    <p class="text-gray-300 leading-relaxed mb-6">
+                        We believe in the power of authentic fellowship, mutual support, and growing together in faith.
+                    </p>
+                    <div class="text-sm text-purple-300 font-medium">
+                        "Bear one another's burdens" - Galatians 6:2
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Beliefs -->
+        <div class="mt-12 lg:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto">
+            <div class="bg-white/5 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6 border border-white/10">
+                <h4 class="text-lg lg:text-xl font-bold text-white mb-2 lg:mb-3 flex items-center">
+                    <svg class="w-5 h-5 lg:w-6 lg:h-6 mr-2 lg:mr-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Trinity
+                </h4>
+                <p class="text-gray-300 text-xs lg:text-sm leading-relaxed">
+                    We believe in one God eternally existing in three persons: Father, Son, and Holy Spirit.
+                </p>
+            </div>
+            <div class="bg-white/5 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6 border border-white/10">
+                <h4 class="text-lg lg:text-xl font-bold text-white mb-2 lg:mb-3 flex items-center">
+                    <svg class="w-5 h-5 lg:w-6 lg:h-6 mr-2 lg:mr-3 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Jesus Christ
+                </h4>
+                <p class="text-gray-300 text-xs lg:text-sm leading-relaxed">
+                    We believe Jesus is fully God and fully man, our Savior who died and rose again for our sins.
+                </p>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mt-16">
+            <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 max-w-2xl mx-auto">
+                <h3 class="text-2xl font-bold text-white mb-4">Want to Learn More?</h3>
+                <p class="text-gray-300 mb-6">Discover more about our beliefs and what it means to follow Jesus.</p>
+                <a href="{% url 'pages:beliefs' %}" class="bg-gradient-to-r from-blue-500 to-orange-500 hover:from-blue-600 hover:to-orange-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Explore Our Beliefs
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Messages Section -->
+{% if featured_sermons %}
+<section class="py-20 lg:py-24 bg-gradient-to-br from-blue-50/50 via-white to-amber-50/30 relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-20 right-20 w-32 h-32 bg-blue-400/5 rounded-full blur-2xl"></div>
+        <div class="absolute bottom-20 left-20 w-48 h-48 bg-amber-400/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <!-- Icon -->
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full mb-6">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                </svg>
+            </div>
+
+            <!-- Badge -->
+            <div class="inline-flex items-center bg-gradient-to-r from-blue-100 to-amber-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-6 border border-blue-200/50">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                </svg>
+                Featured Messages
+            </div>
+
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+                <span class="bg-gradient-to-r from-gray-900 via-blue-800 to-blue-600 bg-clip-text text-transparent">
+                    Latest Messages
+                </span>
+            </h2>
+            <p class="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Be encouraged and challenged by God's Word through our recent sermons and teachings.
+            </p>
+        </div>
+
+        <!-- Mobile Carousel / Desktop Grid -->
+        <div class="block lg:hidden">
+            <!-- Mobile Carousel -->
+            <div class="relative max-w-sm mx-auto">
+                <div class="sermon-carousel overflow-hidden">
+                    <div class="sermon-carousel-track flex transition-transform duration-300 ease-in-out">
+                        {% for sermon in featured_sermons %}
+                        <div class="sermon-slide w-full flex-shrink-0">
+                            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-xl overflow-hidden border border-blue-100/50 group-hover:border-blue-200/70 mx-2 transition-all duration-300">
+                                <!-- Sermon Image -->
+                                <div class="relative overflow-hidden">
+                                    {% if sermon.thumbnail %}
+                                    <img src="{{ sermon.thumbnail.url }}" alt="{{ sermon.title }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+                                    {% else %}
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ sermon.title }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+                                    {% endif %}
+                                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent"></div>
+                                    <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 group-hover:scale-110 transition-transform duration-300">
+                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h1m4 0h1M9 6h1m4 0h1"></path>
+                                        </svg>
+                                    </div>
+                                    <!-- Play Button Overlay -->
+                                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <div class="bg-white/20 backdrop-blur-sm rounded-full p-4">
+                                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sermon Content -->
+                                <div class="p-6">
+                                    <!-- Speaker and Date -->
+                                    <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mr-3">
+                                                <span class="text-blue-600 font-bold text-sm">{{ sermon.speaker.name|first }}</span>
+                                            </div>
+                                            <span class="font-medium">{{ sermon.speaker.name }}</span>
+                                        </div>
+                                        <span class="bg-gradient-to-r from-blue-100 to-amber-100 px-3 py-1 rounded-full text-sm font-medium text-blue-800">{{ sermon.date_preached|date:"M d" }}</span>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <h3 class="text-lg font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
+                                        {{ sermon.title }}
+                                    </h3>
+
+                                    <!-- CTA Button -->
+                                    <a href="{{ sermon.get_absolute_url }}"
+                                       class="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h1m4 0h1M9 6h1m4 0h1"></path>
+                                        </svg>
+                                        Watch Message
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Carousel Navigation -->
+                <div class="flex justify-center mt-4 space-x-2">
+                    {% for sermon in featured_sermons %}
+                    <button class="sermon-dot w-2 h-2 rounded-full bg-gray-300 transition-colors duration-200 {% if forloop.first %}bg-blue-600{% endif %}" data-slide="{{ forloop.counter0 }}"></button>
+                    {% endfor %}
+                </div>
+
+                <!-- Carousel Arrows - Positioned outside the cards -->
+                <button class="sermon-prev absolute -left-6 top-1/2 transform -translate-y-1/2 bg-white/95 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/50 z-20">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <button class="sermon-next absolute -right-6 top-1/2 transform -translate-y-1/2 bg-white/95 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/50 z-20">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Desktop Grid -->
+        <div class="hidden lg:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {% for sermon in featured_sermons %}
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-xl overflow-hidden border border-blue-100/50 group-hover:border-blue-200/70 transition-all duration-300">
+                <!-- Sermon Image -->
+                <div class="relative overflow-hidden">
+                    {% if sermon.thumbnail %}
+                    <img src="{{ sermon.thumbnail.url }}" alt="{{ sermon.title }}" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ sermon.title }}" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent"></div>
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h1m4 0h1M9 6h1m4 0h1"></path>
+                        </svg>
+                    </div>
+                    <!-- Play Button Overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="bg-white/20 backdrop-blur-sm rounded-full p-6">
+                            <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sermon Content -->
+                <div class="p-6">
+                    <!-- Speaker and Date -->
+                    <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-blue-600 font-bold text-sm">{{ sermon.speaker.name|first }}</span>
+                            </div>
+                            <span class="font-medium">{{ sermon.speaker.name }}</span>
+                        </div>
+                        <span class="bg-gradient-to-r from-blue-100 to-amber-100 px-3 py-1 rounded-full text-sm font-medium text-blue-800">{{ sermon.date_preached|date:"M d" }}</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
+                        {{ sermon.title }}
+                    </h3>
+
+                    <!-- Description -->
+                    {% if sermon.description %}
+                    <p class="text-gray-600 mb-6 line-clamp-2 text-sm leading-relaxed">
+                        {{ sermon.description|truncatewords:15 }}
+                    </p>
+                    {% endif %}
+
+                    <!-- CTA Button -->
+                    <a href="{{ sermon.get_absolute_url }}"
+                       class="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h1m4 0h1M9 6h1m4 0h1"></path>
+                        </svg>
+                        Watch Message
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-16">
+            <a href="{% url 'sermons:list' %}"
+               class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl inline-flex items-center">
+                View All Sermons
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Upcoming Events Section -->
+{% if featured_events %}
+<section class="py-20 lg:py-24 bg-gradient-to-br from-amber-50/50 via-white to-blue-50/30 relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-20 left-20 w-32 h-32 bg-amber-400/5 rounded-full blur-2xl"></div>
+        <div class="absolute bottom-20 right-20 w-48 h-48 bg-blue-400/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <!-- Icon -->
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full mb-6">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+
+            <!-- Badge -->
+            <div class="inline-flex items-center bg-gradient-to-r from-amber-100 to-blue-100 text-amber-800 px-6 py-3 rounded-full text-sm font-semibold mb-6 border border-amber-200/50">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Featured Events
+            </div>
+
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+                <span class="bg-gradient-to-r from-gray-900 via-amber-800 to-amber-600 bg-clip-text text-transparent">
+                    Upcoming Events
+                </span>
+            </h2>
+            <p class="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Join us for these exciting upcoming events and be part of our growing community.
+            </p>
+        </div>
+
+        <!-- Mobile Carousel / Desktop Grid -->
+        <div class="block lg:hidden">
+            <!-- Mobile Carousel -->
+            <div class="relative max-w-sm mx-auto">
+                <div class="event-carousel overflow-hidden">
+                    <div class="event-carousel-track flex transition-transform duration-300 ease-in-out">
+                        {% for event in featured_events %}
+                        <div class="event-slide w-full flex-shrink-0">
+                            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-xl overflow-hidden border border-amber-100/50 group-hover:border-amber-200/70 mx-2 transition-all duration-300">
+                                <!-- Event Image -->
+                                <div class="relative overflow-hidden">
+                                    {% if event.featured_image %}
+                                    <img src="{{ event.featured_image.url }}" alt="{{ event.title }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+                                    {% else %}
+                                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ event.title }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+                                    {% endif %}
+                                    <div class="absolute inset-0 bg-gradient-to-t from-amber-900/60 via-transparent to-transparent"></div>
+                                    {% if event.category %}
+                                    <div class="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                                        {{ event.category.name }}
+                                    </div>
+                                    {% endif %}
+                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-3 group-hover:scale-110 transition-transform duration-300">
+                                        <div class="text-center">
+                                            <div class="text-lg font-bold text-gray-900">{{ event.start_date|date:"d" }}</div>
+                                            <div class="text-xs text-gray-600 font-medium">{{ event.start_date|date:"M" }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Event Content -->
+                                <div class="p-6">
+                                    <!-- Event Title -->
+                                    <h3 class="text-lg font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-amber-600 transition-colors duration-300">
+                                        {{ event.title }}
+                                    </h3>
+
+                                    <!-- Event Details -->
+                                    <div class="space-y-3 mb-6">
+                                        <!-- Date and Time -->
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center mr-3">
+                                                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <div class="font-semibold text-sm">{{ event.start_date|date:"M d, Y" }}</div>
+                                                {% if event.start_time %}
+                                                <div class="text-sm text-gray-500">{{ event.start_time|time:"g:i A" }}</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <!-- Location -->
+                                        {% if event.location_name %}
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center mr-3">
+                                                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                </svg>
+                                            </div>
+                                            <span class="font-semibold text-sm">{{ event.location_name }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- CTA Button -->
+                                    <a href="{{ event.get_absolute_url }}"
+                                       class="inline-flex items-center justify-center w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Carousel Navigation -->
+                <div class="flex justify-center mt-4 space-x-2">
+                    {% for event in featured_events %}
+                    <button class="event-dot w-2 h-2 rounded-full bg-gray-300 transition-colors duration-200 {% if forloop.first %}bg-orange-600{% endif %}" data-slide="{{ forloop.counter0 }}"></button>
+                    {% endfor %}
+                </div>
+
+                <!-- Carousel Arrows - Positioned outside the cards -->
+                <button class="event-prev absolute -left-6 top-1/2 transform -translate-y-1/2 bg-white/95 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/50 z-20">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <button class="event-next absolute -right-6 top-1/2 transform -translate-y-1/2 bg-white/95 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/50 z-20">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Desktop Grid -->
+        <div class="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {% for event in featured_events %}
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-xl overflow-hidden border border-amber-100/50 group-hover:border-amber-200/70 transition-all duration-300">
+                <!-- Event Image -->
+                <div class="relative overflow-hidden">
+                    {% if event.featured_image %}
+                    <img src="{{ event.featured_image.url }}" alt="{{ event.title }}" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ event.title }}" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-amber-900/60 via-transparent to-transparent"></div>
+                    {% if event.category %}
+                    <div class="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                        {{ event.category.name }}
+                    </div>
+                    {% endif %}
+                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-3 group-hover:scale-110 transition-transform duration-300">
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-gray-900">{{ event.start_date|date:"d" }}</div>
+                            <div class="text-xs text-gray-600 font-medium">{{ event.start_date|date:"M" }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Content -->
+                <div class="p-6">
+                    <!-- Event Title -->
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-amber-600 transition-colors duration-300">
+                        {{ event.title }}
+                    </h3>
+
+                    <!-- Event Description -->
+                    {% if event.short_description %}
+                    <p class="text-gray-600 mb-6 line-clamp-2 text-sm leading-relaxed">
+                        {{ event.short_description|truncatewords:12 }}
+                    </p>
+                    {% endif %}
+
+                    <!-- Event Details -->
+                    <div class="space-y-3 mb-6">
+                        <!-- Date and Time -->
+                        <div class="flex items-center text-sm text-gray-600">
+                            <div class="w-8 h-8 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="font-semibold">{{ event.start_date|date:"M d, Y" }}</div>
+                                {% if event.start_time %}
+                                <div class="text-sm text-gray-500">{{ event.start_time|time:"g:i A" }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        {% if event.location_name %}
+                        <div class="flex items-center text-sm text-gray-600">
+                            <div class="w-8 h-8 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-semibold">{{ event.location_name }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- CTA Button -->
+                    <a href="{{ event.get_absolute_url }}"
+                       class="inline-flex items-center justify-center w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-16">
+            <a href="{% url 'events:list' %}"
+               class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl inline-flex items-center">
+                View All Events
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action Section -->
+<section class="py-24 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-20 right-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 left-20 w-96 h-96 bg-orange-400/20 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8">
+            <div class="w-2 h-2 bg-orange-400 rounded-full mr-3 animate-pulse"></div>
+            <span class="text-sm font-semibold text-white">Join Our Community</span>
+        </div>
+
+        <h2 class="text-4xl md:text-6xl font-bold mb-8 text-white leading-tight">
+            Ready to Take Your
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-orange-500">
+                Next Step?
+            </span>
+        </h2>
+
+        <p class="text-xl md:text-2xl text-blue-100 mb-12 leading-relaxed max-w-3xl mx-auto">
+            Whether you're new to faith or looking to grow deeper, we're here to walk alongside you.
+            Join our welcoming community and discover God's amazing plan for your life.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <a href="{% url 'core:plan_visit' %}"
+               class="group bg-white text-blue-700 hover:bg-gray-50 font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl inline-flex items-center">
+                <svg class="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Plan Your Visit
+            </a>
+            <a href="{% url 'core:contact' %}"
+               class="group bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-700 font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 inline-flex items-center">
+                <svg class="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                Get Connected
+            </a>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sermon Carousel
+    const sermonCarousel = document.querySelector('.sermon-carousel-track');
+    const sermonSlides = document.querySelectorAll('.sermon-slide');
+    const sermonDots = document.querySelectorAll('.sermon-dot');
+    const sermonPrev = document.querySelector('.sermon-prev');
+    const sermonNext = document.querySelector('.sermon-next');
+
+    if (sermonCarousel && sermonSlides.length > 0) {
+        let currentSermonSlide = 0;
+
+        function updateSermonCarousel() {
+            const translateX = -currentSermonSlide * 100;
+            sermonCarousel.style.transform = `translateX(${translateX}%)`;
+
+            // Update dots
+            sermonDots.forEach((dot, index) => {
+                dot.classList.toggle('bg-blue-600', index === currentSermonSlide);
+                dot.classList.toggle('bg-gray-300', index !== currentSermonSlide);
+            });
+        }
+
+        function nextSermonSlide() {
+            currentSermonSlide = (currentSermonSlide + 1) % sermonSlides.length;
+            updateSermonCarousel();
+        }
+
+        function prevSermonSlide() {
+            currentSermonSlide = (currentSermonSlide - 1 + sermonSlides.length) % sermonSlides.length;
+            updateSermonCarousel();
+        }
+
+        // Event listeners
+        if (sermonNext) sermonNext.addEventListener('click', nextSermonSlide);
+        if (sermonPrev) sermonPrev.addEventListener('click', prevSermonSlide);
+
+        sermonDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSermonSlide = index;
+                updateSermonCarousel();
+            });
+        });
+
+        // Auto-play (optional)
+        setInterval(nextSermonSlide, 5000);
+    }
+
+    // Event Carousel
+    const eventCarousel = document.querySelector('.event-carousel-track');
+    const eventSlides = document.querySelectorAll('.event-slide');
+    const eventDots = document.querySelectorAll('.event-dot');
+    const eventPrev = document.querySelector('.event-prev');
+    const eventNext = document.querySelector('.event-next');
+
+    if (eventCarousel && eventSlides.length > 0) {
+        let currentEventSlide = 0;
+
+        function updateEventCarousel() {
+            const translateX = -currentEventSlide * 100;
+            eventCarousel.style.transform = `translateX(${translateX}%)`;
+
+            // Update dots
+            eventDots.forEach((dot, index) => {
+                dot.classList.toggle('bg-orange-600', index === currentEventSlide);
+                dot.classList.toggle('bg-gray-300', index !== currentEventSlide);
+            });
+        }
+
+        function nextEventSlide() {
+            currentEventSlide = (currentEventSlide + 1) % eventSlides.length;
+            updateEventCarousel();
+        }
+
+        function prevEventSlide() {
+            currentEventSlide = (currentEventSlide - 1 + eventSlides.length) % eventSlides.length;
+            updateEventCarousel();
+        }
+
+        // Event listeners
+        if (eventNext) eventNext.addEventListener('click', nextEventSlide);
+        if (eventPrev) eventPrev.addEventListener('click', prevEventSlide);
+
+        eventDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentEventSlide = index;
+                updateEventCarousel();
+            });
+        });
+
+        // Auto-play (optional)
+        setInterval(nextEventSlide, 6000);
+    }
+
+    // Beliefs Mobile Carousel
+    const beliefMobileCarousel = document.querySelector('.belief-mobile-track');
+    const beliefMobileSlides = document.querySelectorAll('.belief-mobile-slide');
+    const beliefMobileDots = document.querySelectorAll('.belief-mobile-dot');
+    const beliefMobilePrev = document.querySelector('.belief-mobile-prev');
+    const beliefMobileNext = document.querySelector('.belief-mobile-next');
+
+    if (beliefMobileCarousel && beliefMobileSlides.length > 0) {
+        let currentBeliefMobileSlide = 0;
+
+        function updateBeliefMobileCarousel() {
+            const translateX = -currentBeliefMobileSlide * 100;
+            beliefMobileCarousel.style.transform = `translateX(${translateX}%)`;
+
+            // Update dots
+            beliefMobileDots.forEach((dot, index) => {
+                if (index === currentBeliefMobileSlide) {
+                    dot.classList.remove('bg-white/30');
+                    dot.classList.add('bg-blue-400');
+                } else {
+                    dot.classList.remove('bg-blue-400');
+                    dot.classList.add('bg-white/30');
+                }
+            });
+        }
+
+        function nextBeliefMobileSlide() {
+            currentBeliefMobileSlide = (currentBeliefMobileSlide + 1) % beliefMobileSlides.length;
+            updateBeliefMobileCarousel();
+        }
+
+        function prevBeliefMobileSlide() {
+            currentBeliefMobileSlide = (currentBeliefMobileSlide - 1 + beliefMobileSlides.length) % beliefMobileSlides.length;
+            updateBeliefMobileCarousel();
+        }
+
+        // Event listeners
+        if (beliefMobileNext) beliefMobileNext.addEventListener('click', nextBeliefMobileSlide);
+        if (beliefMobilePrev) beliefMobilePrev.addEventListener('click', prevBeliefMobileSlide);
+
+        beliefMobileDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentBeliefMobileSlide = index;
+                updateBeliefMobileCarousel();
+            });
+        });
+
+        // Auto-play (optional)
+        setInterval(nextBeliefMobileSlide, 7000);
+    }
+});
+</script>
+{% endblock %}

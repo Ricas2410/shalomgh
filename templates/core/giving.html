@@ -1,0 +1,578 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load page_images %}
+
+{% block title %}Give Online - {{ CHURCH_NAME }}{% endblock %}
+
+{% block meta_description %}Support the ministry of {{ CHURCH_NAME }} through online giving. Your generous gifts help us serve our community and spread God's love.{% endblock %}
+
+{% block content %}
+<!-- Ultra-Modern Hero Section -->
+<section class="relative py-20 lg:py-32 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-600/85 text-white overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{% get_page_image_url "giving_hero" 0 "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" %}');"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/85 to-blue-600/80"></div>
+
+    <!-- Floating Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 right-20 w-72 h-72 bg-amber-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-400/20 rounded-full blur-2xl"></div>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Badge -->
+        <div class="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-6 py-3 mb-8">
+            <svg class="w-5 h-5 mr-2 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+            <span class="text-white font-medium">Generous Giving</span>
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 lg:mb-8">
+            <span class="bg-gradient-to-r from-white via-blue-100 to-amber-200 bg-clip-text text-transparent">
+                Give
+            </span>
+            <br>
+            <span class="bg-gradient-to-r from-amber-200 via-white to-blue-100 bg-clip-text text-transparent">
+                Online
+            </span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-xl sm:text-2xl lg:text-3xl text-blue-100 max-w-4xl mx-auto leading-relaxed mb-10">
+            Your generous giving helps us fulfill our mission to serve God and our community.
+            Thank you for partnering with us in ministry.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="#give-now" class="group bg-white text-blue-900 hover:bg-blue-50 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    Give Now
+                    <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </span>
+            </a>
+            <a href="#why-we-give" class="group bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Why We Give
+                </span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Why We Give Section -->
+<section id="why-we-give" class="py-20 lg:py-28 bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16 lg:mb-20">
+            <!-- Badge -->
+            <div class="inline-flex items-center bg-blue-100 text-blue-800 rounded-full px-6 py-3 mb-6">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-semibold">Our Purpose</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+                <span class="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-600 bg-clip-text text-transparent">
+                    Why We
+                </span>
+                <br>
+                <span class="text-gray-900">Give</span>
+            </h2>
+
+            <!-- Subtitle -->
+            <p class="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Giving is an act of worship and a way to participate in God's work in our community and around the world.
+                Your faithful giving enables us to:
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Giving Information -->
+            <div class="space-y-8">
+                <!-- Giving Reasons Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Support Ministry -->
+                    <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-100/50 hover:border-blue-200/70">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors">Support Ministry</h3>
+                        <p class="text-gray-600 leading-relaxed">Fund pastoral care, worship services, and spiritual programs that nurture our faith community.</p>
+                    </div>
+
+                    <!-- Serve Community -->
+                    <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-amber-100/50 hover:border-amber-200/70">
+                        <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-amber-700 transition-colors">Serve Community</h3>
+                        <p class="text-gray-600 leading-relaxed">Provide outreach programs and support for those in need in our local community.</p>
+                    </div>
+
+                    <!-- Global Missions -->
+                    <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-green-100/50 hover:border-green-200/70">
+                        <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-700 transition-colors">Global Missions</h3>
+                        <p class="text-gray-600 leading-relaxed">Support missionaries and evangelism efforts to spread God's love worldwide.</p>
+                    </div>
+
+                    <!-- Facility Maintenance -->
+                    <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-purple-100/50 hover:border-purple-200/70">
+                        <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-700 transition-colors">Facility Maintenance</h3>
+                        <p class="text-gray-600 leading-relaxed">Maintain and improve our church facilities for worship and ministry activities.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Ultra-Modern Giving Form -->
+            <div class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 lg:p-12 xl:p-16 shadow-2xl border border-blue-100/50 max-w-7xl mx-auto">
+                <div class="text-center mb-12 lg:mb-16">
+                    <div class="inline-flex items-center bg-blue-100 text-blue-800 rounded-full px-6 py-3 mb-6">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                        <span class="font-semibold text-lg">Secure Giving</span>
+                    </div>
+                    <h2 id="give-now" class="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-6">
+                        <span class="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                            Give Now
+                        </span>
+                    </h2>
+                    <p class="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Choose your preferred method to support our ministry
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 xl:gap-12">
+                    <!-- Online Giving -->
+                    <div class="group bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-3xl p-8 lg:p-10 border border-blue-200/50 hover:border-blue-300/70 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl">
+                        <div class="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-10 h-10 lg:w-12 lg:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 group-hover:text-blue-700 transition-colors">Online Giving</h3>
+                        <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                            Give securely online using your credit card, debit card, or bank account.
+                            Set up one-time or recurring gifts.
+                        </p>
+                        {% if site_settings.enable_paystack and site_settings.paystack_public_key %}
+                        <button onclick="makePayment()" class="group/btn inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            Give Online Now
+                            <svg class="w-5 h-5 ml-2 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </button>
+                        {% elif site_settings.giving_platform_url %}
+                        <a href="{{ site_settings.giving_platform_url }}" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            Give Online Now
+                            <svg class="w-5 h-5 ml-2 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                        {% else %}
+                        <button class="inline-flex items-center bg-gray-400 text-white px-6 py-3 rounded-xl font-semibold cursor-not-allowed" disabled>
+                            Coming Soon
+                        </button>
+                        {% endif %}
+                    </div>
+
+                    <!-- Text Giving -->
+                    <div class="group bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-3xl p-8 lg:p-10 border border-amber-200/50 hover:border-amber-300/70 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl">
+                        <div class="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-amber-500 to-amber-600 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-10 h-10 lg:w-12 lg:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 group-hover:text-amber-700 transition-colors">Text to Give</h3>
+                        <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                            Text your gift amount to our giving number for quick and easy mobile giving.
+                        </p>
+                        <div class="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-amber-200/50">
+                            <p class="text-sm text-gray-600 mb-2">Text your amount to:</p>
+                            <p class="text-2xl font-bold text-amber-600">(555) 123-GIVE</p>
+                            <p class="text-sm text-gray-600 mt-2">Example: Text "50" to give $50</p>
+                        </div>
+                    </div>
+
+                    <!-- Mail/In-Person -->
+                    <div class="group bg-gradient-to-br from-green-50 to-green-100/50 rounded-3xl p-8 lg:p-10 border border-green-200/50 hover:border-green-300/70 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl">
+                        <div class="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-10 h-10 lg:w-12 lg:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 group-hover:text-green-700 transition-colors">Mail or In-Person</h3>
+                        <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                            Give by check during service or mail your gift to our church office.
+                        </p>
+                        <div class="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-green-200/50">
+                            <p class="text-sm text-gray-600 mb-2">Mail checks to:</p>
+                            <p class="font-bold text-gray-900">{{ CHURCH_NAME }}</p>
+                            <p class="text-gray-600">123 Church Street</p>
+                            <p class="text-gray-600">Your City, State 12345</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Section -->
+<section class="py-20 lg:py-28 bg-gradient-to-br from-white via-blue-50/30 to-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16 lg:mb-20">
+            <!-- Badge -->
+            <div class="inline-flex items-center bg-blue-100 text-blue-800 rounded-full px-6 py-3 mb-6">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                <span class="font-semibold">Making a Difference</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+                <span class="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-600 bg-clip-text text-transparent">
+                    Your
+                </span>
+                <br>
+                <span class="text-gray-900">Impact</span>
+            </h2>
+
+            <!-- Subtitle -->
+            <p class="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                See how your generous giving is making a difference in our community and beyond.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            <!-- People Served -->
+            <div class="group bg-white/80 backdrop-blur-sm rounded-3xl p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-blue-100/50 hover:border-blue-200/70">
+                <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-5xl font-bold text-blue-600 mb-4 group-hover:text-blue-700 transition-colors">500+</h3>
+                <p class="text-xl text-gray-600 font-medium">People served monthly through our ministries</p>
+            </div>
+
+            <!-- Community Programs -->
+            <div class="group bg-white/80 backdrop-blur-sm rounded-3xl p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-amber-100/50 hover:border-amber-200/70">
+                <div class="w-24 h-24 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-5xl font-bold text-amber-600 mb-4 group-hover:text-amber-700 transition-colors">25</h3>
+                <p class="text-xl text-gray-600 font-medium">Community outreach programs supported</p>
+            </div>
+
+            <!-- Global Missions -->
+            <div class="group bg-white/80 backdrop-blur-sm rounded-3xl p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-green-100/50 hover:border-green-200/70">
+                <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-5xl font-bold text-green-600 mb-4 group-hover:text-green-700 transition-colors">12</h3>
+                <p class="text-xl text-gray-600 font-medium">Missionaries supported worldwide</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ultra-Modern Bible Verse Section -->
+<section class="relative py-20 lg:py-28 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-600/85 text-white overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/85 to-blue-600/80"></div>
+
+    <!-- Floating Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-10 right-10 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-10 left-10 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Quote Icon -->
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full mb-8">
+            <svg class="w-10 h-10 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
+            </svg>
+        </div>
+
+        <!-- Bible Verse -->
+        <blockquote class="text-2xl sm:text-3xl lg:text-4xl font-light mb-8 max-w-5xl mx-auto leading-relaxed">
+            <span class="bg-gradient-to-r from-white via-blue-100 to-amber-200 bg-clip-text text-transparent">
+                "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion,
+                for God loves a cheerful giver."
+            </span>
+        </blockquote>
+
+        <!-- Citation -->
+        <cite class="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-6 py-3 text-xl font-semibold">
+            <svg class="w-5 h-5 mr-2 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            2 Corinthians 9:7
+        </cite>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Giving Carousel
+    const givingCarousel = document.querySelector('.giving-carousel-track');
+    const givingDots = document.querySelectorAll('.giving-dot');
+
+    if (givingCarousel && givingDots.length > 0) {
+        let currentGivingSlide = 0;
+        const totalGivingSlides = givingDots.length;
+        let givingAutoplayInterval;
+
+        function updateGivingCarousel() {
+            const translateX = -currentGivingSlide * 100;
+            givingCarousel.style.transform = `translateX(${translateX}%)`;
+
+            // Update dots
+            givingDots.forEach((dot, index) => {
+                if (index === currentGivingSlide) {
+                    dot.classList.remove('bg-gray-300');
+                    dot.classList.add('bg-teal-600');
+                } else {
+                    dot.classList.remove('bg-teal-600');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        }
+
+        function nextGivingSlide() {
+            currentGivingSlide = (currentGivingSlide + 1) % totalGivingSlides;
+            updateGivingCarousel();
+        }
+
+        function goToGivingSlide(slideIndex) {
+            currentGivingSlide = slideIndex;
+            updateGivingCarousel();
+        }
+
+        function startGivingAutoplay() {
+            givingAutoplayInterval = setInterval(nextGivingSlide, 4000);
+        }
+
+        function stopGivingAutoplay() {
+            if (givingAutoplayInterval) {
+                clearInterval(givingAutoplayInterval);
+            }
+        }
+
+        // Event listeners
+        givingDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stopGivingAutoplay();
+                goToGivingSlide(index);
+                startGivingAutoplay();
+            });
+        });
+
+        // Touch/swipe support
+        let givingStartX = 0;
+        let givingEndX = 0;
+
+        givingCarousel.addEventListener('touchstart', (e) => {
+            givingStartX = e.touches[0].clientX;
+        });
+
+        givingCarousel.addEventListener('touchend', (e) => {
+            givingEndX = e.changedTouches[0].clientX;
+            const diff = givingStartX - givingEndX;
+
+            if (Math.abs(diff) > 50) { // Minimum swipe distance
+                stopGivingAutoplay();
+                if (diff > 0) {
+                    nextGivingSlide();
+                } else {
+                    currentGivingSlide = (currentGivingSlide - 1 + totalGivingSlides) % totalGivingSlides;
+                    updateGivingCarousel();
+                }
+                startGivingAutoplay();
+            }
+        });
+
+        // Start autoplay
+        startGivingAutoplay();
+
+        // Pause autoplay on hover
+        const givingCarouselContainer = document.querySelector('.giving-carousel');
+        if (givingCarouselContainer) {
+            givingCarouselContainer.addEventListener('mouseenter', stopGivingAutoplay);
+            givingCarouselContainer.addEventListener('mouseleave', startGivingAutoplay);
+        }
+    }
+
+    // Paystack Integration
+    {% if site_settings.enable_paystack and site_settings.paystack_public_key %}
+    window.makePayment = function() {
+        // Create a modal for donation amount input
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Make a Donation</h3>
+                    <p class="text-gray-600">Enter the amount you'd like to give</p>
+                </div>
+
+                <form id="donationForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Amount (GHS)</label>
+                        <input type="number" id="donationAmount" min="1" step="0.01" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
+                               placeholder="0.00">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+                        <input type="text" id="donorName" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="Enter your name">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="donorEmail" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="your@email.com">
+                    </div>
+
+                    <div class="flex space-x-3 pt-4">
+                        <button type="button" onclick="closeDonationModal()"
+                                class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="flex-1 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors">
+                            Proceed to Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        document.getElementById('donationAmount').focus();
+
+        // Handle form submission
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const amount = parseFloat(document.getElementById('donationAmount').value);
+            const name = document.getElementById('donorName').value;
+            const email = document.getElementById('donorEmail').value;
+
+            if (amount < 1) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            // Initialize Paystack payment
+            const handler = PaystackPop.setup({
+                key: '{{ site_settings.paystack_public_key }}',
+                email: email,
+                amount: amount * 100, // Convert to kobo
+                currency: 'GHS',
+                ref: 'donation_' + Math.floor((Math.random() * 1000000000) + 1),
+                metadata: {
+                    donor_name: name,
+                    purpose: 'Church Donation'
+                },
+                callback: function(response) {
+                    // Payment successful
+                    closeDonationModal();
+                    showSuccessMessage(response.reference);
+                },
+                onClose: function() {
+                    // Payment cancelled
+                    console.log('Payment cancelled');
+                }
+            });
+
+            handler.openIframe();
+        });
+    };
+
+    window.closeDonationModal = function() {
+        const modal = document.querySelector('.fixed.inset-0');
+        if (modal) {
+            modal.remove();
+        }
+    };
+
+    function showSuccessMessage(reference) {
+        const successModal = document.createElement('div');
+        successModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        successModal.innerHTML = `
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
+                <p class="text-gray-600 mb-4">Your donation has been processed successfully.</p>
+                <p class="text-sm text-gray-500 mb-6">Reference: ${reference}</p>
+                <button onclick="this.parentElement.parentElement.remove()"
+                        class="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors">
+                    Close
+                </button>
+            </div>
+        `;
+        document.body.appendChild(successModal);
+    }
+    {% endif %}
+});
+</script>
+
+{% if site_settings.enable_paystack and site_settings.paystack_public_key %}
+<!-- Paystack Inline JS -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+{% endif %}
+{% endblock %}

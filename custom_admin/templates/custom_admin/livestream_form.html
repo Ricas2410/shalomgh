@@ -1,0 +1,346 @@
+{% extends 'custom_admin/base_admin.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-heading font-bold text-gray-900">{{ title }}</h1>
+            <p class="text-gray-600">Configure your live stream settings and platforms</p>
+        </div>
+        <a href="{% url 'livestream:list' %}" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Streams
+        </a>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+        
+        <!-- Basic Information -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                <h3 class="text-lg font-medium text-gray-900">
+                    <i class="fas fa-info-circle mr-2 text-primary-teal"></i>
+                    Basic Information
+                </h3>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            Stream Title <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.title.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.stream_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            Stream Type <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.stream_type }}
+                        {% if form.stream_type.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.stream_type.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Description
+                    </label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.description.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.thumbnail.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Stream Thumbnail
+                    </label>
+                    {{ form.thumbnail }}
+                    {% if form.thumbnail.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.thumbnail.errors.0 }}</p>
+                    {% endif %}
+                    {% if form.instance.thumbnail %}
+                        <div class="mt-2">
+                            <img src="{{ form.instance.thumbnail.url }}" alt="Current thumbnail" class="h-20 w-32 object-cover rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500 mt-1">Current thumbnail</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheduling -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                <h3 class="text-lg font-medium text-gray-900">
+                    <i class="fas fa-calendar-alt mr-2 text-primary-teal"></i>
+                    Scheduling
+                </h3>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.scheduled_start.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            Start Date & Time <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.scheduled_start }}
+                        {% if form.scheduled_start.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.scheduled_start.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.scheduled_end.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            End Date & Time
+                        </label>
+                        {{ form.scheduled_end }}
+                        {% if form.scheduled_end.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.scheduled_end.errors.0 }}</p>
+                        {% endif %}
+                        <p class="mt-1 text-sm text-gray-500">Optional - leave blank for open-ended stream</p>
+                    </div>
+                </div>
+                
+                {% if form.status %}
+                <div>
+                    <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        Status
+                    </label>
+                    {{ form.status }}
+                    {% if form.status.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.status.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- OBS Integration -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                <h3 class="text-lg font-medium text-gray-900">
+                    <i class="fas fa-desktop mr-2 text-primary-teal"></i>
+                    OBS Integration
+                </h3>
+                <p class="text-sm text-gray-600 mt-1">Configure OBS Studio settings for automated streaming</p>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.obs_scene_collection.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            OBS Scene Collection
+                        </label>
+                        {{ form.obs_scene_collection }}
+                        {% if form.obs_scene_collection.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.obs_scene_collection.errors.0 }}</p>
+                        {% endif %}
+                        <p class="mt-1 text-sm text-gray-500">Name of the OBS scene collection to use</p>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.obs_profile.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            OBS Profile
+                        </label>
+                        {{ form.obs_profile }}
+                        {% if form.obs_profile.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.obs_profile.errors.0 }}</p>
+                        {% endif %}
+                        <p class="mt-1 text-sm text-gray-500">Name of the OBS profile to use</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stream Settings -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                <h3 class="text-lg font-medium text-gray-900">
+                    <i class="fas fa-cog mr-2 text-primary-teal"></i>
+                    Stream Settings
+                </h3>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="flex items-center">
+                        {{ form.is_public }}
+                        <label for="{{ form.is_public.id_for_label }}" class="ml-2 block text-sm text-gray-700">
+                            Public Stream
+                        </label>
+                        {% if form.is_public.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.is_public.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="flex items-center">
+                        {{ form.enable_chat }}
+                        <label for="{{ form.enable_chat.id_for_label }}" class="ml-2 block text-sm text-gray-700">
+                            Enable Chat
+                        </label>
+                        {% if form.enable_chat.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.enable_chat.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="flex items-center">
+                        {{ form.enable_recording }}
+                        <label for="{{ form.enable_recording.id_for_label }}" class="ml-2 block text-sm text-gray-700">
+                            Enable Recording
+                        </label>
+                        {% if form.enable_recording.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.enable_recording.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Streaming Platforms -->
+        {% if platforms %}
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                <h3 class="text-lg font-medium text-gray-900">
+                    <i class="fas fa-share-alt mr-2 text-primary-teal"></i>
+                    Streaming Platforms
+                </h3>
+                <p class="text-sm text-gray-600 mt-1">Select platforms to broadcast to</p>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for platform in platforms %}
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-primary-teal transition-colors duration-200">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="platform_{{ platform.id }}" name="platforms" value="{{ platform.id }}" class="h-4 w-4 text-primary-teal focus:ring-primary-teal border-gray-300 rounded">
+                            <label for="platform_{{ platform.id }}" class="ml-3 flex items-center">
+                                {% if platform.platform_type == 'youtube' %}
+                                    <i class="fab fa-youtube text-red-500 mr-2"></i>
+                                {% elif platform.platform_type == 'facebook' %}
+                                    <i class="fab fa-facebook text-blue-500 mr-2"></i>
+                                {% elif platform.platform_type == 'twitch' %}
+                                    <i class="fab fa-twitch text-purple-500 mr-2"></i>
+                                {% elif platform.platform_type == 'vimeo' %}
+                                    <i class="fab fa-vimeo text-blue-400 mr-2"></i>
+                                {% else %}
+                                    <i class="fas fa-broadcast-tower text-gray-500 mr-2"></i>
+                                {% endif %}
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">{{ platform.name }}</div>
+                                    <div class="text-xs text-gray-500">{{ platform.get_platform_type_display }}</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <a href="{% url 'livestream:platform_add' %}" class="inline-flex items-center text-sm text-primary-teal hover:text-cyan-600">
+                        <i class="fas fa-plus mr-1"></i>
+                        Add New Platform
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Current Broadcasts (for edit mode) -->
+        {% if broadcasts %}
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                <h3 class="text-lg font-medium text-gray-900">
+                    <i class="fas fa-broadcast-tower mr-2 text-primary-teal"></i>
+                    Current Broadcasts
+                </h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    {% for broadcast in broadcasts %}
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            {% if broadcast.platform.platform_type == 'youtube' %}
+                                <i class="fab fa-youtube text-red-500 mr-3"></i>
+                            {% elif broadcast.platform.platform_type == 'facebook' %}
+                                <i class="fab fa-facebook text-blue-500 mr-3"></i>
+                            {% elif broadcast.platform.platform_type == 'twitch' %}
+                                <i class="fab fa-twitch text-purple-500 mr-3"></i>
+                            {% else %}
+                                <i class="fas fa-broadcast-tower text-gray-500 mr-3"></i>
+                            {% endif %}
+                            <div>
+                                <div class="font-medium text-gray-900">{{ broadcast.platform.name }}</div>
+                                <div class="text-sm text-gray-500">{{ broadcast.platform.get_platform_type_display }}</div>
+                                {% if broadcast.platform_url %}
+                                    <a href="{{ broadcast.platform_url }}" target="_blank" class="text-xs text-primary-teal hover:text-cyan-600">
+                                        View on Platform →
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            {% if broadcast.is_active %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Active
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    Inactive
+                                </span>
+                            {% endif %}
+                            {% if broadcast.viewer_count > 0 %}
+                                <div class="text-sm text-gray-600 mt-1">{{ broadcast.viewer_count }} viewers</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Form Actions -->
+        <div class="flex justify-end space-x-4">
+            <a href="{% url 'livestream:list' %}" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                Cancel
+            </a>
+            <button type="submit" class="px-6 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200">
+                <i class="fas fa-save mr-2"></i>
+                {% if form.instance.pk %}Update Stream{% else %}Schedule Stream{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+// Auto-populate end time based on start time (add 2 hours by default)
+document.getElementById('{{ form.scheduled_start.id_for_label }}').addEventListener('change', function() {
+    const startTime = new Date(this.value);
+    const endTimeField = document.getElementById('{{ form.scheduled_end.id_for_label }}');
+    
+    if (startTime && !endTimeField.value) {
+        const endTime = new Date(startTime.getTime() + (2 * 60 * 60 * 1000)); // Add 2 hours
+        endTimeField.value = endTime.toISOString().slice(0, 16);
+    }
+});
+
+// Form validation
+document.querySelector('form').addEventListener('submit', function(e) {
+    const startTime = new Date(document.getElementById('{{ form.scheduled_start.id_for_label }}').value);
+    const endTime = new Date(document.getElementById('{{ form.scheduled_end.id_for_label }}').value);
+    
+    if (endTime && startTime >= endTime) {
+        e.preventDefault();
+        alert('End time must be after start time.');
+        return false;
+    }
+});
+</script>
+{% endblock %}

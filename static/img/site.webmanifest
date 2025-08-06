@@ -1,0 +1,25 @@
+{
+    "name": "Seventh Day Sabbath Church Of Christ",
+    "short_name": "ShalomGH",
+    "description": "Official website of Seventh Day Sabbath Church Of Christ - A vibrant community of faith serving God and our community.",
+    "icons": [
+        {
+            "src": "/static/img/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/img/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#0EC6EB",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "start_url": "/",
+    "scope": "/",
+    "orientation": "portrait-primary",
+    "categories": ["religion", "community", "church"],
+    "lang": "en-US"
+}

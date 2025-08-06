@@ -1,0 +1,416 @@
+{% extends 'custom_admin/form_base.html' %}
+
+{% block back_url %}{% url 'custom_admin:event_list' %}{% endblock %}
+
+{% block form_fields %}
+    <!-- Basic Information -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200">
+            <i class="fas fa-info-circle mr-2 text-primary-teal"></i>
+            Basic Information
+        </h3>
+    </div>
+    
+    <!-- Title -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.title.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <input 
+            type="text" 
+            name="{{ form.title.name }}" 
+            id="{{ form.title.id_for_label }}"
+            value="{{ form.title.value|default:'' }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Enter event title"
+        >
+        {% if form.title.errors %}
+            <div class="mt-1">
+                {% for error in form.title.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Event Type -->
+    <div>
+        <label for="{{ form.event_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.event_type.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <select 
+            name="{{ form.event_type.name }}" 
+            id="{{ form.event_type.id_for_label }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+            <option value="">Select event type</option>
+            {% for choice in form.event_type.field.choices %}
+                {% if choice.0 %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.event_type.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        {% if form.event_type.errors %}
+            <div class="mt-1">
+                {% for error in form.event_type.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Organizer -->
+    <div>
+        <label for="{{ form.organizer.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.organizer.label }}
+        </label>
+        <select 
+            name="{{ form.organizer.name }}" 
+            id="{{ form.organizer.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+            <option value="">Select organizer</option>
+            {% for choice in form.organizer.field.choices %}
+                {% if choice.0 %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.organizer.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        {% if form.organizer.errors %}
+            <div class="mt-1">
+                {% for error in form.organizer.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Short Description -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.short_description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.short_description.label }}
+        </label>
+        <textarea 
+            name="{{ form.short_description.name }}" 
+            id="{{ form.short_description.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal resize-vertical min-h-[80px]"
+            placeholder="Brief description of the event..."
+        >{{ form.short_description.value|default:'' }}</textarea>
+        {% if form.short_description.errors %}
+            <div class="mt-1">
+                {% for error in form.short_description.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Date & Time -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-calendar mr-2 text-primary-teal"></i>
+            Date & Time
+        </h3>
+    </div>
+    
+    <!-- Start Date -->
+    <div>
+        <label for="{{ form.start_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.start_date.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <input 
+            type="date" 
+            name="{{ form.start_date.name }}" 
+            id="{{ form.start_date.id_for_label }}"
+            value="{{ form.start_date.value|date:'Y-m-d'|default:'' }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+        {% if form.start_date.errors %}
+            <div class="mt-1">
+                {% for error in form.start_date.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- End Date -->
+    <div>
+        <label for="{{ form.end_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.end_date.label }}
+        </label>
+        <input 
+            type="date" 
+            name="{{ form.end_date.name }}" 
+            id="{{ form.end_date.id_for_label }}"
+            value="{{ form.end_date.value|date:'Y-m-d'|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+        {% if form.end_date.errors %}
+            <div class="mt-1">
+                {% for error in form.end_date.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Start Time -->
+    <div>
+        <label for="{{ form.start_time.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.start_time.label }}
+        </label>
+        <input 
+            type="time" 
+            name="{{ form.start_time.name }}" 
+            id="{{ form.start_time.id_for_label }}"
+            value="{{ form.start_time.value|time:'H:i'|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+        {% if form.start_time.errors %}
+            <div class="mt-1">
+                {% for error in form.start_time.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- End Time -->
+    <div>
+        <label for="{{ form.end_time.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.end_time.label }}
+        </label>
+        <input 
+            type="time" 
+            name="{{ form.end_time.name }}" 
+            id="{{ form.end_time.id_for_label }}"
+            value="{{ form.end_time.value|time:'H:i'|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+        {% if form.end_time.errors %}
+            <div class="mt-1">
+                {% for error in form.end_time.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Location -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-map-marker-alt mr-2 text-primary-teal"></i>
+            Location
+        </h3>
+    </div>
+    
+    <!-- Location -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.location.label }}
+        </label>
+        <input 
+            type="text" 
+            name="{{ form.location.name }}" 
+            id="{{ form.location.id_for_label }}"
+            value="{{ form.location.value|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Event location or venue"
+        >
+        {% if form.location.errors %}
+            <div class="mt-1">
+                {% for error in form.location.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Content -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-file-text mr-2 text-primary-teal"></i>
+            Content
+        </h3>
+    </div>
+    
+    <!-- Description -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.description.label }}
+        </label>
+        <textarea 
+            name="{{ form.description.name }}" 
+            id="{{ form.description.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal resize-vertical min-h-[150px]"
+            placeholder="Detailed description of the event..."
+        >{{ form.description.value|default:'' }}</textarea>
+        {% if form.description.errors %}
+            <div class="mt-1">
+                {% for error in form.description.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Media -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-photo-video mr-2 text-primary-teal"></i>
+            Media
+        </h3>
+    </div>
+    
+    <!-- Featured Image -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.featured_image.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.featured_image.label }}
+        </label>
+        <input 
+            type="file" 
+            name="{{ form.featured_image.name }}" 
+            id="{{ form.featured_image.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-teal file:text-white hover:file:bg-cyan-600"
+            accept="image/*"
+        >
+        {% if form.featured_image.value %}
+            <div class="mt-2 text-sm text-gray-500">
+                Current: <a href="{{ form.featured_image.value.url }}" target="_blank" class="text-primary-teal hover:underline">{{ form.featured_image.value.name }}</a>
+            </div>
+        {% endif %}
+        {% if form.featured_image.errors %}
+            <div class="mt-1">
+                {% for error in form.featured_image.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Registration -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-user-plus mr-2 text-primary-teal"></i>
+            Registration
+        </h3>
+    </div>
+    
+    <!-- Registration Required -->
+    <div>
+        <div class="flex items-center">
+            <input 
+                type="checkbox" 
+                name="{{ form.registration_required.name }}" 
+                id="{{ form.registration_required.id_for_label }}"
+                {% if form.registration_required.value %}checked{% endif %}
+                class="h-4 w-4 text-primary-teal focus:ring-primary-teal border-gray-300 rounded"
+            >
+            <label for="{{ form.registration_required.id_for_label }}" class="ml-2 text-sm text-gray-700">
+                {{ form.registration_required.label }}
+            </label>
+        </div>
+        {% if form.registration_required.errors %}
+            <div class="mt-1">
+                {% for error in form.registration_required.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Registration URL -->
+    <div>
+        <label for="{{ form.registration_url.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.registration_url.label }}
+        </label>
+        <input 
+            type="url" 
+            name="{{ form.registration_url.name }}" 
+            id="{{ form.registration_url.id_for_label }}"
+            value="{{ form.registration_url.value|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="https://example.com/register"
+        >
+        {% if form.registration_url.errors %}
+            <div class="mt-1">
+                {% for error in form.registration_url.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Max Attendees -->
+    <div>
+        <label for="{{ form.max_attendees.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.max_attendees.label }}
+        </label>
+        <input 
+            type="number" 
+            name="{{ form.max_attendees.name }}" 
+            id="{{ form.max_attendees.id_for_label }}"
+            value="{{ form.max_attendees.value|default:'' }}"
+            min="1"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Maximum number of attendees"
+        >
+        {% if form.max_attendees.errors %}
+            <div class="mt-1">
+                {% for error in form.max_attendees.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Contact Info -->
+    <div>
+        <label for="{{ form.contact_info.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.contact_info.label }}
+        </label>
+        <input 
+            type="text" 
+            name="{{ form.contact_info.name }}" 
+            id="{{ form.contact_info.id_for_label }}"
+            value="{{ form.contact_info.value|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Contact person or information"
+        >
+        {% if form.contact_info.errors %}
+            <div class="mt-1">
+                {% for error in form.contact_info.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_content %}
+    {% if object %}
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-6">
+            <div class="flex items-center">
+                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                <div>
+                    <h4 class="text-sm font-medium text-blue-900">Event Information</h4>
+                    <p class="text-sm text-blue-700 mt-1">
+                        Created: {{ object.created_at|date:"M d, Y g:i A" }} | 
+                        Last updated: {{ object.updated_at|date:"M d, Y g:i A" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

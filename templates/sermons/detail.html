@@ -1,0 +1,409 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ sermon.title }} - {{ sermon.speaker.name }} - {{ CHURCH_NAME }}{% endblock %}
+
+{% block meta_description %}{{ sermon.meta_description|default:sermon.description|truncatewords:25 }}{% endblock %}
+
+{% block meta_keywords %}{{ sermon.title }}, {{ sermon.speaker.name }}, sermon, {{ CHURCH_NAME }}, faith, worship, biblical teaching{% if sermon.series %}, {{ sermon.series.title }}{% endif %}{% endblock %}
+
+{% block og_title %}{{ sermon.title }} - {{ sermon.speaker.name }}{% endblock %}
+{% block og_description %}{{ sermon.meta_description|default:sermon.description|truncatewords:25 }}{% endblock %}
+{% block og_image %}{% if sermon.thumbnail %}{{ request.scheme }}://{{ request.get_host }}{{ sermon.thumbnail.url }}{% else %}{% load static %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}{% endif %}{% endblock %}
+
+{% block canonical_url %}{{ request.build_absolute_uri }}{{ sermon.get_absolute_url }}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "{{ sermon.title }}",
+    "description": "{{ sermon.description|truncatewords:50 }}",
+    "thumbnailUrl": "{% if sermon.thumbnail %}{{ request.scheme }}://{{ request.get_host }}{{ sermon.thumbnail.url }}{% else %}{% load static %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}{% endif %}",
+    "uploadDate": "{{ sermon.date_preached|date:'c' }}",
+    "duration": "{% if sermon.duration %}PT{{ sermon.duration }}M{% else %}PT45M{% endif %}",
+    "publisher": {
+        "@type": "Organization",
+        "name": "{{ CHURCH_NAME }}",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.png' %}"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "{{ sermon.speaker.name }}"
+    },
+    "datePublished": "{{ sermon.date_preached|date:'c' }}",
+    "dateModified": "{{ sermon.updated_at|date:'c' }}",
+    "url": "{{ request.build_absolute_uri }}{{ sermon.get_absolute_url }}",
+    "embedUrl": "{% if sermon.video_url %}{{ sermon.video_url }}{% endif %}",
+    "contentUrl": "{% if sermon.audio_file %}{{ request.scheme }}://{{ request.get_host }}{{ sermon.audio_file.url }}{% endif %}",
+    "genre": "Religious",
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "keywords": "{{ sermon.title }}, {{ sermon.speaker.name }}, sermon, {{ CHURCH_NAME }}, faith, worship, biblical teaching{% if sermon.series %}, {{ sermon.series.title }}{% endif %}"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<section class="bg-bg-soft py-4">
+    <div class="container-custom">
+        <nav class="flex items-center space-x-2 text-sm">
+            <a href="{% url 'core:home' %}" class="text-primary-teal hover:text-secondary-orange transition-colors">Home</a>
+            <span class="text-text-secondary">›</span>
+            <a href="{% url 'sermons:list' %}" class="text-primary-teal hover:text-secondary-orange transition-colors">Sermons</a>
+            <span class="text-text-secondary">›</span>
+            <span class="text-text-secondary">{{ sermon.title|truncatewords:5 }}</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Sermon Header -->
+<section class="section-padding bg-white">
+    <div class="container-custom">
+        <div class="max-w-4xl mx-auto">
+            <!-- Sermon Info -->
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center space-x-4 text-sm text-text-secondary mb-4">
+                    <span>{{ sermon.speaker.name }}</span>
+                    <span>•</span>
+                    <span>{{ sermon.date_preached|date:"F d, Y" }}</span>
+                    {% if sermon.duration %}
+                    <span>•</span>
+                    <span>{{ sermon.duration }}</span>
+                    {% endif %}
+                </div>
+                
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-text-dark mb-4">
+                    {{ sermon.title }}
+                </h1>
+                
+                {% if sermon.series %}
+                <div class="inline-flex items-center bg-primary-teal text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    Series: {{ sermon.series.title }}
+                </div>
+                {% endif %}
+                
+                {% if sermon.description %}
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    {{ sermon.description }}
+                </p>
+                {% endif %}
+            </div>
+            
+            <!-- Media Player -->
+            <div class="bg-black rounded-lg overflow-hidden mb-8">
+                {% if sermon.video_url and sermon.media_type != 'audio' %}
+                <!-- Video Player -->
+                <div class="aspect-w-16 aspect-h-9">
+                    {% if 'youtube.com' in sermon.video_url or 'youtu.be' in sermon.video_url %}
+                    <!-- YouTube Embed -->
+                    {% with sermon.video_url|cut:"https://www.youtube.com/watch?v="|cut:"https://youtu.be/" as video_id %}
+                    <iframe src="https://www.youtube.com/embed/{{ video_id }}?rel=0&modestbranding=1" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            class="w-full h-96">
+                    </iframe>
+                    {% endwith %}
+                    {% elif 'vimeo.com' in sermon.video_url %}
+                    <!-- Vimeo Embed -->
+                    {% with sermon.video_url|cut:"https://vimeo.com/" as video_id %}
+                    <iframe src="https://player.vimeo.com/video/{{ video_id }}?color=0EC6EB&title=0&byline=0&portrait=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture" 
+                            allowfullscreen
+                            class="w-full h-96">
+                    </iframe>
+                    {% endwith %}
+                    {% else %}
+                    <!-- Generic Video -->
+                    <div class="w-full h-96 bg-gray-900 flex items-center justify-center">
+                        <a href="{{ sermon.video_url }}" target="_blank" class="text-white hover:text-primary-teal transition-colors">
+                            <svg class="w-16 h-16 mb-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-center">Watch Video</p>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% elif sermon.audio_file %}
+                <!-- Audio Player -->
+                <div class="p-8 bg-gradient-to-r from-primary-teal to-secondary-orange">
+                    <div class="text-center text-white mb-4">
+                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                        </svg>
+                        <h3 class="text-xl font-heading font-semibold">Audio Message</h3>
+                    </div>
+                    <audio controls class="w-full">
+                        <source src="{{ sermon.audio_file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                {% else %}
+                <!-- No Media Available -->
+                <div class="h-96 bg-gradient-to-r from-primary-teal to-secondary-orange flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <h3 class="text-xl font-heading font-semibold mb-2">{{ sermon.title }}</h3>
+                        <p>Media coming soon</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                {% if sermon.audio_file %}
+                <a href="{{ sermon.audio_file.url }}" download class="btn-outline inline-flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Download Audio
+                </a>
+                {% endif %}
+                
+                {% if sermon.pdf_notes %}
+                <a href="{{ sermon.pdf_notes.url }}" download class="btn-outline inline-flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Download Notes
+                </a>
+                {% endif %}
+                
+                <!-- Share Button -->
+                <button onclick="shareSermon()" class="btn-outline inline-flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                    </svg>
+                    Share
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sermon Content -->
+<section class="section-padding bg-bg-soft">
+    <div class="container-custom">
+        <div class="max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Scripture References -->
+                    {% if sermon.scripture_references %}
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-heading font-bold text-text-dark mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-primary-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            Scripture References
+                        </h3>
+                        <div class="prose prose-lg max-w-none text-text-secondary">
+                            {{ sermon.scripture_references|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Sermon Notes -->
+                    {% if sermon.notes %}
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-heading font-bold text-text-dark mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-primary-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Sermon Notes
+                        </h3>
+                        <div class="prose prose-lg max-w-none text-text-secondary">
+                            {{ sermon.notes|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Transcript -->
+                    {% if sermon.transcript %}
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-heading font-bold text-text-dark mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-primary-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Full Transcript
+                        </h3>
+                        <div class="prose prose-lg max-w-none text-text-secondary">
+                            {{ sermon.transcript|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Speaker Info -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-heading font-bold text-text-dark mb-4">Speaker</h3>
+                        <div class="flex items-start space-x-4">
+                            {% if sermon.speaker.photo %}
+                            <img src="{{ sermon.speaker.photo.url }}" alt="{{ sermon.speaker.name }}" class="w-16 h-16 rounded-full object-cover">
+                            {% else %}
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary-teal to-secondary-orange flex items-center justify-center">
+                                <span class="text-lg font-heading font-bold text-white">
+                                    {{ sermon.speaker.name|first }}
+                                </span>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="flex-1">
+                                <h4 class="font-heading font-semibold text-text-dark">{{ sermon.speaker.name }}</h4>
+                                {% if sermon.speaker.bio %}
+                                <p class="text-sm text-text-secondary mt-1">{{ sermon.speaker.bio|truncatewords:15 }}</p>
+                                {% endif %}
+                                <a href="{{ sermon.speaker.get_absolute_url }}" class="text-primary-teal hover:text-secondary-orange transition-colors text-sm font-medium mt-2 inline-block">
+                                    View Profile →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Series Info -->
+                    {% if sermon.series %}
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-heading font-bold text-text-dark mb-4">Series</h3>
+                        {% if sermon.series.image %}
+                        <img src="{{ sermon.series.image.url }}" alt="{{ sermon.series.title }}" class="w-full h-32 object-cover rounded mb-4">
+                        {% endif %}
+                        <h4 class="font-heading font-semibold text-text-dark mb-2">{{ sermon.series.title }}</h4>
+                        {% if sermon.series.description %}
+                        <p class="text-sm text-text-secondary mb-3">{{ sermon.series.description|truncatewords:20 }}</p>
+                        {% endif %}
+                        <a href="{{ sermon.series.get_absolute_url }}" class="text-primary-teal hover:text-secondary-orange transition-colors text-sm font-medium">
+                            View Series →
+                        </a>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Tags -->
+                    {% if tags %}
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-heading font-bold text-text-dark mb-4">Topics</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% for tag in tags %}
+                            <span class="bg-bg-soft text-text-secondary px-3 py-1 rounded-full text-sm">
+                                {{ tag }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Stats -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-heading font-bold text-text-dark mb-4">Statistics</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-text-secondary">Views</span>
+                                <span class="font-semibold text-text-dark">{{ sermon.view_count }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-text-secondary">Downloads</span>
+                                <span class="font-semibold text-text-dark">{{ sermon.download_count }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-text-secondary">Date</span>
+                                <span class="font-semibold text-text-dark">{{ sermon.date_preached|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Sermons -->
+{% if related_sermons %}
+<section class="section-padding bg-white">
+    <div class="container-custom">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-heading font-bold text-text-dark mb-4">
+                {% if sermon.series %}More from this Series{% else %}More from {{ sermon.speaker.name }}{% endif %}
+            </h2>
+            <p class="text-lg text-text-secondary">
+                Continue your spiritual journey with these related messages.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for related_sermon in related_sermons %}
+            <div class="bg-bg-soft rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div class="relative h-32 overflow-hidden">
+                    {% if related_sermon.thumbnail %}
+                    <img src="{{ related_sermon.thumbnail.url }}" alt="{{ related_sermon.title }}" class="w-full h-full object-cover">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-primary-teal to-secondary-orange flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="p-4">
+                    <div class="text-xs text-text-secondary mb-1">
+                        {{ related_sermon.date_preached|date:"M d, Y" }}
+                    </div>
+                    <h3 class="text-sm font-heading font-semibold text-text-dark mb-2">
+                        {{ related_sermon.title|truncatewords:8 }}
+                    </h3>
+                    <a href="{{ related_sermon.get_absolute_url }}" class="text-primary-teal hover:text-secondary-orange transition-colors text-sm font-medium">
+                        Watch →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-8">
+            {% if sermon.series %}
+            <a href="{{ sermon.series.get_absolute_url }}" class="btn-primary">
+                View Full Series
+            </a>
+            {% else %}
+            <a href="{{ sermon.speaker.get_absolute_url }}" class="btn-primary">
+                More from {{ sermon.speaker.name }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Share Modal Script -->
+<script>
+function shareSermon() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ sermon.title|escapejs }}',
+            text: 'Check out this sermon: {{ sermon.title|escapejs }} by {{ sermon.speaker.name|escapejs }}',
+            url: window.location.href
+        });
+    } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(window.location.href).then(function() {
+            alert('Link copied to clipboard!');
+        });
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - {{ SITE_NAME }}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-teal': '#0EC6EB',
+                        'secondary-orange': '#EB750E',
+                        'text-dark': '#1F2937',
+                        'text-secondary': '#6B7280',
+                        'bg-soft': '#F9FAFB'
+                    },
+                    fontFamily: {
+                        'heading': ['Poppins', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-heading { font-family: 'Poppins', sans-serif; }
+        
+        .login-bg {
+            background: linear-gradient(135deg, rgba(14, 198, 235, 0.9) 0%, rgba(235, 117, 14, 0.9) 100%),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="church-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M50 10 L50 30 L30 30 L30 50 L70 50 L70 30 L50 30 L50 10 Z M40 60 L60 60 L60 90 L40 90 Z" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23church-pattern)"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="login-bg min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Login Card -->
+        <div class="glass-effect rounded-2xl shadow-2xl p-8">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-primary-teal rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-church text-white text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-heading font-bold text-text-dark mb-2">{{ SITE_NAME }}</h1>
+                <p class="text-text-secondary">Admin Dashboard Login</p>
+            </div>
+            
+            <!-- Messages -->
+            {% if messages %}
+                <div class="mb-6">
+                    {% for message in messages %}
+                        <div class="alert mb-4 p-4 rounded-lg border {% if message.tags == 'success' %}bg-green-50 border-green-200 text-green-800{% elif message.tags == 'error' %}bg-red-50 border-red-200 text-red-800{% elif message.tags == 'warning' %}bg-yellow-50 border-yellow-200 text-yellow-800{% else %}bg-blue-50 border-blue-200 text-blue-800{% endif %}">
+                            <div class="flex items-center">
+                                <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} mr-2"></i>
+                                {{ message }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- Login Form -->
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <!-- Username Field -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-text-dark mb-2">
+                        <i class="fas fa-user mr-2"></i>Username
+                    </label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal transition-colors duration-200"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                    >
+                </div>
+                
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-text-dark mb-2">
+                        <i class="fas fa-lock mr-2"></i>Password
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal transition-colors duration-200 pr-12"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                        >
+                        <button 
+                            type="button" 
+                            id="toggle-password"
+                            class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600"
+                        >
+                            <i class="fas fa-eye" id="password-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <button 
+                    type="submit"
+                    class="w-full bg-primary-teal hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Sign In
+                </button>
+            </form>
+            
+            <!-- Footer -->
+            <div class="mt-8 text-center">
+                <p class="text-sm text-text-secondary">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    Secure Admin Access Only
+                </p>
+                <div class="mt-4">
+                    <a href="/" class="text-sm text-primary-teal hover:text-cyan-600 transition-colors duration-200">
+                        <i class="fas fa-arrow-left mr-1"></i>
+                        Back to Website
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright -->
+        <div class="text-center mt-6">
+            <p class="text-white text-sm opacity-75">
+                © {{ current_year|default:"2025" }} {{ CHURCH_NAME }}. All rights reserved.
+            </p>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Password toggle functionality
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordField = document.getElementById('password');
+        const passwordIcon = document.getElementById('password-icon');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            if (type === 'password') {
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            } else {
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            }
+        });
+        
+        // Auto-hide messages after 5 seconds
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.transition = 'opacity 0.5s ease-out';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 5000);
+        
+        // Focus on username field when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('username').focus();
+        });
+    </script>
+</body>
+</html>

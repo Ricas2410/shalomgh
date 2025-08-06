@@ -1,0 +1,165 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <div style="display: flex; align-items: center; color: #007C91; font-weight: bold; font-size: 1.5rem;">
+            <i class="fas fa-church" style="margin-right: 10px; font-size: 1.8rem;"></i>
+            ShalomGH Church Admin
+        </div>
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+<div style="background: #007C91; padding: 8px 20px; margin-bottom: 20px; border-radius: 5px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; gap: 20px;">
+            <a href="{% url 'custom_admin:dashboard' %}" style="color: white; text-decoration: none; padding: 5px 10px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+                <i class="fas fa-tachometer-alt" style="margin-right: 5px;"></i>
+                Custom Dashboard
+            </a>
+            <a href="{% url 'admin:index' %}" style="color: white; text-decoration: none; padding: 5px 10px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+                <i class="fas fa-cogs" style="margin-right: 5px;"></i>
+                Django Admin
+            </a>
+            {% if user.is_superuser %}
+            <a href="/my-admin/livestream/dashboard/" style="color: white; text-decoration: none; padding: 5px 10px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+                <i class="fas fa-broadcast-tower" style="margin-right: 5px;"></i>
+                Live Streaming
+            </a>
+            {% endif %}
+        </div>
+        <div style="color: white; font-size: 0.9rem;">
+            <i class="fas fa-user" style="margin-right: 5px;"></i>
+            Welcome, {{ user.get_full_name|default:user.username }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    /* Custom styling for ShalomGH admin */
+    :root {
+        --primary-color: #007C91;
+        --secondary-color: #00B2FF;
+        --accent-color: #F4B400;
+    }
+    
+    #header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+    }
+    
+    #branding h1 {
+        color: white !important;
+        margin: 0;
+        padding: 10px 0;
+    }
+    
+    #branding h1 a:link, #branding h1 a:visited {
+        color: white !important;
+        text-decoration: none;
+    }
+    
+    .module h2, .module caption, .inline-group h2 {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background: var(--primary-color) !important;
+        border: none !important;
+        color: white !important;
+        padding: 8px 16px !important;
+        border-radius: 4px !important;
+        transition: background-color 0.2s !important;
+    }
+    
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+        background: var(--secondary-color) !important;
+    }
+    
+    .selector-chosen h2 {
+        background: var(--primary-color) !important;
+    }
+    
+    a:link, a:visited {
+        color: var(--primary-color);
+    }
+    
+    a:focus, a:hover {
+        color: var(--secondary-color);
+    }
+    
+    /* Dashboard styling */
+    .dashboard .module table th {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    /* Form styling */
+    .form-row .help {
+        color: #666;
+        font-size: 0.9em;
+    }
+    
+    /* Custom church-themed icons */
+    .model-sermon .addlink:before,
+    .model-sermon .changelink:before {
+        content: "🎤 ";
+    }
+    
+    .model-event .addlink:before,
+    .model-event .changelink:before {
+        content: "📅 ";
+    }
+    
+    .model-ministry .addlink:before,
+    .model-ministry .changelink:before {
+        content: "👥 ";
+    }
+    
+    .model-leadershipprofile .addlink:before,
+    .model-leadershipprofile .changelink:before {
+        content: "👔 ";
+    }
+    
+    .model-livestream .addlink:before,
+    .model-livestream .changelink:before {
+        content: "📺 ";
+    }
+    
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+        #nav-global > div {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        #nav-global > div > div:first-child {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block footer %}
+<div id="footer" style="text-align: center; padding: 20px; color: #666; border-top: 1px solid #ddd; margin-top: 40px;">
+    <p>
+        <strong>ShalomGH Church Management System</strong> | 
+        Powered by Django Admin | 
+        <a href="{% url 'custom_admin:dashboard' %}" style="color: var(--primary-color);">Custom Dashboard</a>
+    </p>
+    <p style="font-size: 0.8em; margin-top: 5px;">
+        <i class="fas fa-heart" style="color: #e74c3c;"></i> 
+        Built with love for the church community
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% load static %}
+
+<div class="section-padding">
+    <div class="container-custom">
+        <!-- Mobile-First Footer Layout -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            <!-- Church Information -->
+            <div class="space-y-4 sm:col-span-2 lg:col-span-1">
+                <div class="flex items-center space-x-3">
+                    <img src="{% static 'img/logo-white.png' %}" alt="{{ CHURCH_NAME }} Logo" class="h-8 lg:h-10 w-auto">
+                    <div>
+                        <h3 class="text-base lg:text-lg font-heading font-bold text-white">{{ SITE_NAME }}</h3>
+                        <p class="text-xs lg:text-sm text-gray-300">{{ CHURCH_NAME }}</p>
+                    </div>
+                </div>
+                <p class="text-gray-300 text-xs lg:text-sm leading-relaxed hidden lg:block">
+                    A vibrant community of faith dedicated to serving God and our community through worship, fellowship, and outreach.
+                </p>
+
+                <!-- Social Media Links -->
+                <div class="flex space-x-3 lg:space-x-4">
+                    {% if SOCIAL_MEDIA.facebook %}
+                    <a href="{{ SOCIAL_MEDIA.facebook }}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-primary-teal transition-colors" aria-label="Facebook">
+                        <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+
+                    {% if SOCIAL_MEDIA.twitter %}
+                    <a href="{{ SOCIAL_MEDIA.twitter }}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-primary-teal transition-colors" aria-label="Twitter">
+                        <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+
+                    {% if SOCIAL_MEDIA.instagram %}
+                    <a href="{{ SOCIAL_MEDIA.instagram }}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-primary-teal transition-colors" aria-label="Instagram">
+                        <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.418-3.323C6.001 8.198 7.152 7.708 8.449 7.708s2.448.49 3.323 1.416c.875.875 1.365 2.026 1.365 3.323s-.49 2.448-1.365 3.323c-.875.807-2.026 1.218-3.323 1.218zm7.718-1.297c-.875.807-2.026 1.218-3.323 1.218s-2.448-.411-3.323-1.218c-.875-.875-1.365-2.026-1.365-3.323s.49-2.448 1.365-3.323c.875-.926 2.026-1.416 3.323-1.416s2.448.49 3.323 1.416c.875.875 1.365 2.026 1.365 3.323s-.49 2.448-1.365 3.323z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+
+                    {% if SOCIAL_MEDIA.youtube %}
+                    <a href="{{ SOCIAL_MEDIA.youtube }}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-primary-teal transition-colors" aria-label="YouTube">
+                        <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="space-y-3 lg:space-y-4">
+                <h3 class="text-base lg:text-lg font-heading font-semibold text-white">Quick Links</h3>
+                <ul class="space-y-1.5 lg:space-y-2">
+                    <li><a href="{% url 'pages:about' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">About Us</a></li>
+                    <li><a href="{% url 'pages:beliefs' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Our Beliefs</a></li>
+                    <li><a href="{% url 'sermons:list' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Sermons</a></li>
+                    <li><a href="{% url 'events:list' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Events</a></li>
+                    <li class="hidden lg:block"><a href="{% url 'pages:leadership' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Leadership</a></li>
+                    <li class="hidden lg:block"><a href="{% url 'ministries:list' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Ministries</a></li>
+                </ul>
+            </div>
+
+            <!-- Get Involved -->
+            <div class="space-y-3 lg:space-y-4">
+                <h3 class="text-base lg:text-lg font-heading font-semibold text-white">Get Involved</h3>
+                <ul class="space-y-1.5 lg:space-y-2">
+                    <li><a href="{% url 'core:plan_visit' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Plan Your Visit</a></li>
+                    <li><a href="{% url 'core:giving' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Give Online</a></li>
+                    <li class="hidden lg:block"><a href="{% url 'ministries:list' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Join a Ministry</a></li>
+                    <li class="hidden lg:block"><a href="{% url 'core:contact' %}" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Prayer Requests</a></li>
+                    {% if MEMBER_PORTAL_URL and MEMBER_PORTAL_URL != '#' %}
+                    <li><a href="{{ MEMBER_PORTAL_URL }}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-primary-teal transition-colors text-xs lg:text-sm">Member Portal</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="space-y-3 lg:space-y-4 sm:col-span-2 lg:col-span-1">
+                <h3 class="text-base lg:text-lg font-heading font-semibold text-white">Contact Info</h3>
+                <div class="space-y-2 lg:space-y-3">
+                    <div class="flex items-start space-x-2 lg:space-x-3">
+                        <svg class="w-4 h-4 lg:w-5 lg:h-5 text-primary-teal mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <div>
+                            <p class="text-gray-300 text-xs lg:text-sm">123 Church Street</p>
+                            <p class="text-gray-300 text-xs lg:text-sm">Your City, State 12345</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2 lg:space-x-3">
+                        <svg class="w-4 h-4 lg:w-5 lg:h-5 text-primary-teal flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                        <p class="text-gray-300 text-xs lg:text-sm">(555) 123-4567</p>
+                    </div>
+
+                    <div class="flex items-center space-x-2 lg:space-x-3">
+                        <svg class="w-4 h-4 lg:w-5 lg:h-5 text-primary-teal flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <p class="text-gray-300 text-xs lg:text-sm">info@shalomgh.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-gray-700">
+            <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+                <p class="text-gray-400 text-xs lg:text-sm text-center sm:text-left">
+                    © {% now "Y" %} {{ CHURCH_NAME }}. All rights reserved.
+                </p>
+                <div class="flex space-x-4 lg:space-x-6">
+                    <a href="{% url 'core:contact' %}" class="text-gray-400 hover:text-primary-teal transition-colors text-xs lg:text-sm">Contact</a>
+                    <a href="#" class="text-gray-400 hover:text-primary-teal transition-colors text-xs lg:text-sm hidden lg:inline">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-primary-teal transition-colors text-xs lg:text-sm hidden lg:inline">Terms</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

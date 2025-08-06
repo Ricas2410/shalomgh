@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Homepage Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Test different screen sizes */
+        .test-frame {
+            border: 2px solid #ccc;
+            margin: 20px;
+            overflow: hidden;
+        }
+        .mobile { width: 375px; height: 667px; }
+        .tablet { width: 768px; height: 1024px; }
+        .desktop { width: 1200px; height: 800px; }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <h1 class="text-2xl font-bold mb-6">Homepage Mobile Responsiveness Test</h1>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Mobile View -->
+        <div class="test-frame mobile">
+            <h2 class="text-lg font-semibold p-2 bg-blue-500 text-white">Mobile (375px)</h2>
+            <iframe src="http://127.0.0.1:8000/" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        
+        <!-- Tablet View -->
+        <div class="test-frame tablet">
+            <h2 class="text-lg font-semibold p-2 bg-green-500 text-white">Tablet (768px)</h2>
+            <iframe src="http://127.0.0.1:8000/" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        
+        <!-- Desktop View -->
+        <div class="test-frame desktop">
+            <h2 class="text-lg font-semibold p-2 bg-purple-500 text-white">Desktop (1200px)</h2>
+            <iframe src="http://127.0.0.1:8000/" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    </div>
+    
+    <div class="mt-8 p-4 bg-white rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Mobile Optimization Checklist</h2>
+        <div class="space-y-2">
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Service Times button removed from hero
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Service Times section uses responsive grid (1/2/3 columns)
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> What We Believe has mobile carousel
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Latest Messages has mobile carousel
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Upcoming Events has mobile carousel
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Additional Beliefs section is condensed on mobile
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Carousel navigation works (dots and arrows)
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Auto-play functionality works
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Page loads without JavaScript errors
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" class="mr-2"> Mobile page length is significantly reduced
+            </label>
+        </div>
+    </div>
+    
+    <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+        <h3 class="font-bold text-yellow-800">Testing Instructions:</h3>
+        <ol class="list-decimal list-inside mt-2 text-yellow-700">
+            <li>Check each viewport size for proper responsive behavior</li>
+            <li>Test carousel functionality on mobile view</li>
+            <li>Verify touch interactions work properly</li>
+            <li>Check that content is readable and properly spaced</li>
+            <li>Ensure no horizontal scrolling on mobile</li>
+            <li>Verify auto-play timers work correctly</li>
+        </ol>
+    </div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+{% extends 'custom_admin/base_admin.html' %}
+
+{% block title %}Sermons{% endblock %}
+{% block page_title %}Sermons{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-heading font-bold text-gray-900">Sermons</h1>
+            <p class="text-gray-600">Manage your church sermons and messages</p>
+        </div>
+        <div class="mt-4 sm:mt-0">
+            <a href="{% url 'custom_admin:sermon_add' %}" class="inline-flex items-center px-4 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200">
+                <i class="fas fa-plus mr-2"></i>
+                Add Sermon
+            </a>
+        </div>
+    </div>
+    
+    <!-- Filters -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <!-- Search -->
+            <div>
+                <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                <input 
+                    type="text" 
+                    id="search" 
+                    name="search" 
+                    value="{{ search }}"
+                    placeholder="Search sermons..."
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+                >
+            </div>
+            
+            <!-- Status Filter -->
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                <select 
+                    id="status" 
+                    name="status"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+                >
+                    <option value="">All Status</option>
+                    <option value="published" {% if status == 'published' %}selected{% endif %}>Published</option>
+                    <option value="draft" {% if status == 'draft' %}selected{% endif %}>Draft</option>
+                </select>
+            </div>
+            
+            <!-- Speaker Filter -->
+            <div>
+                <label for="speaker" class="block text-sm font-medium text-gray-700 mb-2">Speaker</label>
+                <select 
+                    id="speaker" 
+                    name="speaker"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+                >
+                    <option value="">All Speakers</option>
+                    {% for speaker_obj in speakers %}
+                        <option value="{{ speaker_obj.id }}" {% if speaker == speaker_obj.id|stringformat:"s" %}selected{% endif %}>
+                            {{ speaker_obj.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Filter Button -->
+            <div class="flex items-end">
+                <button 
+                    type="submit"
+                    class="w-full px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200"
+                >
+                    <i class="fas fa-filter mr-2"></i>
+                    Filter
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Sermons Table -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        {% if sermons %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Sermon
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Speaker
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Date
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Views
+                            </th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for sermon in sermons %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-microphone text-blue-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">{{ sermon.title }}</div>
+                                            {% if sermon.series %}
+                                                <div class="text-sm text-gray-500">{{ sermon.series.title }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ sermon.speaker.name }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ sermon.date_preached|date:"M d, Y" }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if sermon.is_published %}
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            <i class="fas fa-check-circle mr-1"></i>
+                                            Published
+                                        </span>
+                                    {% else %}
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            Draft
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ sermon.view_count|default:0 }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <div class="flex items-center justify-end space-x-2">
+                                        {% if sermon.is_published %}
+                                            <a href="{{ sermon.get_absolute_url }}" target="_blank" 
+                                               class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200 transition-colors duration-200"
+                                               title="View Sermon">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                View
+                                            </a>
+                                        {% endif %}
+                                        <a href="{% url 'custom_admin:sermon_edit' sermon.pk %}" 
+                                           class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors duration-200"
+                                           title="Edit Sermon">
+                                            <i class="fas fa-edit mr-1"></i>
+                                            Edit
+                                        </a>
+                                        <a href="{% url 'custom_admin:sermon_delete' sermon.pk %}" 
+                                           class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800 hover:bg-red-200 transition-colors duration-200"
+                                           onclick="return confirm('Are you sure you want to delete this sermon?')"
+                                           title="Delete Sermon">
+                                            <i class="fas fa-trash mr-1"></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 flex justify-between sm:hidden">
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.previous_page_number }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                    Previous
+                                </a>
+                            {% endif %}
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                    Next
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">{{ page_obj.start_index }}</span> to <span class="font-medium">{{ page_obj.end_index }}</span> of <span class="font-medium">{{ paginator.count }}</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                                    {% if page_obj.has_previous %}
+                                        <a href="?page={{ page_obj.previous_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                    {% endif %}
+                                    
+                                    {% for num in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == num %}
+                                            <span class="relative inline-flex items-center px-4 py-2 border border-primary-teal bg-primary-teal text-sm font-medium text-white">
+                                                {{ num }}
+                                            </span>
+                                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                            <a href="?page={{ num }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                                {{ num }}
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if page_obj.has_next %}
+                                        <a href="?page={{ page_obj.next_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    {% endif %}
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-12">
+                <i class="fas fa-microphone text-gray-300 text-6xl mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">No sermons found</h3>
+                <p class="text-gray-500 mb-6">Get started by adding your first sermon.</p>
+                <a href="{% url 'custom_admin:sermon_add' %}" class="inline-flex items-center px-4 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200">
+                    <i class="fas fa-plus mr-2"></i>
+                    Add Sermon
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: /sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /my-admin/
+
+# Disallow media files that shouldn't be indexed
+Disallow: /media/private/
+
+# Allow important directories
+Allow: /static/
+Allow: /media/
+
+# Crawl delay (optional - helps prevent server overload)
+Crawl-delay: 1

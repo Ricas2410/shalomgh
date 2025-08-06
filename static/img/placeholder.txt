@@ -1,0 +1,19 @@
+# Placeholder Images Directory
+
+This directory will contain the following images for the church website:
+
+## Required Images:
+- logo.png (Church logo - 200x80px recommended)
+- logo-white.png (White version of logo for dark backgrounds)
+- hero-bg.jpg (Hero background image - 1920x1080px recommended)
+- welcome-image.jpg (Welcome section image - 800x600px recommended)
+- og-image.jpg (Open Graph image for social sharing - 1200x630px)
+- favicon.ico (Website favicon - 32x32px)
+- apple-touch-icon.png (Apple touch icon - 180x180px)
+
+## Optional Images:
+- Various ministry and event images
+- Leadership photos
+- Church facility photos
+
+Note: These are placeholder references. Actual images should be added by the church administrator.

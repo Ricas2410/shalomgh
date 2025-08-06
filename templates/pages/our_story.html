@@ -1,0 +1,520 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load page_images %}
+
+{% block title %}Our Story - {{ site_settings.church_name }}{% endblock %}
+
+{% block meta_description %}Discover the history and journey of {{ site_settings.church_name }}, from our founding to the present day, and how God has been faithful through it all.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center overflow-hidden"
+         style="background: url('{% get_page_image_url "our_story_hero" 0 "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1650&q=80" %}') center/cover no-repeat;">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-teal-900/90"></div>
+
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-teal-500/20 to-teal-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-orange-500/20 to-orange-600/20 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center text-white">
+            <div class="inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full text-sm font-semibold mb-8">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Our Journey
+            </div>
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-8">
+                Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-400">Story</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12">
+                Every church has a story of God's faithfulness. Here's ours - a journey of faith,
+                growth, and God's amazing grace through the years.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="#our-beginning" class="bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Discover Our Journey
+                </a>
+                <a href="#timeline" class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                    View Timeline
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- Story Content -->
+{% if story_content %}
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed">
+                {{ story_content.content|linebreaks }}
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+<!-- Our Beginning Section -->
+<section id="our-beginning" class="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Content -->
+            <div class="space-y-8">
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold text-lg">1985</span>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900">The Beginning</h2>
+                        <p class="text-teal-600 font-semibold">Where it all started</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <p class="text-xl text-gray-700 leading-relaxed">
+                        {{ site_settings.church_name }} began as a small group of believers who felt called to establish
+                        a church that would faithfully preach God's Word and serve the community with love and compassion.
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        What started with just 15 families meeting in a rented community center has
+                        grown into a thriving church family of over 500 members. Our founding pastor,
+                        Rev. John Smith, had a vision for a church that would be both deeply rooted in
+                        Scripture and actively engaged in meeting the needs of our community.
+                    </p>
+                    <div class="bg-teal-50 rounded-2xl p-6 border-l-4 border-teal-500">
+                        <p class="text-teal-800 font-medium italic">
+                            "We wanted to create a place where people could encounter God's love,
+                            grow in their faith, and make a real difference in the world."
+                        </p>
+                        <p class="text-teal-600 text-sm mt-2">- Rev. John Smith, Founding Pastor</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image -->
+            <div class="relative">
+                <div class="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="{% get_page_image_url 'our_story_founding' 0 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' %}"
+                         alt="Church Founding"
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -bottom-6 -right-6 bg-white rounded-2xl p-6 shadow-2xl border border-gray-100">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-teal-600 mb-1">15</div>
+                        <div class="text-sm text-gray-600 font-medium">Founding Families</div>
+                    </div>
+                </div>
+                <!-- Decorative elements -->
+                <div class="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-teal-200/50 to-teal-400/50 rounded-full blur-xl"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Growth Years Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Image -->
+            <div class="relative lg:order-1">
+                <div class="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="{% get_page_image_url 'our_story_growth' 0 'https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' %}"
+                         alt="Church Growth"
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-6 shadow-2xl border border-gray-100">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-600 mb-1">1995</div>
+                        <div class="text-sm text-gray-600 font-medium">New Building</div>
+                    </div>
+                </div>
+                <!-- Decorative elements -->
+                <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-orange-200/50 to-orange-400/50 rounded-full blur-xl"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="space-y-8 lg:order-2">
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold text-lg">1995</span>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Growing in Faith</h2>
+                        <p class="text-orange-600 font-semibold">Building our foundation</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <p class="text-xl text-gray-700 leading-relaxed">
+                        By 1995, our congregation had outgrown our original meeting space. Through the
+                        generous giving of our members and God's provision, we were able to purchase
+                        land and build our first permanent church building.
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        This decade marked significant growth not just in numbers, but in spiritual
+                        maturity. We launched our first missions program, established multiple
+                        ministries, and began our community outreach initiatives that continue today.
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="bg-orange-50 rounded-2xl p-6 text-center">
+                            <div class="text-2xl font-bold text-orange-600 mb-2">150</div>
+                            <div class="text-sm text-gray-600">Members by 1995</div>
+                        </div>
+                        <div class="bg-orange-50 rounded-2xl p-6 text-center">
+                            <div class="text-2xl font-bold text-orange-600 mb-2">5</div>
+                            <div class="text-sm text-gray-600">New Ministries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modern Era Section -->
+<section class="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Content -->
+            <div class="space-y-8">
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold text-lg">2010</span>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Expanding Our Reach</h2>
+                        <p class="text-purple-600 font-semibold">Embracing the future</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <p class="text-xl text-gray-700 leading-relaxed">
+                        The 2010s brought new opportunities for ministry and service. We expanded our
+                        facilities, launched online services, and began supporting missionaries around
+                        the world.
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Our youth and children's programs flourished, and we established
+                        partnerships with local schools and community organizations. Through it all,
+                        our commitment to biblical teaching, authentic worship, and compassionate
+                        service has remained constant.
+                    </p>
+
+                    <!-- Achievements -->
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-gray-700">Online streaming services launched</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-gray-700">Global missions partnerships established</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-gray-700">Community center opened</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image -->
+            <div class="relative">
+                <div class="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="{% get_page_image_url 'our_story_modern' 0 'https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' %}"
+                         alt="Modern Church"
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -bottom-6 -right-6 bg-white rounded-2xl p-6 shadow-2xl border border-gray-100">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600 mb-1">500+</div>
+                        <div class="text-sm text-gray-600 font-medium">Members Today</div>
+                    </div>
+                </div>
+                <!-- Decorative elements -->
+                <div class="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-purple-200/50 to-purple-400/50 rounded-full blur-xl"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Timeline Section -->
+<section id="timeline" class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-teal-500/20 to-teal-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-orange-500/20 to-orange-600/20 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full text-sm font-semibold mb-6">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Our Journey
+            </div>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Key <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-400">Milestones</span>
+            </h2>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Here are some of the significant moments in our church's journey of faith and growth.
+            </p>
+        </div>
+
+        <div class="max-w-5xl mx-auto">
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-teal-500 to-orange-500"></div>
+
+                <!-- Timeline Items -->
+                <div class="space-y-16">
+                    <!-- 1985 -->
+                    <div class="relative flex items-center">
+                        <div class="flex-1 text-right pr-12">
+                            <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-3">Church Founded</h3>
+                                <p class="text-gray-300 leading-relaxed">15 families come together to establish {{ site_settings.church_name }} with a vision for biblical teaching and community service</p>
+                                <div class="mt-4 flex items-center justify-end space-x-2">
+                                    <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                    <span class="text-teal-400 text-sm font-medium">15 Founding Families</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-white/20">
+                            <span class="text-white font-bold">1985</span>
+                        </div>
+                        <div class="flex-1 pl-12"></div>
+                    </div>
+
+                    <!-- 1990 -->
+                    <div class="relative flex items-center">
+                        <div class="flex-1 pr-12"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-white/20">
+                            <span class="text-white font-bold">1990</span>
+                        </div>
+                        <div class="flex-1 text-left pl-12">
+                            <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-3">First Missions Trip</h3>
+                                <p class="text-gray-300 leading-relaxed">Our first international missions team travels to serve overseas, beginning our global outreach ministry</p>
+                                <div class="mt-4 flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="text-orange-400 text-sm font-medium">Global Missions Begin</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1995 -->
+                    <div class="relative flex items-center">
+                        <div class="flex-1 text-right pr-12">
+                            <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-3">New Building Dedicated</h3>
+                                <p class="text-gray-300 leading-relaxed">Our first permanent church building is completed and dedicated, providing a lasting home for our growing congregation</p>
+                                <div class="mt-4 flex items-center justify-end space-x-2">
+                                    <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span class="text-teal-400 text-sm font-medium">Permanent Home</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-white/20">
+                            <span class="text-white font-bold">1995</span>
+                        </div>
+                        <div class="flex-1 pl-12"></div>
+                    </div>
+
+                    <!-- 2005 -->
+                    <div class="relative flex items-center">
+                        <div class="flex-1 pr-12"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-white/20">
+                            <span class="text-white font-bold">2005</span>
+                        </div>
+                        <div class="flex-1 text-left pl-12">
+                            <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-3">Community Center Opens</h3>
+                                <p class="text-gray-300 leading-relaxed">We open our doors wider to serve the community with new programs, food pantry, and social services</p>
+                                <div class="mt-4 flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    <span class="text-purple-400 text-sm font-medium">Community Outreach</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2015 -->
+                    <div class="relative flex items-center">
+                        <div class="flex-1 text-right pr-12">
+                            <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-3">Online Ministry Launched</h3>
+                                <p class="text-gray-300 leading-relaxed">We begin streaming services and expand our digital outreach to connect with people around the world</p>
+                                <div class="mt-4 flex items-center justify-end space-x-2">
+                                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                                    </svg>
+                                    <span class="text-blue-400 text-sm font-medium">Digital Ministry</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-white/20">
+                            <span class="text-white font-bold">2015</span>
+                        </div>
+                        <div class="flex-1 pl-12"></div>
+                    </div>
+
+                    <!-- 2020 -->
+                    <div class="relative flex items-center">
+                        <div class="flex-1 pr-12"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-white/20">
+                            <span class="text-white font-bold">2020</span>
+                        </div>
+                        <div class="flex-1 text-left pl-12">
+                            <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-3">Adapting & Growing</h3>
+                                <p class="text-gray-300 leading-relaxed">We adapt to new challenges while continuing to serve and grow, strengthening our online presence and community connections</p>
+                                <div class="mt-4 flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                    <span class="text-green-400 text-sm font-medium">Innovation & Growth</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bible Verse Section -->
+<section class="py-20 bg-gradient-to-br from-teal-600 via-teal-700 to-orange-600 text-white relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 right-10 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-8">
+                <svg class="w-16 h-16 text-white/30 mx-auto mb-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
+                </svg>
+            </div>
+            <blockquote class="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight">
+                "For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you,
+                to give you hope and a future."
+            </blockquote>
+            <cite class="text-2xl font-semibold text-orange-200 mb-6 block">Jeremiah 29:11</cite>
+            <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                This verse has been our guiding light throughout our journey, reminding us that God has good plans
+                for our church and our community.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-8">
+                Be Part of Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-orange-600">Continuing Story</span>
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
+                Our story is still being written, and we believe God has great things in store.
+                We'd love for you to be part of what comes next.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+                <a href="{% url 'core:plan_visit' %}" class="bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-10 py-5 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <svg class="w-6 h-6 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Visit Us This Sunday
+                </a>
+                <a href="{% url 'pages:about' %}" class="border-2 border-gray-300 text-gray-700 hover:border-teal-600 hover:text-teal-600 px-10 py-5 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                    <svg class="w-6 h-6 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Learn More About Us
+                </a>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Get Connected Today</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">Call Us</h4>
+                        <p class="text-gray-600">{{ site_settings.phone }}</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">Email Us</h4>
+                        <p class="text-gray-600">{{ site_settings.email }}</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">Visit Us</h4>
+                        <p class="text-gray-600">{{ site_settings.address }}</p>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <a href="{% url 'core:contact' %}" class="text-teal-600 hover:text-orange-600 transition-colors font-semibold text-lg">
+                        Get Connected →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,424 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load page_images %}
+
+{% block title %}Our Speakers - {{ CHURCH_NAME }}{% endblock %}
+
+{% block meta_description %}Meet the pastors and speakers who share God's Word at {{ CHURCH_NAME }}. Learn about their backgrounds and hear their inspiring messages.{% endblock %}
+
+{% block content %}
+<!-- Page Header with Background Image -->
+<section class="relative py-16 lg:py-24 text-white text-center overflow-hidden"
+         style="background: url('{% get_page_image_url "sermons_hero" 0 "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" %}') center/cover no-repeat;">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-br from-teal-800/90 via-teal-700/80 to-blue-600/90"></div>
+
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-10 right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 left-10 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 lg:mb-6">
+            Our Speakers
+        </h1>
+        <p class="text-lg sm:text-xl lg:text-2xl text-teal-100 max-w-3xl mx-auto leading-relaxed">
+            Meet the dedicated pastors and speakers who faithfully share God's Word
+            and guide our spiritual journey at {{ CHURCH_NAME }}.
+        </p>
+    </div>
+</section>
+
+<!-- Search -->
+<section class="py-16 lg:py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 mb-8">
+            <form method="get" class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input type="text" name="search" value="{{ search_query }}"
+                           placeholder="Search speakers..."
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-gray-900 placeholder-gray-500">
+                </div>
+                <button type="submit" class="bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors">
+                    Search
+                </button>
+            </form>
+
+            {% if search_query %}
+            <div class="mt-4 text-center">
+                <a href="{% url 'sermons:speakers' %}" class="text-teal-600 hover:text-orange-600 transition-colors font-medium">
+                    Clear Search
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Results Count -->
+        <div class="mb-6">
+            <p class="text-gray-600">
+                {% if search_query %}
+                    Showing {{ paginator.count }} result{{ paginator.count|pluralize }} for "{{ search_query }}"
+                {% else %}
+                    {{ paginator.count }} speaker{{ paginator.count|pluralize }} available
+                {% endif %}
+            </p>
+        </div>
+        
+        <!-- Mobile Carousel / Desktop Grid -->
+        {% if speakers %}
+        <div class="block lg:hidden">
+            <!-- Mobile Carousel -->
+            <div class="relative max-w-sm mx-auto">
+                <div class="speakers-carousel overflow-hidden">
+                    <div class="speakers-carousel-track flex transition-transform duration-300 ease-in-out">
+                        {% for speaker in speakers %}
+                        <div class="speakers-slide w-full flex-shrink-0">
+                            <div class="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 mx-2">
+                                <!-- Speaker Photo -->
+                                <div class="relative h-48 overflow-hidden">
+                                    {% if speaker.photo %}
+                                    <img src="{{ speaker.photo.url }}" alt="{{ speaker.name }}" class="w-full h-full object-cover">
+                                    {% else %}
+                                    <div class="w-full h-full bg-gradient-to-br from-teal-500 to-orange-500 flex items-center justify-center">
+                                        <span class="text-3xl font-bold text-white">
+                                            {{ speaker.name|first }}{{ speaker.name|last|first }}
+                                        </span>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Sermon Count Badge -->
+                                    <div class="absolute top-2 right-2">
+                                        <span class="bg-white/90 text-teal-600 px-2 py-1 rounded-full text-xs font-medium">
+                                            {{ speaker.sermon_count }} sermon{{ speaker.sermon_count|pluralize }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Speaker Info -->
+                                <div class="p-4">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-1">
+                                        {{ speaker.name }}
+                                    </h3>
+
+                                    {% if speaker.leadership_profile %}
+                                    <div class="text-sm text-teal-600 mb-2">
+                                        {{ speaker.leadership_profile.position }}
+                                    </div>
+                                    {% endif %}
+
+                                    {% if speaker.bio %}
+                                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                        {{ speaker.bio|truncatewords:15 }}
+                                    </p>
+                                    {% endif %}
+
+                                    <a href="{{ speaker.get_absolute_url }}" class="inline-block bg-teal-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-teal-700 transition-colors">
+                                        View Profile →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Navigation Dots -->
+                <div class="flex justify-center mt-6 space-x-2">
+                    {% for speaker in speakers %}
+                    <button class="speakers-dot w-2 h-2 rounded-full bg-gray-300 hover:bg-teal-600 transition-colors"></button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Grid -->
+        <div class="hidden lg:grid lg:grid-cols-3 gap-8">
+            {% for speaker in speakers %}
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group border border-gray-100">
+                <!-- Speaker Photo -->
+                <div class="relative h-64 overflow-hidden">
+                    {% if speaker.photo %}
+                    <img src="{{ speaker.photo.url }}" alt="{{ speaker.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-teal-500 to-orange-500 flex items-center justify-center">
+                        <span class="text-4xl font-bold text-white">
+                            {{ speaker.name|first }}{{ speaker.name|last|first }}
+                        </span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Sermon Count Badge -->
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white/90 text-teal-600 px-3 py-1 rounded-full text-sm font-medium">
+                            {{ speaker.sermon_count }} sermon{{ speaker.sermon_count|pluralize }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Speaker Info -->
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                        {{ speaker.name }}
+                    </h3>
+
+                    {% if speaker.leadership_profile %}
+                    <div class="text-sm text-teal-600 mb-3">
+                        {{ speaker.leadership_profile.position }}
+                    </div>
+                    {% endif %}
+
+                    {% if speaker.bio %}
+                    <p class="text-gray-600 text-sm mb-4">
+                        {{ speaker.bio|truncatewords:20 }}
+                    </p>
+                    {% endif %}
+
+                    <div class="flex items-center justify-between">
+                        <a href="{{ speaker.get_absolute_url }}" class="text-teal-600 hover:text-orange-600 transition-colors font-medium">
+                            View Profile →
+                        </a>
+
+                        <div class="text-xs text-gray-500">
+                            {{ speaker.sermon_count }} message{{ speaker.sermon_count|pluralize }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="flex justify-center mt-12">
+            <nav class="flex items-center space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?{% if search_query %}search={{ search_query }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                   class="px-3 py-2 text-teal-600 hover:bg-teal-600 hover:text-white rounded transition-colors">
+                    Previous
+                </a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <span class="px-3 py-2 bg-teal-600 text-white rounded">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?{% if search_query %}search={{ search_query }}&{% endif %}page={{ num }}"
+                   class="px-3 py-2 text-teal-600 hover:bg-teal-600 hover:text-white rounded transition-colors">
+                    {{ num }}
+                </a>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <a href="?{% if search_query %}search={{ search_query }}&{% endif %}page={{ page_obj.next_page_number }}"
+                   class="px-3 py-2 text-teal-600 hover:bg-teal-600 hover:text-white rounded transition-colors">
+                    Next
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- No Results -->
+        <div class="text-center py-12">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">No Speakers Found</h3>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-6">
+                {% if search_query %}
+                    We couldn't find any speakers matching "{{ search_query }}". Try adjusting your search terms.
+                {% else %}
+                    No speakers are currently available. Please check back soon.
+                {% endif %}
+            </p>
+            {% if search_query %}
+            <a href="{% url 'sermons:speakers' %}" class="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors">
+                Clear Search
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-16 lg:py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                Hear God's Word
+            </h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Our speakers are committed to faithfully teaching God's Word and helping
+                you grow in your relationship with Jesus Christ. Explore their messages
+                and join us for worship.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Browse Sermons</h3>
+                <p class="text-gray-600 mb-4">Listen to inspiring messages from our speakers on various biblical topics.</p>
+                <a href="{% url 'sermons:list' %}" class="text-teal-600 hover:text-orange-600 transition-colors font-medium">
+                    View All Sermons →
+                </a>
+            </div>
+
+            <div class="text-center">
+                <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Sermon Series</h3>
+                <p class="text-gray-600 mb-4">Follow along with organized series that dive deep into biblical themes.</p>
+                <a href="{% url 'sermons:series_list' %}" class="text-teal-600 hover:text-orange-600 transition-colors font-medium">
+                    Explore Series →
+                </a>
+            </div>
+
+            <div class="text-center">
+                <div class="w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Join Us Live</h3>
+                <p class="text-gray-600 mb-4">Experience these messages in person during our worship services.</p>
+                <a href="{% url 'pages:location' %}" class="text-teal-600 hover:text-orange-600 transition-colors font-medium">
+                    Service Times →
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Leadership Connection -->
+<section class="py-16 lg:py-20 bg-gradient-to-br from-teal-600 via-teal-700 to-orange-600 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+            Meet Our Leadership Team
+        </h2>
+        <p class="text-lg sm:text-xl text-teal-100 mb-8 max-w-3xl mx-auto">
+            Many of our speakers are also part of our church leadership team.
+            Learn more about their roles and how they serve our congregation.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="{% url 'pages:leadership' %}" class="bg-white text-teal-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+                Meet Our Leaders
+            </a>
+            <a href="{% url 'pages:about' %}" class="border-2 border-white text-white hover:bg-white hover:text-teal-600 font-semibold py-3 px-8 rounded-lg transition-all duration-200">
+                About Our Church
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Speakers Carousel
+    const speakersCarousel = document.querySelector('.speakers-carousel-track');
+    const speakersDots = document.querySelectorAll('.speakers-dot');
+
+    if (speakersCarousel && speakersDots.length > 0) {
+        let currentSpeakersSlide = 0;
+        const totalSpeakersSlides = speakersDots.length;
+        let speakersAutoplayInterval;
+
+        function updateSpeakersCarousel() {
+            const translateX = -currentSpeakersSlide * 100;
+            speakersCarousel.style.transform = `translateX(${translateX}%)`;
+
+            // Update dots
+            speakersDots.forEach((dot, index) => {
+                if (index === currentSpeakersSlide) {
+                    dot.classList.remove('bg-gray-300');
+                    dot.classList.add('bg-teal-600');
+                } else {
+                    dot.classList.remove('bg-teal-600');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        }
+
+        function nextSpeakersSlide() {
+            currentSpeakersSlide = (currentSpeakersSlide + 1) % totalSpeakersSlides;
+            updateSpeakersCarousel();
+        }
+
+        function goToSpeakersSlide(slideIndex) {
+            currentSpeakersSlide = slideIndex;
+            updateSpeakersCarousel();
+        }
+
+        function startSpeakersAutoplay() {
+            speakersAutoplayInterval = setInterval(nextSpeakersSlide, 4000);
+        }
+
+        function stopSpeakersAutoplay() {
+            if (speakersAutoplayInterval) {
+                clearInterval(speakersAutoplayInterval);
+            }
+        }
+
+        // Event listeners
+        speakersDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stopSpeakersAutoplay();
+                goToSpeakersSlide(index);
+                startSpeakersAutoplay();
+            });
+        });
+
+        // Touch/swipe support
+        let speakersStartX = 0;
+        let speakersEndX = 0;
+
+        speakersCarousel.addEventListener('touchstart', (e) => {
+            speakersStartX = e.touches[0].clientX;
+        });
+
+        speakersCarousel.addEventListener('touchend', (e) => {
+            speakersEndX = e.changedTouches[0].clientX;
+            const diff = speakersStartX - speakersEndX;
+
+            if (Math.abs(diff) > 50) { // Minimum swipe distance
+                stopSpeakersAutoplay();
+                if (diff > 0) {
+                    nextSpeakersSlide();
+                } else {
+                    currentSpeakersSlide = (currentSpeakersSlide - 1 + totalSpeakersSlides) % totalSpeakersSlides;
+                    updateSpeakersCarousel();
+                }
+                startSpeakersAutoplay();
+            }
+        });
+
+        // Initialize
+        updateSpeakersCarousel();
+        startSpeakersAutoplay();
+
+        // Pause autoplay on hover
+        const speakersCarouselContainer = document.querySelector('.speakers-carousel');
+        if (speakersCarouselContainer) {
+            speakersCarouselContainer.addEventListener('mouseenter', stopSpeakersAutoplay);
+            speakersCarouselContainer.addEventListener('mouseleave', startSpeakersAutoplay);
+        }
+    }
+});
+</script>
+{% endblock %}

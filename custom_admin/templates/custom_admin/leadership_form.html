@@ -1,0 +1,411 @@
+{% extends 'custom_admin/form_base.html' %}
+
+{% block back_url %}{% url 'custom_admin:leadership_list' %}{% endblock %}
+
+{% block form_fields %}
+    <!-- Basic Information -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200">
+            <i class="fas fa-info-circle mr-2 text-primary-teal"></i>
+            Basic Information
+        </h3>
+    </div>
+    
+    <!-- Name -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.name.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <input 
+            type="text" 
+            name="{{ form.name.name }}" 
+            id="{{ form.name.id_for_label }}"
+            value="{{ form.name.value|default:'' }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Enter full name"
+        >
+        {% if form.name.errors %}
+            <div class="mt-1">
+                {% for error in form.name.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Position -->
+    <div>
+        <label for="{{ form.position.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.position.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <input 
+            type="text" 
+            name="{{ form.position.name }}" 
+            id="{{ form.position.id_for_label }}"
+            value="{{ form.position.value|default:'' }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="e.g., Senior Pastor, Elder, Deacon"
+        >
+        {% if form.position.errors %}
+            <div class="mt-1">
+                {% for error in form.position.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Position Type -->
+    <div>
+        <label for="{{ form.position_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.position_type.label }}
+            <span class="text-red-500">*</span>
+        </label>
+        <select 
+            name="{{ form.position_type.name }}" 
+            id="{{ form.position_type.id_for_label }}"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+            <option value="">Select position type</option>
+            {% for choice in form.position_type.field.choices %}
+                {% if choice.0 %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.position_type.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        {% if form.position_type.errors %}
+            <div class="mt-1">
+                {% for error in form.position_type.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Bio -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.bio.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.bio.label }}
+        </label>
+        <textarea 
+            name="{{ form.bio.name }}" 
+            id="{{ form.bio.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal resize-vertical min-h-[120px]"
+            placeholder="Brief biography and background..."
+        >{{ form.bio.value|default:'' }}</textarea>
+        {% if form.bio.errors %}
+            <div class="mt-1">
+                {% for error in form.bio.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Contact Information -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-phone mr-2 text-primary-teal"></i>
+            Contact Information
+        </h3>
+    </div>
+    
+    <!-- Email -->
+    <div>
+        <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.email.label }}
+        </label>
+        <input 
+            type="email" 
+            name="{{ form.email.name }}" 
+            id="{{ form.email.id_for_label }}"
+            value="{{ form.email.value|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="leader@church.com"
+        >
+        {% if form.email.errors %}
+            <div class="mt-1">
+                {% for error in form.email.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Phone -->
+    <div>
+        <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.phone.label }}
+        </label>
+        <input 
+            type="tel" 
+            name="{{ form.phone.name }}" 
+            id="{{ form.phone.id_for_label }}"
+            value="{{ form.phone.value|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="+1 (555) 123-4567"
+        >
+        {% if form.phone.errors %}
+            <div class="mt-1">
+                {% for error in form.phone.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Professional Information -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-briefcase mr-2 text-primary-teal"></i>
+            Professional Information
+        </h3>
+    </div>
+    
+    <!-- Education -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.education.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.education.label }}
+        </label>
+        <textarea 
+            name="{{ form.education.name }}" 
+            id="{{ form.education.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal resize-vertical min-h-[80px]"
+            placeholder="Educational background and qualifications..."
+        >{{ form.education.value|default:'' }}</textarea>
+        {% if form.education.errors %}
+            <div class="mt-1">
+                {% for error in form.education.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Years of Service -->
+    <div>
+        <label for="{{ form.years_of_service.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.years_of_service.label }}
+        </label>
+        <input 
+            type="number" 
+            name="{{ form.years_of_service.name }}" 
+            id="{{ form.years_of_service.id_for_label }}"
+            value="{{ form.years_of_service.value|default:'' }}"
+            min="0"
+            max="100"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Years of service"
+        >
+        {% if form.years_of_service.errors %}
+            <div class="mt-1">
+                {% for error in form.years_of_service.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Ordination Date -->
+    <div>
+        <label for="{{ form.ordination_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.ordination_date.label }}
+        </label>
+        <input 
+            type="date" 
+            name="{{ form.ordination_date.name }}" 
+            id="{{ form.ordination_date.id_for_label }}"
+            value="{{ form.ordination_date.value|date:'Y-m-d'|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+        >
+        {% if form.ordination_date.errors %}
+            <div class="mt-1">
+                {% for error in form.ordination_date.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Previous Experience -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.previous_experience.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.previous_experience.label }}
+        </label>
+        <textarea 
+            name="{{ form.previous_experience.name }}" 
+            id="{{ form.previous_experience.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal resize-vertical min-h-[80px]"
+            placeholder="Previous ministry experience and roles..."
+        >{{ form.previous_experience.value|default:'' }}</textarea>
+        {% if form.previous_experience.errors %}
+            <div class="mt-1">
+                {% for error in form.previous_experience.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Personal Information -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-heart mr-2 text-primary-teal"></i>
+            Personal Information
+        </h3>
+    </div>
+    
+    <!-- Family Info -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.family_info.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.family_info.label }}
+        </label>
+        <textarea 
+            name="{{ form.family_info.name }}" 
+            id="{{ form.family_info.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal resize-vertical min-h-[80px]"
+            placeholder="Family information (spouse, children, etc.)..."
+        >{{ form.family_info.value|default:'' }}</textarea>
+        {% if form.family_info.errors %}
+            <div class="mt-1">
+                {% for error in form.family_info.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Hobbies -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.hobbies.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.hobbies.label }}
+        </label>
+        <input 
+            type="text" 
+            name="{{ form.hobbies.name }}" 
+            id="{{ form.hobbies.id_for_label }}"
+            value="{{ form.hobbies.value|default:'' }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Hobbies and interests (comma-separated)"
+        >
+        {% if form.hobbies.errors %}
+            <div class="mt-1">
+                {% for error in form.hobbies.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Media -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-photo-video mr-2 text-primary-teal"></i>
+            Media
+        </h3>
+    </div>
+    
+    <!-- Photo -->
+    <div class="lg:col-span-2">
+        <label for="{{ form.photo.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.photo.label }}
+        </label>
+        <input 
+            type="file" 
+            name="{{ form.photo.name }}" 
+            id="{{ form.photo.id_for_label }}"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-teal file:text-white hover:file:bg-cyan-600"
+            accept="image/*"
+        >
+        {% if form.photo.value %}
+            <div class="mt-2 text-sm text-gray-500">
+                Current: <a href="{{ form.photo.value.url }}" target="_blank" class="text-primary-teal hover:underline">{{ form.photo.value.name }}</a>
+            </div>
+        {% endif %}
+        {% if form.photo.errors %}
+            <div class="mt-1">
+                {% for error in form.photo.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Display Settings -->
+    <div class="lg:col-span-2">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-200 mt-6">
+            <i class="fas fa-cog mr-2 text-primary-teal"></i>
+            Display Settings
+        </h3>
+    </div>
+    
+    <!-- Display Order -->
+    <div>
+        <label for="{{ form.display_order.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            {{ form.display_order.label }}
+        </label>
+        <input 
+            type="number" 
+            name="{{ form.display_order.name }}" 
+            id="{{ form.display_order.id_for_label }}"
+            value="{{ form.display_order.value|default:0 }}"
+            min="0"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Display order (lower numbers appear first)"
+        >
+        {% if form.display_order.errors %}
+            <div class="mt-1">
+                {% for error in form.display_order.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Is Active -->
+    <div>
+        <div class="flex items-center h-10">
+            <input 
+                type="checkbox" 
+                name="{{ form.is_active.name }}" 
+                id="{{ form.is_active.id_for_label }}"
+                {% if form.is_active.value %}checked{% endif %}
+                class="h-4 w-4 text-primary-teal focus:ring-primary-teal border-gray-300 rounded"
+            >
+            <label for="{{ form.is_active.id_for_label }}" class="ml-2 text-sm text-gray-700">
+                {{ form.is_active.label }} - Make this leader visible on the website
+            </label>
+        </div>
+        {% if form.is_active.errors %}
+            <div class="mt-1">
+                {% for error in form.is_active.errors %}
+                    <p class="text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_content %}
+    {% if object %}
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-6">
+            <div class="flex items-center">
+                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                <div>
+                    <h4 class="text-sm font-medium text-blue-900">Leadership Profile Information</h4>
+                    <p class="text-sm text-blue-700 mt-1">
+                        Created: {{ object.created_at|date:"M d, Y g:i A" }} | 
+                        Last updated: {{ object.updated_at|date:"M d, Y g:i A" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

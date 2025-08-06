@@ -1,0 +1,388 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load page_images %}
+
+{% block title %}Events Calendar - {{ CHURCH_NAME }}{% endblock %}
+
+{% block meta_description %}View our church events calendar to stay updated on upcoming services, conferences, workshops, and community activities at {{ CHURCH_NAME }}.{% endblock %}
+
+{% block extra_css %}
+<style>
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-radius: 1rem;
+    padding: 2px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.calendar-day {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    min-height: 120px;
+    padding: 12px;
+    position: relative;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.calendar-day:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.15);
+    background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+}
+
+.calendar-day.other-month {
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    color: #9ca3af;
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border: 2px solid #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.event-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event-item {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    margin: 2px 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.event-item:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.calendar-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header-day {
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    border-radius: 0.5rem;
+    margin: 0 1px;
+}
+
+@media (max-width: 768px) {
+    .calendar-day {
+        min-height: 80px;
+        padding: 8px;
+    }
+
+    .event-item {
+        font-size: 0.625rem;
+        padding: 2px 4px;
+    }
+
+    .calendar-header-day {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Ultra-Modern Hero Section -->
+<section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+        <img src="{% get_page_image_url "calendar_hero" 0 "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" %}"
+             alt="Events Calendar Background" class="w-full h-full object-cover">
+        <!-- Spiritual Gradient Overlays -->
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/85 to-blue-600/80"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-amber-400/20 via-transparent to-transparent"></div>
+    </div>
+
+    <!-- Floating Background Elements -->
+    <div class="absolute inset-0 z-10">
+        <div class="absolute top-20 right-20 w-32 h-32 bg-white/5 rounded-full blur-2xl animate-pulse"></div>
+        <div class="absolute bottom-32 left-16 w-48 h-48 bg-amber-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div class="absolute top-1/2 left-1/4 w-24 h-24 bg-blue-400/10 rounded-full blur-xl animate-pulse delay-500"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Calendar Icon -->
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-amber-400/20 to-amber-500/20 backdrop-blur-sm rounded-full border border-amber-400/30 mb-8">
+            <svg class="w-10 h-10 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
+            <span class="bg-gradient-to-r from-white via-blue-100 to-amber-200 bg-clip-text text-transparent">
+                Events
+            </span>
+            <br>
+            <span class="text-white">Calendar</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-xl sm:text-2xl lg:text-3xl text-blue-100 mb-8 max-w-4xl mx-auto leading-relaxed">
+            Stay up to date with all our church events, services, and activities throughout the month.
+        </p>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
+        <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- Ultra-Modern Calendar Navigation -->
+<section class="py-20 lg:py-28 bg-gradient-to-br from-white via-blue-50/30 to-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Calendar Header -->
+            <div class="flex flex-col lg:flex-row items-center justify-between mb-12 gap-6">
+                <div class="flex items-center space-x-6">
+                    <a href="?year={{ prev_year }}&month={{ prev_month }}"
+                       class="group flex items-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Previous
+                    </a>
+
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-900 via-blue-700 to-blue-600 bg-clip-text text-transparent">
+                        {{ current_month_name }} {{ current_year }}
+                    </h2>
+
+                    <a href="?year={{ next_year }}&month={{ next_month }}"
+                       class="group flex items-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        Next
+                        <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'events:list' %}"
+                       class="group inline-flex items-center bg-white/80 backdrop-blur-sm border-2 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <svg class="w-5 h-5 mr-2 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        List View
+                    </a>
+                </div>
+            </div>
+
+            <!-- Calendar Legend -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-100/50 mb-12">
+                <div class="flex flex-wrap items-center gap-6">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mr-3"></div>
+                        <span class="text-lg font-semibold text-gray-900">Event Categories:</span>
+                    </div>
+                    {% for category in categories %}
+                    <div class="flex items-center bg-gray-50 rounded-xl px-4 py-2">
+                        <div class="event-dot" style="background: linear-gradient(135deg, {{ category.color }} 0%, {{ category.color }}dd 100%); box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
+                        <span class="text-sm font-medium text-gray-700">{{ category.name }}</span>
+                    </div>
+                    {% endfor %}
+                    <div class="flex items-center bg-gray-50 rounded-xl px-4 py-2">
+                        <div class="event-dot" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
+                        <span class="text-sm font-medium text-gray-700">Other Events</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Simple Calendar Display -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <!-- Day Headers -->
+                <div class="grid grid-cols-7 bg-primary-blue text-white">
+                    <div class="p-4 text-center font-semibold">Sunday</div>
+                    <div class="p-4 text-center font-semibold">Monday</div>
+                    <div class="p-4 text-center font-semibold">Tuesday</div>
+                    <div class="p-4 text-center font-semibold">Wednesday</div>
+                    <div class="p-4 text-center font-semibold">Thursday</div>
+                    <div class="p-4 text-center font-semibold">Friday</div>
+                    <div class="p-4 text-center font-semibold">Saturday </div>
+                </div>
+                
+                <!-- Calendar Days - Simplified Version -->
+                <div class="calendar-grid">
+                    {% for day in "1234567890123456789012345678901234567"|make_list %}
+                        {% if forloop.counter <= 35 %}
+                        <div class="calendar-day">
+                            <div class="font-semibold text-sm mb-2">
+                                {% if forloop.counter <= 31 %}{{ forloop.counter }}{% endif %}
+                            </div>
+                            
+                            {% for event in events %}
+                                {% if event.start_date.day == forloop.counter %}
+                                <div class="event-item" 
+                                     style="background-color: {% if event.category %}{{ event.category.color }}{% else %}#0EC6EB{% endif %};"
+                                     onclick="window.location.href='{{ event.get_absolute_url }}'"
+                                     title="{{ event.title }} - {{ event.get_duration_display }}">
+                                    {{ event.title|truncatechars:15 }}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Monthly Events List -->
+{% if events %}
+<section class="section-padding bg-bg-soft">
+    <div class="container-custom">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-heading font-bold text-text-dark mb-8 text-center">
+                Events This Month
+            </h2>
+            
+            <div class="space-y-4">
+                {% for event in events %}
+                <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                {% if event.category %}
+                                <div class="event-dot" style="background-color: {{ event.category.color }};"></div>
+                                <span class="text-sm text-text-secondary mr-4">{{ event.category.name }}</span>
+                                {% endif %}
+                                
+                                <span class="text-sm text-text-secondary">
+                                    {{ event.start_date|date:"M d, Y" }}
+                                    {% if not event.is_all_day and event.start_time %}
+                                    • {{ event.start_time|time:"g:i A" }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            
+                            <h3 class="text-xl font-heading font-semibold text-text-dark mb-2">
+                                {{ event.title }}
+                            </h3>
+                            
+                            {% if event.short_description %}
+                            <p class="text-text-secondary mb-3">
+                                {{ event.short_description }}
+                            </p>
+                            {% endif %}
+                            
+                            {% if event.location_name %}
+                            <div class="flex items-center text-sm text-text-secondary mb-3">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                {{ event.location_name }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="ml-6 flex flex-col items-end space-y-2">
+                            {% if event.is_featured %}
+                            <span class="bg-secondary-orange text-white px-3 py-1 rounded-full text-xs font-medium">
+                                Featured
+                            </span>
+                            {% endif %}
+                            
+                            {% if event.requires_registration %}
+                            <span class="bg-primary-blue text-white px-3 py-1 rounded-full text-xs font-medium">
+                                Registration Required
+                            </span>
+                            {% endif %}
+                            
+                            <a href="{{ event.get_absolute_url }}" 
+                               class="text-primary-blue hover:text-secondary-orange transition-colors font-medium">
+                                View Details →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+<!-- No Events This Month -->
+<section class="section-padding bg-bg-soft">
+    <div class="container-custom">
+        <div class="text-center py-12">
+            <svg class="w-16 h-16 text-text-secondary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <h3 class="text-xl font-heading font-semibold text-text-dark mb-2">No Events This Month</h3>
+            <p class="text-text-secondary mb-6">
+                There are no events scheduled for {{ current_month_name }} {{ current_year }}. 
+                Check other months or view all upcoming events.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="?year={{ next_year }}&month={{ next_month }}" class="btn-primary">
+                    View Next Month
+                </a>
+                <a href="{% url 'events:list' %}" class="btn-secondary">
+                    View All Events
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="section-padding bg-gradient-to-r from-primary-blue to-secondary-orange text-white">
+    <div class="container-custom text-center">
+        <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6">
+            Stay Connected
+        </h2>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">
+            Never miss an event! Subscribe to our newsletter or follow us on social media 
+            to stay updated on all our church activities and special events.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="{% url 'events:list' %}" class="bg-white text-primary-blue hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+                View All Events
+            </a>
+            <a href="{% url 'core:contact' %}" class="border-2 border-white text-white hover:bg-white hover:text-primary-blue font-semibold py-3 px-8 rounded-lg transition-all duration-200">
+                Contact Us
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

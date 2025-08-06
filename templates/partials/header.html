@@ -1,0 +1,408 @@
+{% load static %}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="flex items-center justify-between py-4 lg:py-3">
+        <!-- Logo -->
+        <div class="flex items-center">
+            <a href="{% url 'core:home' %}" class="flex items-center space-x-3 group">
+                <div class="relative">
+                    <div class="w-12 h-12 lg:w-12 lg:h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg transform group-hover:scale-105 transition-all duration-300">
+                        <svg class="w-7 h-7 lg:w-7 lg:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                    </div>
+                    <div class="absolute -top-1 -right-1 w-4 h-4 bg-orange-400 rounded-full animate-pulse"></div>
+                </div>
+                <div class="hidden sm:block">
+                    <h1 class="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">{{ SITE_NAME }}</h1>
+                    <p class="text-xs lg:text-sm text-gray-500 font-medium">{{ CHURCH_NAME }}</p>
+                </div>
+            </a>
+        </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center space-x-2" role="navigation" aria-label="Main navigation">
+        <a href="{% url 'core:home' %}" class="relative px-5 py-3 rounded-xl text-gray-700 hover:text-blue-600 font-medium text-base transition-all duration-300 group {% if request.resolver_match.url_name == 'home' %}text-blue-600 bg-blue-50{% endif %}">
+            <span class="relative z-10">Home</span>
+            <div class="absolute inset-0 bg-blue-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </a>
+
+        <!-- About Dropdown -->
+        <div class="relative group">
+            <button class="relative px-5 py-3 rounded-xl text-gray-700 hover:text-teal-600 font-medium text-base transition-all duration-300 flex items-center space-x-1 group">
+                <span class="relative z-10">About</span>
+                <svg class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+                <div class="absolute inset-0 bg-teal-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
+            <div class="absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 backdrop-blur-sm">
+                <div class="py-2">
+                    <a href="{% url 'pages:about' %}" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 rounded-lg mx-2 border-l-2 border-transparent hover:border-teal-500">
+                        <div class="w-8 h-8 rounded-lg bg-teal-100 group-hover:bg-teal-200 flex items-center justify-center mr-3 transition-colors duration-200">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium">Who We Are</div>
+                            <div class="text-xs text-gray-500 group-hover:text-teal-600">Learn about our mission</div>
+                        </div>
+                    </a>
+                    <a href="{% url 'pages:our_story' %}" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 rounded-lg mx-2 border-l-2 border-transparent hover:border-teal-500">
+                        <div class="w-8 h-8 rounded-lg bg-teal-100 group-hover:bg-teal-200 flex items-center justify-center mr-3 transition-colors duration-200">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium">Our Story</div>
+                            <div class="text-xs text-gray-500 group-hover:text-teal-600">How we began</div>
+                        </div>
+                    </a>
+                    <a href="{% url 'pages:beliefs' %}" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 rounded-lg mx-2 border-l-2 border-transparent hover:border-teal-500">
+                        <div class="w-8 h-8 rounded-lg bg-teal-100 group-hover:bg-teal-200 flex items-center justify-center mr-3 transition-colors duration-200">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium">Our Beliefs</div>
+                            <div class="text-xs text-gray-500 group-hover:text-teal-600">What we stand for</div>
+                        </div>
+                    </a>
+                    <a href="{% url 'pages:leadership' %}" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 rounded-lg mx-2 border-l-2 border-transparent hover:border-teal-500">
+                        <div class="w-8 h-8 rounded-lg bg-teal-100 group-hover:bg-teal-200 flex items-center justify-center mr-3 transition-colors duration-200">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium">Leadership</div>
+                            <div class="text-xs text-gray-500 group-hover:text-teal-600">Meet our team</div>
+                        </div>
+                    </a>
+                    <a href="{% url 'pages:location' %}" class="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 rounded-lg mx-2 border-l-2 border-transparent hover:border-teal-500">
+                        <div class="w-8 h-8 rounded-lg bg-teal-100 group-hover:bg-teal-200 flex items-center justify-center mr-3 transition-colors duration-200">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium">Location & Times</div>
+                            <div class="text-xs text-gray-500 group-hover:text-teal-600">Visit us</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sermons Dropdown -->
+        <div class="relative group">
+            <button class="relative px-5 py-3 rounded-xl text-gray-700 hover:text-teal-600 font-medium text-base transition-all duration-300 flex items-center space-x-1 group">
+                <span class="relative z-10">Sermons</span>
+                <svg class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+                <div class="absolute inset-0 bg-teal-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
+            <div class="absolute left-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                <div class="py-3">
+                    <a href="{% url 'sermons:list' %}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                        </svg>
+                        All Sermons
+                    </a>
+                    <a href="{% url 'sermons:series_list' %}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                        Sermon Series
+                    </a>
+                    <a href="{% url 'sermons:speakers' %}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        Speakers
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <a href="{% url 'events:list' %}" class="relative px-5 py-3 rounded-xl text-gray-700 hover:text-teal-600 font-medium text-base transition-all duration-300 group {% if 'events' in request.resolver_match.app_name %}text-teal-600 bg-teal-50{% endif %}">
+            <span class="relative z-10">Events</span>
+            <div class="absolute inset-0 bg-teal-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </a>
+
+        <a href="{% url 'ministries:list' %}" class="relative px-5 py-3 rounded-xl text-gray-700 hover:text-teal-600 font-medium text-base transition-all duration-300 group {% if 'ministries' in request.resolver_match.app_name %}text-teal-600 bg-teal-50{% endif %}">
+            <span class="relative z-10">Ministries</span>
+            <div class="absolute inset-0 bg-teal-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </a>
+
+        <a href="{% url 'core:contact' %}" class="relative px-5 py-3 rounded-xl text-gray-700 hover:text-teal-600 font-medium text-base transition-all duration-300 group {% if request.resolver_match.url_name == 'contact' %}text-teal-600 bg-teal-50{% endif %}">
+            <span class="relative z-10">Contact</span>
+            <div class="absolute inset-0 bg-teal-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </a>
+    </nav>
+
+
+
+        <!-- Mobile Action Links -->
+        <div class="lg:hidden flex items-center space-x-4">
+            <!-- Watch Now Link -->
+            <a href="{% url 'pages:online_tv' %}" class="flex items-center text-gray-700 hover:text-red-600 transition-colors duration-200">
+                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-5-4v4m0 0V8a2 2 0 012-2h4a2 2 0 012 2v8a2 2 0 01-2 2h-4a2 2 0 01-2-2z"></path>
+                </svg>
+                <span class="text-sm font-medium">Watch</span>
+            </a>
+
+            <!-- Give Link -->
+            <a href="{% url 'core:giving' %}" class="flex items-center text-gray-700 hover:text-orange-600 transition-colors duration-200">
+                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+                <span class="text-sm font-medium">Give</span>
+            </a>
+
+            <!-- Member Portal Link -->
+            {% if MEMBER_PORTAL_URL and MEMBER_PORTAL_URL != '#' %}
+            <a href="{{ MEMBER_PORTAL_URL }}" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-700 hover:text-teal-600 transition-colors duration-200">
+                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span class="text-sm font-medium">Portal</span>
+            </a>
+            {% endif %}
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="p-2 rounded-lg text-gray-700 hover:text-teal-600 hover:bg-teal-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all duration-200"
+                    aria-label="Open mobile menu" aria-expanded="false">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+</div>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed top-0 right-0 w-72 max-w-[85vw] bg-white shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out z-[70] lg:hidden rounded-l-lg">
+    <div class="flex flex-col">
+        <!-- Mobile Menu Header -->
+        <div class="flex items-center justify-between p-4 bg-gradient-to-r from-teal-500 to-teal-600 text-white">
+            <h3 class="font-semibold text-white">Navigation</h3>
+            <button id="mobile-menu-close" class="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Links -->
+        <div class="p-4">
+            <nav class="space-y-1">
+                <a href="{% url 'core:home' %}" class="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200 {% if request.resolver_match.url_name == 'home' %}bg-teal-50 text-teal-600{% endif %}">
+                    <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="font-medium">Home</span>
+                </a>
+
+                <!-- About Dropdown -->
+                <div class="mobile-dropdown">
+                    <button class="mobile-dropdown-trigger flex items-center justify-between w-full px-3 py-3 rounded-lg text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="font-medium">About</span>
+                        </div>
+                        <svg class="w-4 h-4 transition-transform duration-200 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="mobile-dropdown-content hidden bg-gray-50 rounded-lg ml-4 mt-2 overflow-hidden">
+                        <a href="{% url 'pages:about' %}" class="flex items-center px-4 py-3 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition-colors border-l-2 border-transparent hover:border-teal-500">
+                            <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path>
+                            </svg>
+                            Who We Are
+                        </a>
+                        <a href="{% url 'pages:our_story' %}" class="flex items-center px-4 py-3 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition-colors border-l-2 border-transparent hover:border-teal-500">
+                            <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            Our Story
+                        </a>
+                        <a href="{% url 'pages:beliefs' %}" class="flex items-center px-4 py-3 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition-colors border-l-2 border-transparent hover:border-teal-500">
+                            <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            Our Beliefs
+                        </a>
+                        <a href="{% url 'pages:leadership' %}" class="flex items-center px-4 py-3 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition-colors border-l-2 border-transparent hover:border-teal-500">
+                            <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                            Leadership
+                        </a>
+                        <a href="{% url 'pages:location' %}" class="flex items-center px-4 py-3 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition-colors border-l-2 border-transparent hover:border-teal-500">
+                            <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            </svg>
+                            Location & Times
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sermons Dropdown -->
+                <div class="mobile-dropdown">
+                    <button class="mobile-dropdown-trigger flex items-center justify-between w-full px-3 py-3 rounded-lg text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                            </svg>
+                            <span class="font-medium">Sermons</span>
+                        </div>
+                        <svg class="w-4 h-4 transition-transform duration-200 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="mobile-dropdown-content hidden bg-gray-50 rounded-lg ml-4 mt-2 overflow-hidden">
+                        <a href="{% url 'sermons:list' %}" class="flex items-center px-4 py-3 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition-colors border-l-2 border-transparent hover:border-teal-500">
+                            <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path>
+                            </svg>
+                            All Sermons
+                        </a>
+                        <a href="{% url 'sermons:series_list' %}" class="flex items-center px-4 py-3 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition-colors border-l-2 border-transparent hover:border-teal-500">
+                            <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                            Sermon Series
+                        </a>
+                        <a href="{% url 'sermons:speakers' %}" class="flex items-center px-4 py-3 text-sm text-gray-600 hover:text-teal-600 hover:bg-white transition-colors border-l-2 border-transparent hover:border-teal-500">
+                            <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            Speakers
+                        </a>
+                    </div>
+                </div>
+
+                <a href="{% url 'events:list' %}" class="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200 {% if 'events' in request.resolver_match.app_name %}bg-teal-50 text-teal-600{% endif %}">
+                    <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <span class="font-medium">Events</span>
+                </a>
+
+                <a href="{% url 'ministries:list' %}" class="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200 {% if 'ministries' in request.resolver_match.app_name %}bg-teal-50 text-teal-600{% endif %}">
+                    <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 515.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span class="font-medium">Ministries</span>
+                </a>
+
+                <a href="{% url 'core:contact' %}" class="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200 {% if request.resolver_match.url_name == 'contact' %}bg-teal-50 text-teal-600{% endif %}">
+                    <svg class="w-4 h-4 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <span class="font-medium">Contact</span>
+                </a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+    function showMobileMenu() {
+        mobileMenu.classList.remove('translate-x-full');
+        mobileMenu.classList.add('translate-x-0');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideMobileMenu() {
+        mobileMenu.classList.remove('translate-x-0');
+        mobileMenu.classList.add('translate-x-full');
+        document.body.style.overflow = '';
+    }
+
+    // Event listeners
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showMobileMenu();
+        });
+    }
+
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', hideMobileMenu);
+    }
+
+    // Close on backdrop click
+    mobileMenu.addEventListener('click', function(e) {
+        if (e.target === mobileMenu) {
+            hideMobileMenu();
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('translate-x-0')) {
+            hideMobileMenu();
+        }
+    });
+
+    // Mobile dropdown functionality
+    const mobileDropdownTriggers = document.querySelectorAll('.mobile-dropdown-trigger');
+
+    mobileDropdownTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const dropdown = this.closest('.mobile-dropdown');
+            const content = dropdown.querySelector('.mobile-dropdown-content');
+            const arrow = this.querySelector('svg:last-child');
+
+            // Close other dropdowns
+            mobileDropdownTriggers.forEach(otherTrigger => {
+                if (otherTrigger !== this) {
+                    const otherDropdown = otherTrigger.closest('.mobile-dropdown');
+                    const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
+                    const otherArrow = otherTrigger.querySelector('svg:last-child');
+
+                    otherContent.classList.add('hidden');
+                    otherArrow.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Toggle current dropdown
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        });
+    });
+
+    // Close menu when clicking menu links (but not dropdown triggers)
+    const menuLinks = mobileMenu.querySelectorAll('a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Small delay to allow navigation
+            setTimeout(hideMobileMenu, 100);
+        });
+    });
+});
+</script>

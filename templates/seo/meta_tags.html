@@ -1,0 +1,23 @@
+{% load seo_tags %}
+
+<!-- Basic Meta Tags -->
+<title>{% if title %}{{ title }}{% else %}{{ SITE_NAME }} - {{ CHURCH_NAME }}{% endif %}</title>
+{% meta_description description %}
+{% meta_keywords keywords %}
+<meta name="author" content="{{ CHURCH_NAME }}">
+<meta name="robots" content="index, follow">
+{% canonical_url request %}
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ SITE_NAME }} - {{ CHURCH_NAME }}{% endif %}">
+<meta property="og:description" content="{% if description %}{{ description|truncate_words_seo:25 }}{% else %}Welcome to {{ CHURCH_NAME }}, a vibrant community of faith serving God and our community.{% endif %}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:image" content="{% og_image image request %}">
+<meta property="og:site_name" content="{{ CHURCH_NAME }}">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ SITE_NAME }} - {{ CHURCH_NAME }}{% endif %}">
+<meta name="twitter:description" content="{% if description %}{{ description|truncate_words_seo:25 }}{% else %}Welcome to {{ CHURCH_NAME }}, a vibrant community of faith serving God and our community.{% endif %}">
+<meta name="twitter:image" content="{% og_image image request %}">

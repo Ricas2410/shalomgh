@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ series.title }} - Sermon Series - {{ CHURCH_NAME }}{% endblock %}
+
+{% block meta_description %}{{ series.meta_description|default:series.description|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<section class="bg-bg-soft py-4">
+    <div class="container-custom">
+        <nav class="flex items-center space-x-2 text-sm">
+            <a href="{% url 'core:home' %}" class="text-primary-teal hover:text-secondary-orange transition-colors">Home</a>
+            <span class="text-text-secondary">›</span>
+            <a href="{% url 'sermons:list' %}" class="text-primary-teal hover:text-secondary-orange transition-colors">Sermons</a>
+            <span class="text-text-secondary">›</span>
+            <a href="{% url 'sermons:series_list' %}" class="text-primary-teal hover:text-secondary-orange transition-colors">Series</a>
+            <span class="text-text-secondary">›</span>
+            <span class="text-text-secondary">{{ series.title|truncatewords:3 }}</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Series Header -->
+<section class="section-padding bg-white">
+    <div class="container-custom">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Series Image -->
+                <div class="order-2 lg:order-1">
+                    {% if series.image %}
+                    <img src="{{ series.image.url }}" alt="{{ series.title }}" class="w-full h-96 object-cover rounded-lg shadow-lg">
+                    {% else %}
+                    <div class="w-full h-96 bg-gradient-to-br from-primary-teal to-secondary-orange rounded-lg shadow-lg flex items-center justify-center">
+                        <svg class="w-24 h-24 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Series Info -->
+                <div class="order-1 lg:order-2">
+                    {% if series.is_featured %}
+                    <div class="inline-flex items-center bg-secondary-orange text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                        Featured Series
+                    </div>
+                    {% endif %}
+                    
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-text-dark mb-4">
+                        {{ series.title }}
+                    </h1>
+                    
+                    <div class="flex items-center space-x-4 text-text-secondary mb-6">
+                        {% if series.start_date %}
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            {% if series.end_date %}
+                            {{ series.start_date|date:"M Y" }} - {{ series.end_date|date:"M Y" }}
+                            {% else %}
+                            Started {{ series.start_date|date:"M Y" }}
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            {{ sermons.count }} sermon{{ sermons.count|pluralize }}
+                        </div>
+                    </div>
+                    
+                    {% if series.description %}
+                    <p class="text-lg text-text-secondary mb-8 leading-relaxed">
+                        {{ series.description }}
+                    </p>
+                    {% endif %}
+                    
+                    <div class="flex flex-wrap gap-4">
+                        {% if sermons %}
+                        <a href="#sermons" class="btn-primary">
+                            View Sermons
+                        </a>
+                        {% endif %}
+                        
+                        <button onclick="shareSeries()" class="btn-outline inline-flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                            </svg>
+                            Share Series
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sermons in Series -->
+{% if sermons %}
+<section id="sermons" class="section-padding bg-bg-soft">
+    <div class="container-custom">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-heading font-bold text-text-dark mb-4">
+                Messages in This Series
+            </h2>
+            <p class="text-lg text-text-secondary">
+                Follow along with each message in chronological order for the complete experience.
+            </p>
+        </div>
+        
+        <div class="max-w-4xl mx-auto space-y-6">
+            {% for sermon in sermons %}
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                <div class="flex flex-col md:flex-row">
+                    <!-- Sermon Thumbnail -->
+                    <div class="md:w-64 h-48 md:h-auto relative overflow-hidden">
+                        {% if sermon.thumbnail %}
+                        <img src="{{ sermon.thumbnail.url }}" alt="{{ sermon.title }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-primary-teal to-secondary-orange flex items-center justify-center">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Media Type Badge -->
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-white bg-opacity-90 text-primary-teal px-2 py-1 rounded text-xs font-medium">
+                                {% if sermon.media_type == 'video' %}📹 Video
+                                {% elif sermon.media_type == 'audio' %}🎵 Audio
+                                {% else %}📹🎵 Both{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Sermon Content -->
+                    <div class="flex-1 p-6">
+                        <div class="flex items-center text-sm text-text-secondary mb-2">
+                            <span>{{ sermon.speaker.name }}</span>
+                            <span class="mx-2">•</span>
+                            <span>{{ sermon.date_preached|date:"M d, Y" }}</span>
+                            {% if sermon.duration %}
+                            <span class="mx-2">•</span>
+                            <span>{{ sermon.duration }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <h3 class="text-xl font-heading font-semibold text-text-dark mb-3">
+                            {{ sermon.title }}
+                        </h3>
+                        
+                        {% if sermon.description %}
+                        <p class="text-text-secondary mb-4">
+                            {{ sermon.description|truncatewords:25 }}
+                        </p>
+                        {% endif %}
+                        
+                        {% if sermon.scripture_references %}
+                        <div class="text-sm text-primary-teal mb-4">
+                            <strong>Scripture:</strong> {{ sermon.scripture_references|truncatewords:10 }}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="flex items-center justify-between">
+                            <a href="{{ sermon.get_absolute_url }}" class="btn-primary">
+                                {% if sermon.media_type == 'video' or sermon.media_type == 'both' %}
+                                Watch Sermon
+                                {% else %}
+                                Listen Now
+                                {% endif %}
+                            </a>
+                            
+                            <div class="flex items-center space-x-4 text-sm text-text-secondary">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                    {{ sermon.view_count }}
+                                </div>
+                                
+                                {% if sermon.audio_file or sermon.pdf_notes %}
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    {{ sermon.download_count }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Other Series -->
+{% if other_series %}
+<section class="section-padding bg-white">
+    <div class="container-custom">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-heading font-bold text-text-dark mb-4">
+                Other Sermon Series
+            </h2>
+            <p class="text-lg text-text-secondary">
+                Explore more biblical topics and themes through our other sermon series.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for other_series_item in other_series %}
+            <div class="bg-bg-soft rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div class="relative h-32 overflow-hidden">
+                    {% if other_series_item.image %}
+                    <img src="{{ other_series_item.image.url }}" alt="{{ other_series_item.title }}" class="w-full h-full object-cover">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-primary-teal to-secondary-orange flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="absolute top-2 right-2">
+                        <span class="bg-white bg-opacity-90 text-primary-teal px-2 py-1 rounded text-xs font-medium">
+                            {{ other_series_item.sermon_count }} sermon{{ other_series_item.sermon_count|pluralize }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="p-4">
+                    <h3 class="text-sm font-heading font-semibold text-text-dark mb-2">
+                        {{ other_series_item.title|truncatewords:6 }}
+                    </h3>
+                    
+                    {% if other_series_item.start_date %}
+                    <div class="text-xs text-text-secondary mb-2">
+                        {{ other_series_item.start_date|date:"M Y" }}
+                    </div>
+                    {% endif %}
+                    
+                    <a href="{{ other_series_item.get_absolute_url }}" class="text-primary-teal hover:text-secondary-orange transition-colors text-sm font-medium">
+                        View Series →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="{% url 'sermons:series_list' %}" class="btn-primary">
+                View All Series
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="section-padding bg-gradient-to-r from-primary-teal to-secondary-orange text-white">
+    <div class="container-custom text-center">
+        <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6">
+            Join Us for Worship
+        </h2>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">
+            Experience these powerful messages live during our worship services. 
+            Come and be part of our church family as we grow together in faith.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="{% url 'pages:location' %}" class="bg-white text-primary-teal hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+                Service Times & Location
+            </a>
+            <a href="{% url 'sermons:list' %}" class="border-2 border-white text-white hover:bg-white hover:text-primary-teal font-semibold py-3 px-8 rounded-lg transition-all duration-200">
+                Browse All Sermons
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Share Script -->
+<script>
+function shareSeries() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ series.title|escapejs }} - Sermon Series',
+            text: 'Check out this sermon series: {{ series.title|escapejs }}',
+            url: window.location.href
+        });
+    } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(window.location.href).then(function() {
+            alert('Link copied to clipboard!');
+        });
+    }
+}
+</script>
+{% endblock %}

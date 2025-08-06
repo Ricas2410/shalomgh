@@ -1,0 +1,12 @@
+{% if service_times %}
+<div class="space-y-2">
+    {% for service_time in service_times %}
+    <div class="flex justify-between">
+        <span>{{ service_time.name }}</span>
+        <span>{{ service_time.time }}</span>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-gray-500 italic">No service times configured.</p>
+{% endif %}

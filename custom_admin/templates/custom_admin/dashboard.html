@@ -1,0 +1,286 @@
+{% extends 'custom_admin/base_admin.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="space-y-4 md:space-y-6">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-primary-teal to-secondary-orange rounded-xl p-4 md:p-6 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-xl md:text-2xl font-heading font-bold mb-2">
+                    Welcome back, {{ user.get_full_name|default:user.username }}!
+                </h1>
+                <p class="text-white opacity-90 text-sm md:text-base">
+                    Here's what's happening with your church website today.
+                </p>
+            </div>
+            <div class="hidden md:block">
+                <i class="fas fa-tachometer-alt text-4xl md:text-6xl opacity-20"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <!-- Sermons Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 hover:shadow-md transition-shadow duration-200">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-600">Total Sermons</p>
+                    <p class="text-2xl md:text-3xl font-bold text-gray-900">{{ total_sermons }}</p>
+                    <p class="text-sm text-green-600">
+                        <i class="fas fa-check-circle mr-1"></i>
+                        {{ published_sermons }} published
+                    </p>
+                </div>
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-microphone text-blue-600 text-lg md:text-xl"></i>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <a href="{% url 'custom_admin:sermon_list' %}" class="flex-1 text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-md hover:bg-blue-100 transition-colors text-center">
+                    <i class="fas fa-list mr-1"></i>View All
+                </a>
+                <a href="{% url 'custom_admin:sermon_add' %}" class="flex-1 text-xs bg-blue-600 text-white px-2 py-1 rounded-md hover:bg-blue-700 transition-colors text-center">
+                    <i class="fas fa-plus mr-1"></i>Add New
+                </a>
+            </div>
+        </div>
+        
+        <!-- Events Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 hover:shadow-md transition-shadow duration-200">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-600">Total Events</p>
+                    <p class="text-2xl md:text-3xl font-bold text-gray-900">{{ total_events }}</p>
+                    <p class="text-sm text-primary-teal">
+                        <i class="fas fa-calendar-plus mr-1"></i>
+                        {{ upcoming_events }} upcoming
+                    </p>
+                </div>
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-primary-teal bg-opacity-10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-calendar text-primary-teal text-lg md:text-xl"></i>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <a href="{% url 'custom_admin:event_list' %}" class="flex-1 text-xs bg-teal-50 text-teal-700 px-2 py-1 rounded-md hover:bg-teal-100 transition-colors text-center">
+                    <i class="fas fa-list mr-1"></i>View All
+                </a>
+                <a href="{% url 'custom_admin:event_add' %}" class="flex-1 text-xs bg-primary-teal text-white px-2 py-1 rounded-md hover:bg-teal-700 transition-colors text-center">
+                    <i class="fas fa-plus mr-1"></i>Add New
+                </a>
+            </div>
+        </div>
+        
+        <!-- Ministries Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 hover:shadow-md transition-shadow duration-200">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-600">Ministries</p>
+                    <p class="text-2xl md:text-3xl font-bold text-gray-900">{{ total_ministries }}</p>
+                    <p class="text-sm text-green-600">
+                        <i class="fas fa-users mr-1"></i>
+                        {{ active_ministries }} active
+                    </p>
+                </div>
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-users text-green-600 text-lg md:text-xl"></i>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <a href="{% url 'custom_admin:ministry_list' %}" class="flex-1 text-xs bg-green-50 text-green-700 px-2 py-1 rounded-md hover:bg-green-100 transition-colors text-center">
+                    <i class="fas fa-list mr-1"></i>View All
+                </a>
+                <a href="{% url 'custom_admin:ministry_add' %}" class="flex-1 text-xs bg-green-600 text-white px-2 py-1 rounded-md hover:bg-green-700 transition-colors text-center">
+                    <i class="fas fa-plus mr-1"></i>Add New
+                </a>
+            </div>
+        </div>
+        
+        <!-- Messages Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 hover:shadow-md transition-shadow duration-200">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-600">Contact Messages</p>
+                    <p class="text-2xl md:text-3xl font-bold text-gray-900">{{ unread_messages }}</p>
+                    <p class="text-sm text-secondary-orange">
+                        <i class="fas fa-envelope mr-1"></i>
+                        Unread messages
+                    </p>
+                </div>
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-envelope text-secondary-orange text-lg md:text-xl"></i>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <a href="{% url 'custom_admin:settings' %}" class="flex-1 text-xs bg-orange-50 text-orange-700 px-2 py-1 rounded-md hover:bg-orange-100 transition-colors text-center">
+                    <i class="fas fa-list mr-1"></i>View All
+                </a>
+                <a href="{% url 'custom_admin:leadership_add' %}" class="flex-1 text-xs bg-orange-600 text-white px-2 py-1 rounded-md hover:bg-orange-700 transition-colors text-center">
+                    <i class="fas fa-user-plus mr-1"></i>Add Leader
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+        <!-- Recent Sermons -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div class="p-4 md:p-6 border-b border-gray-100">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base md:text-lg font-heading font-semibold text-gray-900">Recent Sermons</h3>
+                    <a href="{% url 'custom_admin:sermon_list' %}" class="text-xs md:text-sm text-primary-teal hover:text-cyan-600">
+                        View all <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="p-6">
+                {% if recent_sermons %}
+                    <div class="space-y-4">
+                        {% for sermon in recent_sermons %}
+                            <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-microphone text-blue-600"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 truncate">{{ sermon.title }}</p>
+                                    <p class="text-xs text-gray-500">{{ sermon.speaker.name }} • {{ sermon.date_preached|date:"M d, Y" }}</p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    {% if sermon.is_published %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Published
+                                        </span>
+                                    {% else %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            Draft
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <i class="fas fa-microphone text-gray-300 text-4xl mb-4"></i>
+                        <p class="text-gray-500">No sermons yet</p>
+                        <a href="{% url 'custom_admin:sermon_add' %}" class="text-primary-teal hover:text-cyan-600 text-sm">
+                            Add your first sermon
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Upcoming Events -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-heading font-semibold text-gray-900">Upcoming Events</h3>
+                    <a href="{% url 'custom_admin:event_list' %}" class="text-sm text-primary-teal hover:text-cyan-600">
+                        View all <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="p-6">
+                {% if upcoming_events_list %}
+                    <div class="space-y-4">
+                        {% for event in upcoming_events_list %}
+                            <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                                <div class="w-10 h-10 bg-primary-teal bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-calendar text-primary-teal"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 truncate">{{ event.title }}</p>
+                                    <p class="text-xs text-gray-500">{{ event.start_date|date:"M d, Y" }}{% if event.start_time %} at {{ event.start_time|time:"g:i A" }}{% endif %}</p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-teal bg-opacity-10 text-primary-teal">
+                                        {{ event.get_event_type_display }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <i class="fas fa-calendar text-gray-300 text-4xl mb-4"></i>
+                        <p class="text-gray-500">No upcoming events</p>
+                        <a href="{% url 'custom_admin:event_add' %}" class="text-primary-teal hover:text-cyan-600 text-sm">
+                            Add your first event
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Messages -->
+    {% if recent_messages %}
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+        <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-heading font-semibold text-gray-900">Recent Contact Messages</h3>
+                <a href="{% url 'custom_admin:settings' %}" class="text-sm text-primary-teal hover:text-cyan-600">
+                    View all <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+        <div class="p-6">
+            <div class="space-y-4">
+                {% for message in recent_messages %}
+                    <div class="flex items-start space-x-4 p-4 rounded-lg {% if not message.is_read %}bg-blue-50 border border-blue-200{% else %}hover:bg-gray-50{% endif %} transition-colors duration-200">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user text-gray-600"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center space-x-2">
+                                <p class="text-sm font-medium text-gray-900">{{ message.name }}</p>
+                                {% if not message.is_read %}
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        New
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <p class="text-sm text-gray-600 truncate">{{ message.subject }}</p>
+                            <p class="text-xs text-gray-500">{{ message.created_at|date:"M d, Y g:i A" }}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <a href="mailto:{{ message.email }}" class="text-gray-400 hover:text-primary-teal">
+                                <i class="fas fa-reply"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h3 class="text-lg font-heading font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a href="{% url 'custom_admin:sermon_add' %}" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-primary-teal hover:bg-primary-teal hover:bg-opacity-5 transition-all duration-200">
+                <i class="fas fa-plus-circle text-2xl text-primary-teal mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Add Sermon</span>
+            </a>
+            <a href="{% url 'custom_admin:event_add' %}" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-primary-teal hover:bg-primary-teal hover:bg-opacity-5 transition-all duration-200">
+                <i class="fas fa-calendar-plus text-2xl text-primary-teal mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Add Event</span>
+            </a>
+            <a href="{% url 'custom_admin:ministry_add' %}" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-primary-teal hover:bg-primary-teal hover:bg-opacity-5 transition-all duration-200">
+                <i class="fas fa-users text-2xl text-primary-teal mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Add Ministry</span>
+            </a>
+            <a href="{% url 'custom_admin:settings' %}" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-primary-teal hover:bg-primary-teal hover:bg-opacity-5 transition-all duration-200">
+                <i class="fas fa-cog text-2xl text-primary-teal mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Settings</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

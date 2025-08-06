@@ -1,0 +1,159 @@
+{% load static %}
+
+<div class="flex flex-col h-full" style="background-color: var(--card-bg);">
+    <!-- Sample Design Mobile Menu Header -->
+    <div class="flex items-center justify-between p-6 border-b" style="border-color: #e2e8f0; background-color: var(--card-bg);">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: var(--primary);">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-lg font-heading font-bold" style="color: var(--primary);">{{ SITE_NAME }}</h2>
+                <p class="text-sm" style="color: var(--text-secondary);">{{ CHURCH_NAME }}</p>
+            </div>
+        </div>
+        <button id="mobile-menu-close" class="p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 transition-colors duration-200" style="color: var(--text-main);" aria-label="Close mobile menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Sample Design Mobile Menu Navigation -->
+    <nav class="flex-1 overflow-y-auto" role="navigation" aria-label="Mobile navigation">
+        <ul class="divide-y" style="border-color: #e2e8f0;">
+            <!-- Home -->
+            <li>
+                <a href="{% url 'core:home' %}" class="block py-4 px-6 transition-colors" style="color: var(--text-main);" onmouseover="this.style.color='var(--accent)'; this.style.backgroundColor='#f8fafc';" onmouseout="this.style.color='var(--text-main)'; this.style.backgroundColor='transparent';">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span>Home</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- About Section -->
+            <li>
+                <div>
+                    <button class="w-full py-4 px-6 transition-colors flex items-center justify-between" style="color: var(--text-main);" onclick="toggleMobileSubmenu('about-submenu')" onmouseover="this.style.color='var(--accent)'; this.style.backgroundColor='#f8fafc';" onmouseout="this.style.color='var(--text-main)'; this.style.backgroundColor='transparent';">
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>About</span>
+                        </div>
+                        <svg class="w-5 h-5 transform transition-transform" id="about-submenu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <ul id="about-submenu" class="hidden" style="background-color: #f8fafc;">
+                        <li><a href="{% url 'pages:about' %}" class="block py-3 px-12 transition-colors" style="color: var(--text-secondary);" onmouseover="this.style.color='var(--accent)'; this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.color='var(--text-secondary)'; this.style.backgroundColor='transparent';">Who We Are</a></li>
+                        <li><a href="{% url 'pages:our_story' %}" class="block py-3 px-12 transition-colors" style="color: var(--text-secondary);" onmouseover="this.style.color='var(--accent)'; this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.color='var(--text-secondary)'; this.style.backgroundColor='transparent';">Our Story</a></li>
+                        <li><a href="{% url 'pages:beliefs' %}" class="block py-3 px-12 transition-colors" style="color: var(--text-secondary);" onmouseover="this.style.color='var(--accent)'; this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.color='var(--text-secondary)'; this.style.backgroundColor='transparent';">Our Beliefs</a></li>
+                        <li><a href="{% url 'pages:leadership' %}" class="block py-3 px-12 transition-colors" style="color: var(--text-secondary);" onmouseover="this.style.color='var(--accent)'; this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.color='var(--text-secondary)'; this.style.backgroundColor='transparent';">Leadership</a></li>
+                        <li><a href="{% url 'pages:location' %}" class="block py-3 px-12 transition-colors" style="color: var(--text-secondary);" onmouseover="this.style.color='var(--accent)'; this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.color='var(--text-secondary)'; this.style.backgroundColor='transparent';">Location & Times</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Sermons Section -->
+            <li>
+                <div>
+                    <button class="w-full py-4 px-6 text-white hover:text-teal-300 hover:bg-gray-700 transition-colors flex items-center justify-between" onclick="toggleMobileSubmenu('sermons-submenu')">
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                            </svg>
+                            <span>Sermons</span>
+                        </div>
+                        <svg class="w-5 h-5 transform transition-transform" id="sermons-submenu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <ul id="sermons-submenu" class="hidden bg-gray-900">
+                        <li><a href="{% url 'sermons:list' %}" class="block py-3 px-12 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">All Sermons</a></li>
+                        <li><a href="{% url 'sermons:series_list' %}" class="block py-3 px-12 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">Sermon Series</a></li>
+                        <li><a href="{% url 'sermons:speakers' %}" class="block py-3 px-12 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">Speakers</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Events -->
+            <li>
+                <a href="{% url 'events:list' %}" class="block py-4 px-6 text-white hover:text-teal-300 hover:bg-gray-700 transition-colors">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span>Events</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Ministries -->
+            <li>
+                <a href="{% url 'ministries:list' %}" class="block py-4 px-6 text-white hover:text-teal-300 hover:bg-gray-700 transition-colors">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span>Ministries</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Contact -->
+            <li>
+                <a href="{% url 'core:contact' %}" class="block py-4 px-6 text-white hover:text-teal-300 hover:bg-gray-700 transition-colors">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        <span>Contact</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Dark Mobile Menu Footer -->
+    <div class="p-6 border-t border-gray-700 bg-gray-900 space-y-4">
+        <a href="{% url 'core:giving' %}" class="block w-full text-center bg-teal-600 hover:bg-teal-700 text-white font-semibold py-4 rounded-lg transition-colors">
+            <div class="flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>
+                <span>Give</span>
+            </div>
+        </a>
+        {% if MEMBER_PORTAL_URL and MEMBER_PORTAL_URL != '#' %}
+        <a href="{{ MEMBER_PORTAL_URL }}" target="_blank" rel="noopener noreferrer" class="block w-full text-center border-2 border-teal-500 text-teal-300 hover:bg-teal-500 hover:text-white font-semibold py-4 rounded-lg transition-colors">
+            <div class="flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span>Member Portal</span>
+            </div>
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function toggleMobileSubmenu(submenuId) {
+    const submenu = document.getElementById(submenuId);
+    const icon = document.getElementById(submenuId + '-icon');
+    
+    if (submenu.classList.contains('hidden')) {
+        submenu.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        submenu.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>

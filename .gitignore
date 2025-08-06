@@ -1,0 +1,46 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyd
+*.so
+
+# C extensions
+*.dll
+*.so
+*.dylib
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Django stuff:
+*.sqlite3
+*.log
+media/
+staticfiles/
+local_settings.py # if you have one
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# OS-specific
+.DS_Store
+.Trashes
+Thumbs.db
+
+# My specific files
+.env
+django.log
