@@ -12,11 +12,11 @@
             <p class="text-gray-600">Manage your church live streams and broadcasts</p>
         </div>
         <div class="mt-4 sm:mt-0 flex space-x-3">
-            <a href="{% url 'livestream:add' %}" class="inline-flex items-center px-4 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200">
+            <a href="{% url 'custom_admin:livestream:add' %}" class="inline-flex items-center px-4 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200">
                 <i class="fas fa-plus mr-2"></i>
                 Schedule Stream
             </a>
-            <a href="{% url 'livestream:dashboard' %}" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200">
+            <a href="{% url 'custom_admin:livestream:dashboard' %}" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200">
                 <i class="fas fa-tachometer-alt mr-2"></i>
                 Dashboard
             </a>
@@ -191,15 +191,15 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end space-x-2">
-                                    <a href="{% url 'livestream:detail' stream.pk %}" class="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 transition-colors duration-200">
+                                    <a href="{% url 'custom_admin:livestream:detail' stream.pk %}" class="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 transition-colors duration-200">
                                         <i class="fas fa-eye text-xs mr-1"></i>
                                         View
                                     </a>
-                                    <a href="{% url 'livestream:edit' stream.pk %}" class="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200 transition-colors duration-200">
+                                    <a href="{% url 'custom_admin:livestream:edit' stream.pk %}" class="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200 transition-colors duration-200">
                                         <i class="fas fa-edit text-xs mr-1"></i>
                                         Edit
                                     </a>
-                                    <button onclick="confirmDelete('{{ stream.title|escapejs }}', '{% url 'livestream:delete' stream.pk %}')" class="inline-flex items-center px-2 py-1 bg-red-100 text-red-800 rounded-md hover:bg-red-200 transition-colors duration-200">
+                                    <button onclick="confirmDelete('{{ stream.title|escapejs }}', '{% url 'custom_admin:livestream:delete' stream.pk %}')" class="inline-flex items-center px-2 py-1 bg-red-100 text-red-800 rounded-md hover:bg-red-200 transition-colors duration-200">
                                         <i class="fas fa-trash text-xs mr-1"></i>
                                         Delete
                                     </button>
@@ -259,7 +259,7 @@
                 <i class="fas fa-video text-gray-300 text-5xl mb-4"></i>
                 <h3 class="text-lg font-medium text-gray-900 mb-2">No live streams found</h3>
                 <p class="text-gray-500 mb-6">Get started by scheduling your first live stream.</p>
-                <a href="{% url 'livestream:add' %}" class="inline-flex items-center px-4 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200">
+                <a href="{% url 'custom_admin:livestream:add' %}" class="inline-flex items-center px-4 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200">
                     <i class="fas fa-plus mr-2"></i>
                     Schedule Stream
                 </a>

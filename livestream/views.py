@@ -98,7 +98,7 @@ class LiveStreamCreateView(AdminRequiredMixin, CreateView):
         'obs_scene_collection', 'obs_profile', 'thumbnail', 'is_public',
         'enable_chat', 'enable_recording'
     ]
-    success_url = reverse_lazy('custom_admin:livestream_list')
+    success_url = reverse_lazy('custom_admin:livestream:list')
     
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -125,7 +125,7 @@ class LiveStreamUpdateView(AdminRequiredMixin, UpdateView):
         'obs_scene_collection', 'obs_profile', 'thumbnail', 'is_public',
         'enable_chat', 'enable_recording', 'status'
     ]
-    success_url = reverse_lazy('custom_admin:livestream_list')
+    success_url = reverse_lazy('custom_admin:livestream:list')
     
     def form_valid(self, form):
         messages.success(self.request, f'Live stream "{form.instance.title}" updated successfully!')
@@ -147,7 +147,7 @@ class LiveStreamDeleteView(AdminRequiredMixin, DeleteView):
     """Delete a live stream."""
     model = LiveStream
     template_name = 'custom_admin/livestream_confirm_delete.html'
-    success_url = reverse_lazy('custom_admin:livestream_list')
+    success_url = reverse_lazy('custom_admin:livestream:list')
     
     def delete(self, request, *args, **kwargs):
         stream = self.get_object()
@@ -172,7 +172,7 @@ class StreamPlatformCreateView(AdminRequiredMixin, CreateView):
     model = StreamPlatform
     template_name = 'custom_admin/platform_form.html'
     fields = ['name', 'platform_type', 'stream_key', 'rtmp_url', 'api_key', 'is_active']
-    success_url = reverse_lazy('custom_admin:platform_list')
+    success_url = reverse_lazy('custom_admin:livestream:platform_list')
     
     def form_valid(self, form):
         messages.success(self.request, f'Platform "{form.instance.name}" created successfully!')
@@ -189,7 +189,7 @@ class StreamPlatformUpdateView(AdminRequiredMixin, UpdateView):
     model = StreamPlatform
     template_name = 'custom_admin/platform_form.html'
     fields = ['name', 'platform_type', 'stream_key', 'rtmp_url', 'api_key', 'is_active']
-    success_url = reverse_lazy('custom_admin:platform_list')
+    success_url = reverse_lazy('custom_admin:livestream:platform_list')
     
     def form_valid(self, form):
         messages.success(self.request, f'Platform "{form.instance.name}" updated successfully!')
@@ -205,7 +205,7 @@ class StreamPlatformDeleteView(AdminRequiredMixin, DeleteView):
     """Delete a stream platform."""
     model = StreamPlatform
     template_name = 'custom_admin/platform_confirm_delete.html'
-    success_url = reverse_lazy('custom_admin:platform_list')
+    success_url = reverse_lazy('custom_admin:livestream:platform_list')
     
     def delete(self, request, *args, **kwargs):
         platform = self.get_object()

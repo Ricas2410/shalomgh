@@ -47,5 +47,5 @@ urlpatterns = [
     path('service-times/<int:pk>/delete/', views.ServiceTimeDeleteView.as_view(), name='service_time_delete'),
     
     # Live streaming
-    path('livestream/', include('livestream.urls')),
+    path('livestream/', include('livestream.urls', namespace='livestream')),
 ]
