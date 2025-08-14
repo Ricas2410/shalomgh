@@ -1,52 +1,98 @@
 """
-Template tags for SEO optimization.
+Advanced SEO template tags for enterprise-level optimization.
 """
 from django import template
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from django.utils.text import slugify
 from core.models import SiteSetting
 import json
+import re
 
 register = template.Library()
 
 
 @register.simple_tag
-def meta_description(content=None, max_length=160):
-    """Generate meta description with proper length."""
+def meta_description(content=None, max_length=155):
+    """Generate optimized meta description with proper length."""
     if not content:
         try:
             site_settings = SiteSetting.get_settings()
             content = site_settings.meta_description
         except:
-            content = f"Welcome to {getattr(settings, 'CHURCH_NAME', 'Our Church')}, a vibrant community of faith."
+            content = f"Welcome to Seventh Day Sabbath Church Of Christ (Shalom), founded by Apostle Ephraim Kwaku Danso. Join our vibrant Sabbath church community for worship and spiritual growth."
+    
+    # Clean and optimize content
+    content = re.sub(r'\s+', ' ', content).strip()
     
     if len(content) > max_length:
-        content = content[:max_length-3] + '...'
+        # Truncate at word boundary
+        truncated = content[:max_length-3]
+        last_space = truncated.rfind(' ')
+        if last_space > max_length * 0.8:
+            content = truncated[:last_space] + '...'
+        else:
+            content = truncated + '...'
     
     return format_html('<meta name="description" content="{}">', content)
 
 
 @register.simple_tag
-def meta_keywords(keywords=None):
-    """Generate meta keywords."""
+def meta_keywords(keywords=None, category=""):
+    """Generate enhanced meta keywords with church-specific terms."""
+    base_keywords = [
+        "Seventh Day Sabbath Church Of Christ",
+        "Shalom church",
+        "Living Yahweh Sabbath Assemblies", 
+        "Apostle Ephraim Kwaku Danso",
+        "Sabbath church",
+        "Christian church Ghana",
+        "worship service",
+        "Bible study",
+        "prayer meeting"
+    ]
+    
     if not keywords:
         try:
             site_settings = SiteSetting.get_settings()
             keywords = site_settings.meta_keywords
         except:
-            keywords = "church, faith, community, worship, sermons, events, ministry"
+            keywords = ""
     
-    return format_html('<meta name="keywords" content="{}">', keywords)
+    # Add category-specific keywords
+    category_keywords = {
+        'sermon': ['sermon', 'preaching', 'Bible teaching', 'spiritual message'],
+        'event': ['church event', 'fellowship', 'conference', 'crusade'],
+        'ministry': ['ministry', 'church service', 'volunteer', 'outreach'],
+        'about': ['church history', 'beliefs', 'leadership', 'vision']
+    }
+    
+    if category in category_keywords:
+        base_keywords.extend(category_keywords[category])
+    
+    if keywords:
+        all_keywords = base_keywords + [k.strip() for k in keywords.split(',')]
+    else:
+        all_keywords = base_keywords
+    
+    # Remove duplicates and limit
+    unique_keywords = list(dict.fromkeys(all_keywords))[:20]
+    
+    return format_html('<meta name="keywords" content="{}">', ', '.join(unique_keywords))
 
 
 @register.simple_tag
 def canonical_url(request, path=None):
-    """Generate canonical URL."""
+    """Generate canonical URL with proper formatting."""
     if path:
         url = request.build_absolute_uri(path)
     else:
         url = request.build_absolute_uri()
+    
+    # Ensure URL ends without trailing slash for consistency (except root)
+    if url.endswith('/') and len(url.split('/')) > 4:
+        url = url.rstrip('/')
     
     return format_html('<link rel="canonical" href="{}">', url)
 
@@ -65,25 +111,32 @@ def og_image(image_url=None, request=None):
 
 @register.simple_tag
 def structured_data_organization(request=None):
-    """Generate organization structured data."""
+    """Generate enhanced organization structured data for Seventh Day Sabbath Church."""
     try:
         site_settings = SiteSetting.get_settings()
         
         data = {
             "@context": "https://schema.org",
             "@type": "Church",
-            "name": getattr(settings, 'CHURCH_NAME', 'Our Church'),
-            "alternateName": getattr(settings, 'SITE_NAME', 'Church Website'),
-            "description": site_settings.meta_description or "A vibrant community of faith",
+            "name": "Seventh Day Sabbath Church Of Christ",
+            "alternateName": ["Shalom", "Living Yahweh Sabbath Assemblies", "ShalomGH"],
+            "description": "A vibrant Sabbath church community founded by Apostle Ephraim Kwaku Danso, serving God and our community through worship, fellowship, and spiritual growth.",
+            "founder": {
+                "@type": "Person",
+                "name": "Apostle Ephraim Kwaku Danso",
+                "jobTitle": "Founder and General Overseer"
+            },
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": site_settings.address or "123 Church Street",
+                "streetAddress": getattr(site_settings, 'address', None) or "Church Address",
                 "addressLocality": "Accra",
                 "addressRegion": "Greater Accra",
                 "addressCountry": "Ghana"
             },
-            "telephone": site_settings.phone or "+233 XX XXX XXXX",
-            "email": site_settings.email or "info@church.com",
+            "telephone": getattr(site_settings, 'phone', None) or "+233 XX XXX XXXX",
+            "email": getattr(site_settings, 'email', None) or "info@shalomgh.com",
+            "denomination": "Sabbath Church",
+            "foundingDate": "1990",  # Adjust based on actual founding date
         }
         
         if request:

@@ -1,0 +1,61 @@
+{
+    "name": "Seventh Day Sabbath Church Of Christ - Shalom",
+    "short_name": "ShalomGH",
+    "description": "Official website of the Seventh Day Sabbath Church Of Christ, also known as Shalom or Living Yahweh Sabbath Assemblies. Founded by Apostle Ephraim Kwaku Danso.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#0EC6EB",
+    "orientation": "portrait-primary",
+    "categories": ["religion", "community", "church", "faith"],
+    "lang": "en-US",
+    "icons": [
+        {
+            "src": "/static/img/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/static/img/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/static/img/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Watch Live",
+            "short_name": "Live",
+            "description": "Watch our live worship service",
+            "url": "/livestream/",
+            "icons": [{ "src": "/static/img/live-icon.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Sermons",
+            "short_name": "Sermons",
+            "description": "Browse our sermon archive",
+            "url": "/sermons/",
+            "icons": [{ "src": "/static/img/sermon-icon.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Events",
+            "short_name": "Events",
+            "description": "View upcoming church events",
+            "url": "/events/",
+            "icons": [{ "src": "/static/img/events-icon.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Give",
+            "short_name": "Give",
+            "description": "Support our ministry through giving",
+            "url": "/giving/",
+            "icons": [{ "src": "/static/img/give-icon.png", "sizes": "96x96" }]
+        }
+    ]
+}

@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load seo_tags %}
+
+{% block title %}Service Times - {{ CHURCH_NAME }}{% endblock %}
+
+{% block meta_description %}Join us for worship at Seventh Day Sabbath Church Of Christ (Shalom). Find our complete service schedule including Sabbath School, Divine Service, Prayer Meetings, and special programs.{% endblock %}
+
+{% block meta_keywords %}service times, worship schedule, Sabbath service, Seventh Day Sabbath Church, Shalom church, prayer meeting, Bible study, Apostle Ephraim Kwaku Danso{% endblock %}
+
+{% block og_title %}Service Times - When We Worship Together{% endblock %}
+{% block og_description %}Join our vibrant church community for worship services. Complete schedule for Sabbath School, Divine Service, Prayer Meetings and special programs at Seventh Day Sabbath Church Of Christ.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    <div class="relative container mx-auto px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Service Times</h1>
+            <p class="text-xl md:text-2xl mb-8 text-blue-100">
+                Join us as we gather to worship, learn, and grow together in faith
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <span class="text-sm font-medium">Founded by</span>
+                    <div class="text-lg font-bold">Apostle Ephraim Kwaku Danso</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <span class="text-sm font-medium">Sabbath Observance</span>
+                    <div class="text-lg font-bold">Friday Sunset - Saturday Sunset</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Times Content -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            
+            <!-- Admin Notice (if using default times) -->
+            {% if not has_custom_times %}
+            <div class="bg-blue-100 border-l-4 border-blue-500 p-4 mb-8">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-blue-700">
+                            <strong>Admin Notice:</strong> These are default service times. Church administrators can customize these times through the admin panel.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Service Times Display -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">
+                        {{ site_settings.church_name }} Service Schedule
+                    </h2>
+                    <p class="text-blue-100 mt-2">All are welcome to join us in worship and fellowship</p>
+                </div>
+                
+                <div class="p-6">
+                    {{ service_times_content|safe }}
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="grid md:grid-cols-2 gap-8 mt-12">
+                <!-- Location Info -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-6 h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Location
+                    </h3>
+                    {% if site_settings.address %}
+                        <p class="text-gray-600 mb-4">{{ site_settings.address|linebreaks }}</p>
+                    {% else %}
+                        <p class="text-gray-600 mb-4">
+                            Church Address<br>
+                            City, Region<br>
+                            Ghana
+                        </p>
+                    {% endif %}
+                    <a href="{% url 'core:contact' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+                        Get Directions
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-6 h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                        Contact Us
+                    </h3>
+                    {% if site_settings.phone %}
+                        <p class="text-gray-600 mb-2">
+                            <strong>Phone:</strong> {{ site_settings.phone }}
+                        </p>
+                    {% endif %}
+                    {% if site_settings.email %}
+                        <p class="text-gray-600 mb-4">
+                            <strong>Email:</strong> {{ site_settings.email }}
+                        </p>
+                    {% endif %}
+                    <a href="{% url 'core:contact' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+                        Send Message
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg p-8 mt-12 text-center text-white">
+                <h3 class="text-2xl font-bold mb-4">Ready to Join Us?</h3>
+                <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+                    Whether you're visiting for the first time or looking to become part of our church family, 
+                    we'd love to welcome you to our services.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{% url 'core:plan_visit' %}" 
+                       class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+                        Plan Your Visit
+                    </a>
+                    <a href="{% url 'core:contact' %}" 
+                       class="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-400 transition-colors border border-blue-400">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Structured Data for Service Times -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Church",
+    "name": "{{ site_settings.church_name }}",
+    "alternateName": ["Shalom", "Living Yahweh Sabbath Assemblies"],
+    "founder": {
+        "@type": "Person",
+        "name": "Apostle Ephraim Kwaku Danso"
+    },
+    {% if site_settings.address %}
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ site_settings.address|linebreaksbr|striptags|truncatewords:10 }}",
+        "addressCountry": "Ghana"
+    },
+    {% endif %}
+    {% if site_settings.phone %}
+    "telephone": "{{ site_settings.phone }}",
+    {% endif %}
+    "serviceType": "Religious Service",
+    "denomination": "Sabbath Church",
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Church Services",
+        "itemListElement": [
+            {
+                "@type": "Service",
+                "name": "Sabbath School",
+                "description": "Bible study and fellowship for all ages"
+            },
+            {
+                "@type": "Service", 
+                "name": "Divine Service",
+                "description": "Main worship service with sermon and communion"
+            },
+            {
+                "@type": "Service",
+                "name": "Prayer Meeting", 
+                "description": "Midweek prayer and Bible study"
+            }
+        ]
+    }
+}
+</script>
+
+{% endblock %}

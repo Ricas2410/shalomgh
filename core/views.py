@@ -123,3 +123,89 @@ class PlanVisitView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['site_settings'] = SiteSetting.get_settings()
         return context
+
+
+class ServiceTimesView(TemplateView):
+    """Service times page view with admin-manageable content and fallback."""
+    template_name = 'core/service_times.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        site_settings = SiteSetting.get_settings()
+        
+        # Default fallback service times for Seventh Day Sabbath Church
+        default_service_times = """
+        <div class="space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Weekly Services</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="font-medium text-gray-700">Sabbath School</span>
+                        <span class="text-blue-600">Saturday 9:00 AM</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="font-medium text-gray-700">Divine Service</span>
+                        <span class="text-blue-600">Saturday 11:00 AM</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="font-medium text-gray-700">Afternoon Service</span>
+                        <span class="text-blue-600">Saturday 3:00 PM</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-gray-700">Prayer Meeting</span>
+                        <span class="text-blue-600">Wednesday 6:00 PM</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 rounded-lg p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Special Services</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center border-b border-blue-200 pb-2">
+                        <span class="font-medium text-gray-700">Youth Service</span>
+                        <span class="text-blue-600">First Saturday 5:00 PM</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-blue-200 pb-2">
+                        <span class="font-medium text-gray-700">Bible Study</span>
+                        <span class="text-blue-600">Friday 7:00 PM</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-gray-700">Fasting & Prayer</span>
+                        <span class="text-blue-600">First Friday Monthly</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-yellow-50 rounded-lg p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Important Notes</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                        <span class="text-yellow-600 mr-2">•</span>
+                        All services follow the Sabbath observance from Friday sunset to Saturday sunset
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-yellow-600 mr-2">•</span>
+                        Please arrive 15 minutes early for a warm welcome
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-yellow-600 mr-2">•</span>
+                        Modest dress is appreciated for all services
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-yellow-600 mr-2">•</span>
+                        Children's programs available during main services
+                    </li>
+                </ul>
+            </div>
+        </div>
+        """
+        
+        # Use admin-set service times or fallback to default
+        service_times_content = site_settings.service_times.strip() if site_settings.service_times else default_service_times
+        
+        context.update({
+            'site_settings': site_settings,
+            'service_times_content': service_times_content,
+            'has_custom_times': bool(site_settings.service_times.strip()),
+        })
+        return context

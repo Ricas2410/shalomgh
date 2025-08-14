@@ -1,19 +1,59 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Sitemap locations
 Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap.xml
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap-sermons.xml
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap-events.xml
 
-# Disallow admin areas
+# Disallow admin areas and sensitive paths
 Disallow: /admin/
 Disallow: /my-admin/
+Disallow: /api/
+Disallow: /accounts/
+Disallow: /login/
+Disallow: /logout/
 
-# Disallow media files that shouldn't be indexed
+# Disallow private media files
 Disallow: /media/private/
+Disallow: /media/admin/
+Disallow: /media/cache/
+
+# Disallow search and filter parameters
+Disallow: /*?search=*
+Disallow: /*?filter=*
+Disallow: /*?sort=*
+Disallow: /*?page=*
 
 # Allow important directories
 Allow: /static/
-Allow: /media/
+Allow: /media/sermons/
+Allow: /media/events/
+Allow: /media/images/
 
-# Crawl delay (optional - helps prevent server overload)
+# Crawl delay for server protection
 Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Crawl-delay: 0
+Allow: /
+
+User-agent: Bingbot
+Crawl-delay: 1
+Allow: /
+
+# Block aggressive crawlers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Church-specific information for search engines
+# Seventh Day Sabbath Church Of Christ (Shalom)
+# Founded by Apostle Ephraim Kwaku Danso
+# Living Yahweh Sabbath Assemblies

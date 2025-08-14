@@ -58,17 +58,13 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'core.middleware.SecurityHeadersMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'core.middleware.CompressionMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'core.middleware.CacheControlMiddleware',
-    'core.middleware.PerformanceMiddleware',
 ]
 
 ROOT_URLCONF = 'church_website.urls'
@@ -169,8 +165,12 @@ DEFAULT_FROM_EMAIL = config('ADMIN_EMAIL', default='admin@shalomgh.com')
 # Google Maps API
 GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY', default='')
 
-# Google Analytics
+# Google Analytics and SEO Tools
 GOOGLE_ANALYTICS_ID = config('GOOGLE_ANALYTICS_ID', default='')
+GOOGLE_TAG_MANAGER_ID = config('GOOGLE_TAG_MANAGER_ID', default='')
+GOOGLE_SEARCH_CONSOLE_ID = config('GOOGLE_SEARCH_CONSOLE_ID', default='')
+BING_WEBMASTER_ID = config('BING_WEBMASTER_ID', default='')
+FACEBOOK_PIXEL_ID = config('FACEBOOK_PIXEL_ID', default='')
 
 # SEO Settings
 SITE_ID = 1
@@ -193,17 +193,31 @@ SOCIAL_MEDIA = {
     'youtube': config('YOUTUBE_URL', default=''),
 }
 
-# Security settings for production
+# Enhanced security settings for production
 if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_PRELOAD = True
     SECURE_REDIRECT_EXEMPT = []
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Strict'
     CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SAMESITE = 'Strict'
     X_FRAME_OPTIONS = 'DENY'
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+    
+    # Additional enterprise security settings
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_TZ = True
+    
+    # Rate limiting settings
+    RATELIMIT_ENABLE = True
+    RATELIMIT_USE_CACHE = 'default'
 
 # Logging configuration
 LOGGING = {
@@ -226,3 +240,51 @@ LOGGING = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Enterprise SEO and Performance Settings
+SEO_SETTINGS = {
+    'SITE_NAME': 'ShalomGH',
+    'CHURCH_NAME': 'Seventh Day Sabbath Church Of Christ',
+    'CHURCH_ALTERNATE_NAMES': ['Shalom', 'Living Yahweh Sabbath Assemblies'],
+    'FOUNDER': 'Apostle Ephraim Kwaku Danso',
+    'FORMER_MEMBER': 'Apostle Okoh Agyeman',
+    'DENOMINATION': 'Sabbath Church',
+    'DEFAULT_META_DESCRIPTION': 'Welcome to Seventh Day Sabbath Church Of Christ (Shalom), founded by Apostle Ephraim Kwaku Danso. Join our vibrant Sabbath church community for worship, fellowship, and spiritual growth.',
+    'DEFAULT_META_KEYWORDS': 'Seventh Day Sabbath Church Of Christ, Shalom church, Living Yahweh Sabbath Assemblies, Apostle Ephraim Kwaku Danso, Sabbath church, Christian church Ghana',
+    'ENABLE_STRUCTURED_DATA': True,
+    'ENABLE_BREADCRUMBS': True,
+}
+
+# Performance optimization settings
+PERFORMANCE_SETTINGS = {
+    'ENABLE_COMPRESSION': True,
+    'ENABLE_SMART_CACHING': True,
+    'CACHE_TIMEOUT_DEFAULT': 300,
+    'CACHE_TIMEOUT_STATIC_PAGES': 3600,
+    'ENABLE_IMAGE_OPTIMIZATION': True,
+    'ENABLE_LAZY_LOADING': True,
+}
+
+# Accessibility settings
+ACCESSIBILITY_SETTINGS = {
+    'ENABLE_SKIP_LINKS': True,
+    'ENABLE_HIGH_CONTRAST': True,
+    'ENABLE_REDUCED_MOTION': True,
+    'WCAG_COMPLIANCE_LEVEL': 'AA',
+    'ENABLE_ARIA_LABELS': True,
+}
+
+# Static files versioning for cache busting
+STATIC_VERSION = '2.0.0'
+CACHE_VERSION = 2
+
+# Additional enterprise settings
+FILE_UPLOAD_PERMISSIONS = 0o644
+FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
+
+# Content Security Policy settings
+CSP_SETTINGS = {
+    'ENABLE_CSP': not DEBUG,
+    'CSP_REPORT_URI': '/csp-report/',
+    'CSP_REPORT_ONLY': DEBUG,
+}
