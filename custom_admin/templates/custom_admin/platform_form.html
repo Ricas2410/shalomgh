@@ -1,0 +1,41 @@
+{% extends 'custom_admin/base_admin.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Platform{% endblock %}
+{% block page_title %}Platform{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
+  <form method="post" class="space-y-4">{% csrf_token %}
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+      {{ form.name|add_class:"mt-1 block w-full rounded-md border-gray-300" }}
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Platform Type</label>
+      {{ form.platform_type|add_class:"mt-1 block w-full rounded-md border-gray-300" }}
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Stream Key</label>
+      {{ form.stream_key|add_class:"mt-1 block w-full rounded-md border-gray-300" }}
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">RTMP URL</label>
+      {{ form.rtmp_url|add_class:"mt-1 block w-full rounded-md border-gray-300" }}
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">API Key</label>
+      {{ form.api_key|add_class:"mt-1 block w-full rounded-md border-gray-300" }}
+    </div>
+    <div class="flex items-center space-x-2">
+      {{ form.is_active }}
+      <label class="text-sm text-gray-700">Active</label>
+    </div>
+
+    <div class="flex justify-end space-x-3 pt-4">
+      <a href="{% url 'custom_admin:livestream:platform_list' %}" class="px-4 py-2 border rounded-lg">Cancel</a>
+      <button type="submit" class="px-4 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600">Save</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from urllib.parse import urlencode, urlparse, parse_qs
 from django.utils import timezone
 from django.http import JsonResponse
 from django.db.models import Q
@@ -69,6 +70,61 @@ class LiveStreamListView(AdminRequiredMixin, ListView):
         
         return context
 
+    def _build_embed_url(self, platform_type: str, platform_url: str, host: str) -> str:
+        """Return an embeddable player URL for supported platforms.
+        Supports: youtube, vimeo, twitch, facebook. Falls back to the given URL.
+        """
+        if not platform_url:
+            return ''
+        url = platform_url
+        p = urlparse(url)
+
+        # YouTube: watch?v=VIDEO_ID or youtu.be/VIDEO_ID -> youtube.com/embed/VIDEO_ID
+        if platform_type == 'youtube':
+            video_id = ''
+            if 'youtube.com' in p.netloc:
+                qs = parse_qs(p.query)
+                video_id = (qs.get('v') or [''])[0]
+            elif 'youtu.be' in p.netloc:
+                # path like /VIDEO_ID
+                video_id = p.path.strip('/')
+            if video_id:
+                return f"https://www.youtube.com/embed/{video_id}?" + urlencode({'autoplay': 0, 'rel': 0})
+            # Already an embed or playlist
+            if '/embed/' in p.path:
+                return url
+            return url
+
+        # Vimeo: vimeo.com/ID -> player.vimeo.com/video/ID
+        if platform_type == 'vimeo':
+            if 'vimeo.com' in p.netloc:
+                parts = [seg for seg in p.path.split('/') if seg]
+                if parts and parts[0].isdigit():
+                    return f"https://player.vimeo.com/video/{parts[0]}"
+            return url
+
+        # Twitch: channel or video embeds require parent param
+        if platform_type == 'twitch':
+            # Try to detect channel name from URL like twitch.tv/{channel}
+            channel = ''
+            if 'twitch.tv' in p.netloc:
+                parts = [seg for seg in p.path.split('/') if seg]
+                if parts:
+                    # ignore paths like videos/12345 for simplicity
+                    channel = parts[0]
+            params = {'parent': host, 'autoplay': 'false'}
+            if channel:
+                base = 'https://player.twitch.tv/?' + urlencode({'channel': channel})
+                return base + '&' + urlencode(params)
+            return 'https://player.twitch.tv/?' + urlencode(params)
+
+        # Facebook: use video plugin with the URL encoded
+        if platform_type == 'facebook':
+            return 'https://www.facebook.com/plugins/video.php?' + urlencode({'href': url, 'show_text': 'false', 'autoplay': 'false'})
+
+        # Fallback to provided URL
+        return url
+
 
 class LiveStreamDetailView(AdminRequiredMixin, DetailView):
     """View live stream details."""
@@ -78,7 +134,13 @@ class LiveStreamDetailView(AdminRequiredMixin, DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['broadcasts'] = self.object.streambroadcast_set.select_related('platform')
+        broadcasts = list(self.object.streambroadcast_set.select_related('platform'))
+        # Annotate each broadcast with an embeddable URL
+        host = self.request.get_host()
+        for b in broadcasts:
+            context_url = (b.platform_url or '').strip()
+            b.embed_url = self._build_embed_url(b.platform.platform_type, context_url, host)
+        context['broadcasts'] = broadcasts
         
         # Get analytics if available
         try:

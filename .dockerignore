@@ -1,0 +1,84 @@
+# Docker ignore file for ShalomGH church website
+# Exclude unnecessary files to reduce image size and deployment cost
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+htmlcov/
+
+# Node modules (if any)
+node_modules/
+
+# Deployment files
+.env
+.env.local
+.env.production
+
+# Media files (will be handled separately)
+media/uploads/
+media/cache/
+
+# Static files (will be collected during build)
+staticfiles/
+
+# Development tools
+.qodo/

@@ -106,6 +106,46 @@
             background-color: #007C91 !important;
             color: white !important;
         }
+
+        /* Global form field visibility and focus styles */
+        .main-content input[type="text"],
+        .main-content input[type="email"],
+        .main-content input[type="password"],
+        .main-content input[type="url"],
+        .main-content input[type="number"],
+        .main-content input[type="datetime-local"],
+        .main-content input[type="date"],
+        .main-content input[type="time"],
+        .main-content input[type="file"],
+        .main-content textarea,
+        .main-content select {
+            background-color: #ffffff !important;
+            color: #111827 !important; /* text-gray-900 */
+            border: 1px solid #d1d5db !important; /* border-gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            padding: 0.5rem 0.75rem; /* px-3 py-2 */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .main-content input::placeholder,
+        .main-content textarea::placeholder {
+            color: #9ca3af; /* placeholder-gray-400 */
+        }
+
+        .main-content input:focus,
+        .main-content textarea:focus,
+        .main-content select:focus {
+            outline: none;
+            border-color: #0891b2 !important; /* primary-teal */
+            box-shadow: 0 0 0 2px rgba(8, 145, 178, 0.2);
+        }
+
+        /* Ensure checkboxes and radios are visible */
+        .main-content input[type="checkbox"],
+        .main-content input[type="radio"] {
+            accent-color: #0891b2; /* primary-teal */
+        }
     </style>
 </head>
 <body style="background-color: var(--background);">
@@ -113,8 +153,8 @@
     <div id="mobile-overlay" class="fixed inset-0 z-40 mobile-overlay hidden lg:hidden"></div>
     
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 shadow-lg transform -translate-x-full lg:translate-x-0 sidebar-transition" style="background-color: var(--text-main);">
-        <div class="flex items-center justify-between h-16 px-6" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 h-screen shadow-lg transform -translate-x-full lg:translate-x-0 sidebar-transition flex flex-col" style="background-color: var(--text-main);">
+        <div class="flex items-center justify-between h-16 px-6 shrink-0" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
             <div class="flex items-center space-x-3">
                 <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background-color: var(--primary);">
                     <i class="fas fa-church text-white text-sm"></i>
@@ -130,7 +170,7 @@
         </div>
         
         <!-- Navigation -->
-        <nav class="mt-6 px-3 flex-1 overflow-y-auto" style="max-height: calc(100vh - 5rem);">
+        <nav class="mt-6 px-3 flex-1 overflow-y-auto">
             <div class="space-y-1">
                 <!-- Dashboard -->
                 <a href="{% url 'custom_admin:dashboard' %}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {% if request.resolver_match.url_name == 'dashboard' %}text-white{% else %}text-gray-300 hover:text-white hover:bg-gray-700{% endif %}" {% if request.resolver_match.url_name == 'dashboard' %}style="background-color: var(--primary);"{% endif %}>
@@ -245,7 +285,7 @@
         </nav>
         
         <!-- User Info -->
-        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+        <div class="p-4 border-t border-gray-200 shrink-0 bg-white/5">
             <div class="flex items-center space-x-3">
                 <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
                     <i class="fas fa-user text-gray-600 text-sm"></i>
@@ -290,7 +330,7 @@
         </header>
         
         <!-- Page Content -->
-        <main class="p-6">
+        <main class="p-6 main-content">
             <!-- Messages -->
             {% if messages %}
                 <div class="mb-6">

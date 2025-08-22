@@ -1,0 +1,115 @@
+{% extends 'custom_admin/base_admin.html' %}
+
+{% block title %}Live Stream Details{% endblock %}
+{% block page_title %}{{ stream.title }}{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <div class="flex items-start justify-between">
+    <div>
+      <h1 class="text-2xl font-heading font-bold text-gray-900">{{ stream.title }}</h1>
+      <p class="text-gray-600">{{ stream.get_stream_type_display }} • {{ stream.scheduled_start|date:"M d, Y g:i A" }}</p>
+    </div>
+    <div class="flex space-x-2">
+      <a href="{% url 'custom_admin:livestream:edit' stream.pk %}" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"><i class="fas fa-edit mr-2"></i>Edit</a>
+      <a href="{% url 'custom_admin:livestream:list' %}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">Back</a>
+    </div>
+  </div>
+
+  {% if stream.description %}
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-2">Description</h3>
+    <p class="text-gray-700">{{ stream.description }}</p>
+  </div>
+  {% endif %}
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Embedded Players -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Live Players</h3>
+        {% if broadcasts %}
+          <div class="space-y-6">
+            {% for b in broadcasts %}
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center space-x-2">
+                  {% if b.platform.platform_type == 'youtube' %}
+                    <i class="fab fa-youtube text-red-500"></i>
+                  {% elif b.platform.platform_type == 'facebook' %}
+                    <i class="fab fa-facebook text-blue-600"></i>
+                  {% elif b.platform.platform_type == 'twitch' %}
+                    <i class="fab fa-twitch text-purple-600"></i>
+                  {% elif b.platform.platform_type == 'vimeo' %}
+                    <i class="fab fa-vimeo text-blue-400"></i>
+                  {% else %}
+                    <i class="fas fa-broadcast-tower text-gray-500"></i>
+                  {% endif %}
+                  <span class="font-medium text-gray-900">{{ b.platform.name }}</span>
+                </div>
+                {% if b.platform_url %}
+                  <a href="{{ b.platform_url }}" target="_blank" class="text-sm text-primary-teal hover:text-cyan-600">Open on platform →</a>
+                {% endif %}
+              </div>
+              {% if b.embed_url %}
+              <div class="aspect-w-16 aspect-h-9">
+                <iframe src="{{ b.embed_url }}" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen class="w-full h-96 rounded-lg border"></iframe>
+              </div>
+              {% else %}
+              <p class="text-sm text-gray-500">No embeddable URL provided for this platform.</p>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-gray-500">No platforms connected to this stream yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- Chat placeholder -->
+      {% if stream.enable_chat %}
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Chat (Read-only placeholder)</h3>
+        <p class="text-sm text-gray-500">External live chat integration can be embedded here depending on the platform.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="space-y-6">
+      <!-- Stream Meta -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Stream Info</h3>
+        <dl class="space-y-2 text-sm">
+          <div class="flex justify-between"><dt class="text-gray-600">Status</dt><dd class="font-medium">{{ stream.get_status_display }}</dd></div>
+          <div class="flex justify-between"><dt class="text-gray-600">Public</dt><dd class="font-medium">{{ stream.is_public|yesno:"Yes,No" }}</dd></div>
+          <div class="flex justify-between"><dt class="text-gray-600">Recording</dt><dd class="font-medium">{{ stream.enable_recording|yesno:"Enabled,Disabled" }}</dd></div>
+          <div class="flex justify-between"><dt class="text-gray-600">Scheduled</dt><dd class="font-medium">{{ stream.scheduled_start|date:"M d, Y g:i A" }}</dd></div>
+          {% if stream.actual_start %}<div class="flex justify-between"><dt class="text-gray-600">Started</dt><dd class="font-medium">{{ stream.actual_start|date:"M d, Y g:i A" }}</dd></div>{% endif %}
+          {% if stream.actual_end %}<div class="flex justify-between"><dt class="text-gray-600">Ended</dt><dd class="font-medium">{{ stream.actual_end|date:"M d, Y g:i A" }}</dd></div>{% endif %}
+        </dl>
+      </div>
+
+      <!-- Analytics -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Analytics</h3>
+        {% if analytics %}
+        <dl class="space-y-2 text-sm">
+          <div class="flex justify-between"><dt class="text-gray-600">Peak Viewers</dt><dd class="font-medium">{{ analytics.peak_viewers }}</dd></div>
+          <div class="flex justify-between"><dt class="text-gray-600">Total Views</dt><dd class="font-medium">{{ analytics.total_views }}</dd></div>
+          {% if analytics.average_watch_time %}<div class="flex justify-between"><dt class="text-gray-600">Avg. Watch Time</dt><dd class="font-medium">{{ analytics.average_watch_time }}</dd></div>{% endif %}
+        </dl>
+        {% else %}
+          <p class="text-gray-500">No analytics available yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/***** Simple aspect ratio utility (if Tailwind's aspect-ratio plugin not available) *****/
+.aspect-w-16 { position: relative; }
+.aspect-w-16.aspect-h-9::before { content: ""; display: block; padding-bottom: 56.25%; }
+.aspect-w-16 > iframe, .aspect-w-16 > video, .aspect-w-16 > div { position:absolute; top:0; left:0; width:100%; height:100%; }
+</style>
+{% endblock %}

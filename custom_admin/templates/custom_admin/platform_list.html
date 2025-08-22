@@ -1,0 +1,48 @@
+{% extends 'custom_admin/base_admin.html' %}
+
+{% block title %}Streaming Platforms{% endblock %}
+{% block page_title %}Streaming Platforms{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-heading font-bold text-gray-900">Platforms</h1>
+      <p class="text-gray-600">Configure platforms like YouTube, Facebook, Twitch, Vimeo or custom RTMP.</p>
+    </div>
+    <a href="{% url 'custom_admin:livestream:platform_add' %}" class="px-4 py-2 bg-primary-teal text-white rounded-lg hover:bg-cyan-600"><i class="fas fa-plus mr-2"></i>Add Platform</a>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    {% if platforms %}
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Active</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for p in platforms %}
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4">{{ p.name }}</td>
+              <td class="px-6 py-4">{{ p.get_platform_type_display }}</td>
+              <td class="px-6 py-4">{{ p.is_active|yesno:"Yes,No" }}</td>
+              <td class="px-6 py-4 text-right">
+                <a href="{% url 'custom_admin:livestream:platform_edit' p.pk %}" class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded">Edit</a>
+                <a href="{% url 'custom_admin:livestream:platform_delete' p.pk %}" class="px-3 py-1 bg-red-100 text-red-800 rounded">Delete</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="p-8 text-center text-gray-500">No platforms configured yet.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

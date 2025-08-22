@@ -1,0 +1,18 @@
+{% extends 'custom_admin/base_admin.html' %}
+
+{% block title %}Delete Platform{% endblock %}
+{% block page_title %}Delete Platform{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+  <h1 class="text-xl font-semibold text-gray-900 mb-4">Confirm Deletion</h1>
+  <p class="text-gray-700 mb-6">Are you sure you want to delete platform "{{ object.name }}"?</p>
+
+  <div class="flex justify-end space-x-3">
+    <a href="{% url 'custom_admin:livestream:platform_list' %}" class="px-4 py-2 border rounded-lg">Cancel</a>
+    <form method="post">{% csrf_token %}
+      <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

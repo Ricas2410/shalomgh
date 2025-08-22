@@ -1,0 +1,48 @@
+# Fly.io configuration for Seventh Day Sabbath Church Of Christ (ShalomGH)
+# Optimized for startup budget with auto-sleep and minimal resources
+
+app = "shalomgh"
+primary_region = "iad"  # US East (Virginia) - good for global reach
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+
+[experimental]
+  auto_rollback = true
+
+[build]
+
+[env]
+  PORT = "8000"
+  DJANGO_SETTINGS_MODULE = "church_website.settings"
+  # Persist SQLite DB on mounted volume
+  DATABASE_URL = "sqlite:////data/db.sqlite3"
+  # Allow Fly domain(s)
+  ALLOWED_HOSTS = "shalomgh.fly.dev,localhost,127.0.0.1"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0  # Auto sleep when no traffic
+  processes = ["app"]
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    timeout = "5s"
+    path = "/"
+
+[vm]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512
+
+[[vm.mounts]]
+  source = "shalomgh_data"
+  destination = "/data"
+
+[deploy]
+  release_command = "python manage.py migrate --noinput"
+
