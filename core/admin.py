@@ -30,6 +30,14 @@ class SiteSettingAdmin(admin.ModelAdmin):
         ('Google Services', {
             'fields': ('google_maps_api_key', 'google_analytics_id')
         }),
+        ('Location & Directions', {
+            'fields': (
+                'map_query', 'map_embed_url',
+                'directions_heading', 'directions_details',
+                'directions_link_text', 'directions_link_url'
+            ),
+            'description': 'Configure map and directions content for the Location page'
+        }),
         ('CTA Section Media', {
             'fields': ('cta_image', 'cta_youtube_url'),
             'description': 'Optional media content for Call-to-Action sections'

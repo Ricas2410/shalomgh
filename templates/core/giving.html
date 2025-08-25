@@ -2,9 +2,9 @@
 {% load static %}
 {% load page_images %}
 
-{% block title %}Give Online - {{ CHURCH_NAME }}{% endblock %}
+{% block title %}Give to {{ CHURCH_NAME }}{% endblock %}
 
-{% block meta_description %}Support the ministry of {{ CHURCH_NAME }} through online giving. Your generous gifts help us serve our community and spread God's love.{% endblock %}
+{% block meta_description %}Give to {{ CHURCH_NAME }} (Shalom, Living Yahweh Sabbath Assemblies). Partner with a Bible-believing Sabbath church through secure online giving to support worship, discipleship, missions, and compassionate outreach to orphans, widows, persons with disabilities, and vulnerable families.{% endblock %}
 
 {% block content %}
 <!-- Ultra-Modern Hero Section -->
@@ -349,6 +349,30 @@
         </cite>
     </div>
 </section>
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DonateAction",
+  "name": "Donate to {{ CHURCH_NAME }}",
+  "description": "Secure online giving to support worship, discipleship, missions, and compassionate outreach.",
+  "target": {
+    "@type": "EntryPoint",
+    "urlTemplate": "{% if site_settings.giving_platform_url %}{{ site_settings.giving_platform_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}",
+    "contentType": "text/html"
+  },
+  "recipient": {
+    "@type": "Organization",
+    "name": "{{ CHURCH_NAME }}",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.png' %}",
+    "email": "{% if site_settings.email %}{{ site_settings.email }}{% else %}info@shalomgh.com{% endif %}",
+    "telephone": "{% if site_settings.phone %}{{ site_settings.phone }}{% else %}+233 XX XXX XXXX{% endif %}"
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_js %}

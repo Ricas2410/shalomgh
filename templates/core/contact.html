@@ -3,9 +3,9 @@
 {% load crispy_forms_tags %}
 {% load page_images %}
 
-{% block title %}Contact Us - {{ CHURCH_NAME }}{% endblock %}
+{% block title %}Contact {{ CHURCH_NAME }}{% endblock %}
 
-{% block meta_description %}Get in touch with {{ CHURCH_NAME }}. Send us a message, prayer request, or question. We'd love to hear from you!{% endblock %}
+{% block meta_description %}Contact {{ CHURCH_NAME }} (Shalom, Living Yahweh Sabbath Assemblies). Send a message or prayer request, ask a question, confirm service times, or get directions. We’re a Bible-believing Sabbath church serving our community with care and compassion.{% endblock %}
 
 {% block content %}
 <!-- Ultra-Modern Hero Section -->
@@ -315,6 +315,25 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ CHURCH_NAME }}",
+  "url": "{{ request.build_absolute_uri }}",
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "telephone": "{% if site_settings.phone %}{{ site_settings.phone }}{% else %}+233 XX XXX XXXX{% endif %}",
+    "email": "{% if site_settings.email %}{{ site_settings.email }}{% else %}info@shalomgh.com{% endif %}",
+    "contactType": "customer support",
+    "areaServed": "GH",
+    "availableLanguage": ["en"]
+  }]
+}
+</script>
 {% endblock %}
 
 {% block extra_js %}

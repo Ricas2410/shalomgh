@@ -4,8 +4,11 @@ Models for static pages and leadership information.
 from django.db import models
 from django.urls import reverse
 from django.core.validators import EmailValidator
+from django.core.files.base import ContentFile
 from PIL import Image
+from io import BytesIO
 import os
+from core.storage_backends import ImageKitStorage
 
 
 class LeadershipProfile(models.Model):
@@ -82,6 +85,13 @@ class LeadershipProfile(models.Model):
         blank=True,
         help_text="Recommended size: 400x400 pixels"
     )
+    # Dedicated image for the General Overseer card (left panel on leadership page).
+    # If empty, templates should fall back to `photo`.
+    go_card_photo = models.ImageField(
+        upload_to='leadership/go_card/',
+        blank=True,
+        help_text="Optional: Use a different photo for the General Overseer card"
+    )
 
     # Ministry Information
     years_in_ministry = models.PositiveIntegerField(blank=True, null=True)
@@ -118,16 +128,55 @@ class LeadershipProfile(models.Model):
     def get_absolute_url(self):
         return reverse('pages:leadership_detail', kwargs={'pk': self.pk})
 
+    def get_go_card_photo(self):
+        """Return the GO card image if set, else fall back to main `photo`."""
+        return self.go_card_photo or self.photo
+
     def save(self, *args, **kwargs):
+        """Save and resize the uploaded image to max 400x400.
+
+        This implementation works with remote storage backends (e.g., ImageKit)
+        by avoiding filesystem paths and operating on file-like objects.
+        """
         super().save(*args, **kwargs)
 
-        # Resize image if it exists
-        if self.photo:
-            img = Image.open(self.photo.path)
-            if img.height > 400 or img.width > 400:
-                output_size = (400, 400)
-                img.thumbnail(output_size)
-                img.save(self.photo.path)
+        # If either photo field is empty, we still continue to check the other
+        # but in ImageKit scenarios, we skip server-side resizing entirely.
+
+        # If using ImageKitStorage, skip server-side resizing and let CDN handle transforms.
+        try:
+            if isinstance(getattr(self.photo, 'storage', None), ImageKitStorage):
+                return
+        except Exception:
+            pass
+
+        def maybe_resize(field):
+            try:
+                if not field:
+                    return False
+                field.open('rb')
+                img = Image.open(field)
+                img.load()
+                if img.height > 400 or img.width > 400:
+                    img.thumbnail((400, 400))
+                    buffer = BytesIO()
+                    fmt = (img.format or 'JPEG').upper()
+                    save_kwargs = {'optimize': True}
+                    if fmt in ('JPEG', 'JPG'):
+                        save_kwargs['quality'] = 85
+                    img.save(buffer, format=fmt, **save_kwargs)
+                    buffer.seek(0)
+                    field.save(field.name, ContentFile(buffer.read()), save=False)
+                    return True
+            except Exception:
+                return False
+            return False
+
+        updated = False
+        updated |= maybe_resize(self.photo)
+        updated |= maybe_resize(self.go_card_photo)
+        if updated:
+            super().save(update_fields=['photo', 'go_card_photo'])
 
 
 class PageContent(models.Model):

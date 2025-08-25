@@ -80,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Expose MEDIA_URL to templates (parity with Skyline implementation)
+                'django.template.context_processors.media',
                 'core.context_processors.site_settings',
                 'core.context_processors.page_images',
             ],
@@ -117,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'America/New_York'  # Adjust based on church location
+TIME_ZONE = 'Africa/Accra'  # Ghana timezone
 USE_I18N = True
 USE_TZ = True
 
@@ -130,8 +132,26 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# WhiteNoise configuration for static files
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# ImageKit (Media CDN) configuration
+IMAGEKIT_PRIVATE_KEY = config('IMAGEKIT_PRIVATE_KEY', default='')
+IMAGEKIT_PUBLIC_KEY = config('IMAGEKIT_PUBLIC_KEY', default='')
+IMAGEKIT_URL_ENDPOINT = config('IMAGEKIT_URL_ENDPOINT', default='')
+
+# If ImageKit credentials are present, use Django 5+ STORAGES API (parity with Skyline)
+if IMAGEKIT_PRIVATE_KEY and IMAGEKIT_PUBLIC_KEY and IMAGEKIT_URL_ENDPOINT:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'core.storage_backends.ImageKitStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+        },
+    }
+    # Serve media from ImageKit CDN
+    MEDIA_URL = IMAGEKIT_URL_ENDPOINT.rstrip('/') + '/'
+
+# WhiteNoise configuration for static files (non-manifest to prevent runtime errors if manifest is missing)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Caching Configuration
 CACHES = {
@@ -200,7 +220,9 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_PRELOAD = True
-    SECURE_REDIRECT_EXEMPT = []
+    # Exempt health check from HTTPS redirect so internal Fly health checks pass
+    # Match both /healthz and /healthz/
+    SECURE_REDIRECT_EXEMPT = [r'^healthz/?$']
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
@@ -214,25 +236,26 @@ if not DEBUG:
     # Additional enterprise security settings
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     USE_TZ = True
+    # Honor proxy-provided host header (Fly sets X-Forwarded-Host)
+    USE_X_FORWARDED_HOST = True
     
     # Rate limiting settings
     RATELIMIT_ENABLE = True
     RATELIMIT_USE_CACHE = 'default'
 
-# Logging configuration
+# Logging configuration (console in production for Fly.io)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'file': {
+        'console': {
             'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'django.log',
+            'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
         },

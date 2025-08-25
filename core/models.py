@@ -3,8 +3,11 @@ Core models for site-wide settings and configurations.
 """
 from django.db import models
 from django.core.validators import EmailValidator, URLValidator
+from django.core.files.base import ContentFile
 from PIL import Image
+from io import BytesIO
 import os
+from core.storage_backends import ImageKitStorage
 
 
 class SiteSetting(models.Model):
@@ -88,6 +91,37 @@ class SiteSetting(models.Model):
     # Google Services
     google_maps_api_key = models.CharField(max_length=100, blank=True)
     google_analytics_id = models.CharField(max_length=20, blank=True)
+
+    # Location & Directions
+    map_query = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Address or GPS coordinates for Google Maps (e.g., '5.6037,-0.1870' or '123 Church St, Accra')"
+    )
+    map_embed_url = models.URLField(
+        blank=True,
+        help_text="Optional full Google Maps embed URL. If blank, an embed will be generated from map_query/address when possible."
+    )
+    directions_heading = models.CharField(
+        max_length=100,
+        blank=True,
+        default='Directions',
+        help_text="Heading label for the directions section"
+    )
+    directions_details = models.TextField(
+        blank=True,
+        help_text="Optional rich text/HTML with step-by-step directions or landmarks"
+    )
+    directions_link_text = models.CharField(
+        max_length=50,
+        blank=True,
+        default='Get Directions',
+        help_text="CTA text for the directions button"
+    )
+    directions_link_url = models.URLField(
+        blank=True,
+        help_text="Optional custom URL for the directions button. If blank, a Google Maps link will be generated from map_query/address."
+    )
 
     # CTA Section Media
     cta_image = models.ImageField(
@@ -321,19 +355,40 @@ class PageImage(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
-        # Resize image if it exists and is too large
-        if self.image and hasattr(self.image, 'path'):
-            try:
-                img = Image.open(self.image.path)
-                # Resize hero images to max 1920x1080
-                if 'hero' in self.page_section and (img.height > 1080 or img.width > 1920):
-                    output_size = (1920, 1080)
-                    img.thumbnail(output_size, Image.Resampling.LANCZOS)
-                    img.save(self.image.path, optimize=True, quality=85)
-                # Resize other images to max 800x600
-                elif 'hero' not in self.page_section and (img.height > 600 or img.width > 800):
-                    output_size = (800, 600)
-                    img.thumbnail(output_size, Image.Resampling.LANCZOS)
-                    img.save(self.image.path, optimize=True, quality=85)
-            except Exception as e:
-                pass  # Silently handle image processing errors
+        # Resize image if it exists and is too large (storage-agnostic)
+        if not self.image:
+            return
+
+        # If using ImageKit CDN storage, skip server-side resizing and let CDN handle it
+        try:
+            if isinstance(getattr(self.image, 'storage', None), ImageKitStorage):
+                return
+        except Exception:
+            pass
+
+        try:
+            self.image.open('rb')
+            img = Image.open(self.image)
+            img.load()
+
+            do_save = False
+            if 'hero' in self.page_section and (img.height > 1080 or img.width > 1920):
+                img.thumbnail((1920, 1080), Image.Resampling.LANCZOS)
+                do_save = True
+            elif 'hero' not in self.page_section and (img.height > 600 or img.width > 800):
+                img.thumbnail((800, 600), Image.Resampling.LANCZOS)
+                do_save = True
+
+            if do_save:
+                buffer = BytesIO()
+                fmt = (img.format or 'JPEG').upper()
+                save_kwargs = {'optimize': True}
+                if fmt in ('JPEG', 'JPG'):
+                    save_kwargs['quality'] = 85
+                img.save(buffer, format=fmt, **save_kwargs)
+                buffer.seek(0)
+                self.image.save(self.image.name, ContentFile(buffer.read()), save=False)
+                super().save(update_fields=['image'])
+        except Exception:
+            # Silently handle image processing errors to not block admin saves
+            pass

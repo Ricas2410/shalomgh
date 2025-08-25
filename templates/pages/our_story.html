@@ -2,9 +2,9 @@
 {% load static %}
 {% load page_images %}
 
-{% block title %}Our Story - {{ site_settings.church_name }}{% endblock %}
+{% block title %}{% if story_content and story_content.title %}{{ story_content.title }} - {{ site_settings.church_name }}{% else %}Our Story - {{ site_settings.church_name }}{% endif %}{% endblock %}
 
-{% block meta_description %}Discover the history and journey of {{ site_settings.church_name }}, from our founding to the present day, and how God has been faithful through it all.{% endblock %}
+{% block meta_description %}{% if story_content and story_content.meta_description %}{{ story_content.meta_description }}{% else %}Discover the history and journey of {{ site_settings.church_name }}, from our founding to the present day, and how God has been faithful through it all.{% endif %}{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->

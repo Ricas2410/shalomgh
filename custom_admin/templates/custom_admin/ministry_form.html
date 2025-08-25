@@ -73,12 +73,12 @@
         <select 
             name="{{ form.leader.name }}" 
             id="{{ form.leader.id_for_label }}"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal bg-white text-gray-900"
         >
-            <option value="">Select a leader</option>
+            <option value="" {% if not form.leader.value %}selected{% endif %} class="text-gray-500">Select a leader</option>
             {% for leader in leaders %}
                 <option value="{{ leader.id }}" {% if leader.id == form.leader.value %}selected{% endif %}>
-                    {{ leader.name }}
+                    {{ leader.get_full_name }}
                 </option>
             {% endfor %}
         </select>

@@ -2,9 +2,9 @@
 # Optimized for startup budget with auto-sleep and minimal resources
 
 app = "shalomgh"
-primary_region = "iad"  # US East (Virginia) - good for global reach
+primary_region = "fra"  # Frankfurt - closest to Ghana and matches DB region
 kill_signal = "SIGINT"
-kill_timeout = "5s"
+kill_timeout = "10s"
 
 [experimental]
   auto_rollback = true
@@ -14,10 +14,9 @@ kill_timeout = "5s"
 [env]
   PORT = "8000"
   DJANGO_SETTINGS_MODULE = "church_website.settings"
-  # Persist SQLite DB on mounted volume
-  DATABASE_URL = "sqlite:////data/db.sqlite3"
-  # Allow Fly domain(s)
-  ALLOWED_HOSTS = "shalomgh.fly.dev,localhost,127.0.0.1"
+  # Allow Fly domain(s) and internal health check host
+  ALLOWED_HOSTS = "shalomgh.fly.dev,.fly.dev,localhost,127.0.0.1,fly-local"
+  DEBUG = "false"
 
 [http_service]
   internal_port = 8000
@@ -28,21 +27,18 @@ kill_timeout = "5s"
   processes = ["app"]
 
   [[http_service.checks]]
-    grace_period = "10s"
-    interval = "30s"
+    grace_period = "30s"
+    interval = "15s"
     method = "GET"
-    timeout = "5s"
-    path = "/"
+    timeout = "10s"
+    path = "/healthz"
+    # Ensure Django sees a permitted Host header during internal checks
+    headers = { Host = "shalomgh.fly.dev" }
 
 [vm]
   cpu_kind = "shared"
   cpus = 1
   memory_mb = 512
 
-[[vm.mounts]]
-  source = "shalomgh_data"
-  destination = "/data"
-
 [deploy]
-  release_command = "python manage.py migrate --noinput"
-
+  release_command = "sh -lc 'python manage.py migrate --noinput && python manage.py collectstatic --noinput'"

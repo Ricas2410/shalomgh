@@ -42,9 +42,10 @@ USER appuser
 # Expose port
 EXPOSE 8000
 
-# Health check for Fly.io
+# Health check for Fly.io / container
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/ || exit 1
+    CMD curl -f http://localhost:8000/healthz || exit 1
 
 # Run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "1", "--timeout", "120", "church_website.wsgi:application"]
+# Use 2 workers and 2 threads to avoid health checks being blocked by a single long request
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "2", "--timeout", "120", "church_website.wsgi:application"]

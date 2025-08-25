@@ -33,6 +33,7 @@ db.sqlite3-journal
 venv/
 env/
 ENV/
+.venv/
 
 # IDE
 .vscode/
@@ -73,12 +74,34 @@ node_modules/
 .env.local
 .env.production
 
-# Media files (will be handled separately)
-media/uploads/
-media/cache/
+# Media files (exclude entire media dir; ImageKit or volume handles media)
+media/
+
+# Local data volumes / db files
+data/
 
 # Static files (will be collected during build)
 staticfiles/
 
 # Development tools
 .qodo/
+
+# Exclude reference project not part of deploy
+skylinegh/
+
+# Large/binary artifacts
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.gz
+*.bz2
+*.br
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.psd
+*.ai
+*.sketch

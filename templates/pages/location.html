@@ -247,12 +247,16 @@
                                 </svg>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">Directions</h3>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">{{ site_settings.directions_heading|default:"Directions" }}</h3>
                                 <div class="text-gray-600 space-y-3 text-lg">
-                                    <p>We're located in the heart of the city, easily accessible by public transport.</p>
-                                    <p><strong>By Car:</strong> Free parking available on-site</p>
-                                    <p><strong>By Public Transport:</strong> Multiple bus routes stop nearby</p>
-                                    <p><strong>Landmarks:</strong> Near the main market and city center</p>
+                                    {% if site_settings.directions_details %}
+                                        {{ site_settings.directions_details|safe }}
+                                    {% else %}
+                                        <p>We're located in the heart of the city, easily accessible by public transport.</p>
+                                        <p><strong>By Car:</strong> Free parking available on-site</p>
+                                        <p><strong>By Public Transport:</strong> Multiple bus routes stop nearby</p>
+                                        <p><strong>Landmarks:</strong> Near the main market and city center</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -260,18 +264,25 @@
                 
                 <!-- Get Directions Button -->
                 <div class="text-center">
-                    <a href="https://maps.google.com/?q={{ site_settings.address|default:'123 Church Street, Accra, Ghana' }}" target="_blank" class="btn-primary inline-flex items-center">
+                    <a href="{% if site_settings.directions_link_url %}{{ site_settings.directions_link_url }}{% elif site_settings.map_query %}https://maps.google.com/?q={{ site_settings.map_query|urlencode }}{% else %}https://maps.google.com/?q={{ site_settings.address|default:'123 Church Street, Accra, Ghana'|urlencode }}{% endif %}"
+                       target="_blank" class="btn-primary inline-flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
                         </svg>
-                        Get Directions
+                        {{ site_settings.directions_link_text|default:"Get Directions" }}
                     </a>
                 </div>
             </div>
             
-            <!-- Map Placeholder -->
+            <!-- Map -->
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="aspect-w-16 aspect-h-12">
+                {% if site_settings.map_embed_url %}
+                    <iframe src="{{ site_settings.map_embed_url }}" class="w-full h-96 border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Google Map"></iframe>
+                {% elif site_settings.map_query %}
+                    <iframe src="https://www.google.com/maps?q={{ site_settings.map_query|urlencode }}&output=embed" class="w-full h-96 border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Google Map"></iframe>
+                {% elif site_settings.address %}
+                    <iframe src="https://www.google.com/maps?q={{ site_settings.address|urlencode }}&output=embed" class="w-full h-96 border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Google Map"></iframe>
+                {% else %}
                     <div class="w-full h-96 bg-gray-200 flex items-center justify-center">
                         <div class="text-center">
                             <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,7 +293,7 @@
                             <p class="text-sm text-gray-400">Click "Get Directions" above to view in Google Maps</p>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -380,14 +391,15 @@
         </p>
         
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="{% url 'core:plan_visit' %}" class="bg-white text-primary-teal hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+            <a href="{% url 'core:plan_visit' %}" class="bg-white text-primary-teal hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors duration-200 shadow-md">
                 Plan Your Visit
             </a>
-            <a href="{% url 'core:contact' %}" class="border-2 border-white text-white hover:bg-white hover:text-primary-teal font-semibold py-3 px-8 rounded-lg transition-all duration-200">
+            <a href="{% url 'core:contact' %}" class="border-2 border-white/80 text-white hover:bg-white hover:text-primary-teal font-semibold py-3 px-8 rounded-lg transition-all duration-200 shadow-md">
                 Contact Us
             </a>
-            <a href="https://maps.google.com/?q={{ site_settings.address|default:'123 Church Street, Accra, Ghana' }}" target="_blank" class="text-white hover:text-gray-200 transition-colors font-medium">
-                Get Directions →
+            <a href="{% if site_settings.directions_link_url %}{{ site_settings.directions_link_url }}{% elif site_settings.map_query %}https://maps.google.com/?q={{ site_settings.map_query|urlencode }}{% else %}https://maps.google.com/?q={{ site_settings.address|default:'123 Church Street, Accra, Ghana'|urlencode }}{% endif %}"
+               target="_blank" class="bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 border border-white/30">
+                {{ site_settings.directions_link_text|default:"Get Directions" }} →
             </a>
         </div>
     </div>

@@ -12,44 +12,72 @@
     </div>
     
     <!-- Name -->
-    <div class="lg:col-span-2">
-        <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-            {{ form.name.label }}
-            <span class="text-red-500">*</span>
-        </label>
-        <input 
-            type="text" 
-            name="{{ form.name.name }}" 
-            id="{{ form.name.id_for_label }}"
-            value="{{ form.name.value|default:'' }}"
-            required
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
-            placeholder="Enter full name"
-        >
-        {% if form.name.errors %}
-            <div class="mt-1">
-                {% for error in form.name.errors %}
-                    <p class="text-sm text-red-600">{{ error }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:col-span-2">
+        <div>
+            <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                First name
+                <span class="text-red-500">*</span>
+            </label>
+            <input 
+                type="text" 
+                name="{{ form.first_name.name }}" 
+                id="{{ form.first_name.id_for_label }}"
+                value="{{ form.first_name.value|default:'' }}"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+                placeholder="First name"
+            >
+            {% if form.first_name.errors %}
+                <div class="mt-1">
+                    {% for error in form.first_name.errors %}
+                        <p class="text-sm text-red-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                Last name
+                <span class="text-red-500">*</span>
+            </label>
+            <input 
+                type="text" 
+                name="{{ form.last_name.name }}" 
+                id="{{ form.last_name.id_for_label }}"
+                value="{{ form.last_name.value|default:'' }}"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+                placeholder="Last name"
+            >
+            {% if form.last_name.errors %}
+                <div class="mt-1">
+                    {% for error in form.last_name.errors %}
+                        <p class="text-sm text-red-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
     
     <!-- Position -->
     <div>
         <label for="{{ form.position.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-            {{ form.position.label }}
+            Position
             <span class="text-red-500">*</span>
         </label>
-        <input 
-            type="text" 
-            name="{{ form.position.name }}" 
+        <select
+            name="{{ form.position.name }}"
             id="{{ form.position.id_for_label }}"
-            value="{{ form.position.value|default:'' }}"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
-            placeholder="e.g., Senior Pastor, Elder, Deacon"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal bg-white"
         >
+            <option value="">Select position</option>
+            {% for choice in form.position.field.choices %}
+                {% if choice.0 %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.position.value %}selected{% endif %}>{{ choice.1 }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
         {% if form.position.errors %}
             <div class="mt-1">
                 {% for error in form.position.errors %}
@@ -59,30 +87,22 @@
         {% endif %}
     </div>
     
-    <!-- Position Type -->
+    <!-- Custom Position (shown when 'Other' is selected) -->
     <div>
-        <label for="{{ form.position_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-            {{ form.position_type.label }}
-            <span class="text-red-500">*</span>
+        <label for="{{ form.custom_position.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+            Custom position (optional)
         </label>
-        <select 
-            name="{{ form.position_type.name }}" 
-            id="{{ form.position_type.id_for_label }}"
-            required
+        <input
+            type="text"
+            name="{{ form.custom_position.name }}"
+            id="{{ form.custom_position.id_for_label }}"
+            value="{{ form.custom_position.value|default:'' }}"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal"
+            placeholder="Enter custom position when selecting 'Other'"
         >
-            <option value="">Select position type</option>
-            {% for choice in form.position_type.field.choices %}
-                {% if choice.0 %}
-                    <option value="{{ choice.0 }}" {% if choice.0 == form.position_type.value %}selected{% endif %}>
-                        {{ choice.1 }}
-                    </option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        {% if form.position_type.errors %}
+        {% if form.custom_position.errors %}
             <div class="mt-1">
-                {% for error in form.position_type.errors %}
+                {% for error in form.custom_position.errors %}
                     <p class="text-sm text-red-600">{{ error }}</p>
                 {% endfor %}
             </div>
@@ -408,4 +428,21 @@
             </div>
         </div>
     {% endif %}
+    <script>
+        (function() {
+            const positionSelect = document.getElementById('{{ form.position.id_for_label }}');
+            const customPosition = document.getElementById('{{ form.custom_position.id_for_label }}');
+            const toggle = () => {
+                if (!positionSelect) return;
+                const show = positionSelect.value === 'other';
+                if (customPosition) {
+                    customPosition.closest('div').style.display = show ? 'block' : 'none';
+                }
+            };
+            if (positionSelect) {
+                positionSelect.addEventListener('change', toggle);
+                toggle();
+            }
+        })();
+    </script>
 {% endblock %}

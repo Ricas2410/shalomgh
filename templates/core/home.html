@@ -4,7 +4,7 @@
 
 {% block title %}Welcome to {{ CHURCH_NAME }} - {{ SITE_NAME }}{% endblock %}
 
-{% block meta_description %}{{ site_settings.welcome_message|truncatewords:25|default:"Welcome to our vibrant community of faith. Join us for worship, fellowship, and spiritual growth." }}{% endblock %}
+{% block meta_description %}{% if site_settings.welcome_message %}{{ site_settings.welcome_message|truncatewords:25 }}{% else %}Welcome to {{ CHURCH_NAME }}, a Sabbath church in Accra led by Apostle Ephraim Kwaku Danso—worship, Bible teaching, and compassionate community outreach.{% endif %}{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -18,10 +18,10 @@
             <!-- Left Content -->
             <div class="text-white space-y-8">
                 <h1 class="hero-title">
-                    {% if site_settings.hero_title %}
+                    {% if site_settings.hero_title and site_settings.hero_title|lower|cut:" " != 'welcometoourchurchfamily' %}
                         {{ site_settings.hero_title }}
                     {% else %}
-                        Welcome to Our Church Family
+                        Welcome to {{ CHURCH_NAME }}
                     {% endif %}
                 </h1>
 
@@ -29,7 +29,7 @@
                     {% if site_settings.hero_subtitle %}
                         {{ site_settings.hero_subtitle }}
                     {% else %}
-                        Join our vibrant community of believers as we worship, grow in faith, and serve with purpose in God's amazing love.
+                        Also known as Shalom . Join us for Sabbath worship, vibrant Bible teaching, and outreach to orphans, widows, and the vulnerable.
                     {% endif %}
                 </p>
 
@@ -48,7 +48,7 @@
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-5-4v4m0 0V8a2 2 0 012-2h4a2 2 0 012 2v8a2 2 0 01-2 2h-4a2 2 0 01-2-2z"></path>
                         </svg>
-                        Watch Now
+                        Watch Us Live
                     </a>
                 </div>
             </div>
@@ -60,6 +60,44 @@
                          alt="Church Community"
                          class="w-full h-96 lg:h-[500px] object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Church Highlights: Leadership & Outreach -->
+<section class="py-12 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-700">
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center ring-1 ring-blue-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9-4 9 4-9 4-9-4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10l-9 4-9-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 14l9 4 9-4"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-sm uppercase tracking-wide text-gray-500">Identity</h3>
+                    <p class="font-semibold text-gray-900">{{ CHURCH_NAME }} — also known as Shalom, Shalom</p>
+                    <p class="mt-2 text-sm leading-relaxed">A Bible-believing Sabbath church committed to worship, discipleship, and community transformation across Ghana and beyond.</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center ring-1 ring-emerald-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-sm uppercase tracking-wide text-gray-500">Leadership</h3>
+                    <p class="font-semibold text-gray-900">Founded and led by Apostle Ephraim Kwaku Danso</p>
+                    <p class="mt-2 text-sm leading-relaxed">Under apostolic leadership, Shalom equips believers through sound teaching, prayer, and servant leadership to impact families, workplaces, and cities.</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center ring-1 ring-amber-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-sm uppercase tracking-wide text-gray-500">Community Impact</h3>
+                    <p class="font-semibold text-gray-900">Compassion in action through annual charity shows</p>
+                    <p class="mt-2 text-sm leading-relaxed">Sustained support for orphans, widows, persons with disabilities, and vulnerable families—mobilizing resources, partnerships, and volunteers across regions.</p>
                 </div>
             </div>
         </div>

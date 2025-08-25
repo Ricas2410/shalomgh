@@ -94,6 +94,71 @@
             </div>
         </div>
 
+        <!-- Leadership & Hero Images -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">
+                    <i class="fas fa-images mr-2 text-primary-teal"></i>
+                    Leadership & Hero Images
+                </h3>
+                <p class="text-sm text-gray-600 mt-1">Upload the General Overseer card image and update hero images for key pages.</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <!-- General Overseer Card Photo -->
+                <div>
+                    <label for="go_card_photo" class="block text-sm font-medium text-gray-700 mb-2">
+                        General Overseer Card Photo
+                    </label>
+                    <input
+                        type="file"
+                        name="go_card_photo"
+                        id="go_card_photo"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-teal file:text-white hover:file:bg-cyan-600"
+                        accept="image/*"
+                    >
+                    {% if general_overseer and general_overseer.get_go_card_photo %}
+                        <div class="mt-4 flex items-center space-x-4">
+                            <img src="{{ general_overseer.get_go_card_photo.url }}" alt="General Overseer Card" class="h-24 w-24 object-cover rounded-lg border border-gray-200">
+                            <div class="text-sm text-gray-500">
+                                Current: <a href="{{ general_overseer.get_go_card_photo.url }}" target="_blank" class="text-primary-teal hover:underline">View image</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <p class="text-xs text-gray-500 mt-2">Optional dedicated image for the left GO card and mobile hero on the leadership page. If not provided, the main profile photo is used.</p>
+                </div>
+
+                <!-- Hero Images Uploader -->
+                <div>
+                    <h4 class="text-md font-medium text-gray-900 mb-4">Page Hero Images</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for key, data in hero_images.items %}
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <label for="hero_{{ key }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                {{ data.label }}
+                            </label>
+                            <input
+                                type="file"
+                                name="hero_{{ key }}"
+                                id="hero_{{ key }}"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-teal focus:border-primary-teal file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-teal file:text-white hover:file:bg-cyan-600"
+                                accept="image/*"
+                            >
+                            {% if data.image and data.image.get_image_url %}
+                                <div class="mt-3 flex items-center space-x-4">
+                                    <img src="{{ data.image.get_image_url }}" alt="{{ data.label }}" class="h-20 w-32 object-cover rounded border border-gray-200">
+                                    <a href="{{ data.image.get_image_url }}" target="_blank" class="text-sm text-primary-teal hover:underline">Open</a>
+                                </div>
+                            {% else %}
+                                <p class="text-xs text-gray-500 mt-2">No image set yet.</p>
+                            {% endif %}
+                            <p class="text-xs text-gray-500 mt-2">Recommended: 1920x1080. Uploading a new file will replace the current hero image.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Hero Section -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">

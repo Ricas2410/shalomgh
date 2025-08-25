@@ -18,10 +18,10 @@ class LeadershipProfileAdmin(admin.ModelAdmin):
             'fields': ('email', 'phone')
         }),
         ('Profile', {
-            'fields': ('photo', 'bio')
+            'fields': ('photo', 'go_card_photo', 'bio')
         }),
         ('Ministry Information', {
-            'fields': ('years_in_ministry', 'specializations', 'education')
+            'fields': ('years_in_ministry', 'specializations')
         }),
         ('Display Settings', {
             'fields': ('is_active', 'display_order')

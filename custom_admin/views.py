@@ -13,7 +13,7 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 
 # Import models from different apps
-from core.models import SiteSetting, ContactMessage, ServiceTime
+from core.models import SiteSetting, ContactMessage, ServiceTime, PageImage
 from sermons.models import Sermon, Speaker, SermonSeries
 from events.models import Event, EventCategory
 from ministries.models import Ministry, MinistryGallery
@@ -661,20 +661,84 @@ class SiteSettingsView(AdminRequiredMixin, UpdateView):
     ]
     success_url = reverse_lazy('custom_admin:settings')
 
+    # Key hero sections we will manage inline here
+    HERO_SECTIONS = [
+        ('home_hero', 'Home Page Hero'),
+        ('about_hero', 'About Page Hero'),
+        ('sermons_hero', 'Sermons Page Hero'),
+        ('events_hero', 'Events Page Hero'),
+        ('ministries_hero', 'Ministries Page Hero'),
+        ('contact_hero', 'Contact Page Hero'),
+        ('giving_hero', 'Giving Page Hero'),
+        ('plan_visit_hero', 'Plan Visit Page Hero'),
+        ('beliefs_hero', 'Beliefs Page Hero'),
+        ('leadership_hero', 'Leadership Page Hero'),
+        ('location_hero', 'Location Page Hero'),
+    ]
+
     def get_object(self):
         """Get or create the site settings object."""
         obj, created = SiteSetting.objects.get_or_create(pk=1)
         return obj
 
     def form_valid(self, form):
+        response = super().form_valid(form)
+
+        # 1) Handle General Overseer card image upload (optional)
+        go_file = self.request.FILES.get('go_card_photo')
+        if go_file:
+            go = LeadershipProfile.objects.filter(position='general_overseer').first()
+            if not go:
+                # Create a minimal placeholder GO profile if missing
+                go = LeadershipProfile.objects.create(
+                    first_name='General', last_name='Overseer', position='general_overseer', is_active=True
+                )
+            go.go_card_photo = go_file
+            go.save()
+
+        # 2) Handle hero images inline uploads
+        for key, label in self.HERO_SECTIONS:
+            field_name = f'hero_{key}'
+            upload = self.request.FILES.get(field_name)
+            if not upload:
+                continue
+            # Upsert the primary hero image (display_order = 0)
+            page_image, _created = PageImage.objects.get_or_create(
+                page_section=key,
+                display_order=0,
+                defaults={
+                    'title': f'{label} Image',
+                    'alt_text': f'{label} Background',
+                    'is_active': True,
+                }
+            )
+            page_image.image = upload
+            if not page_image.title:
+                page_image.title = f'{label} Image'
+            if not page_image.alt_text:
+                page_image.alt_text = f'{label} Background'
+            page_image.is_active = True
+            page_image.save()
+
         messages.success(self.request, 'Site settings updated successfully!')
-        return super().form_valid(form)
+        return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Site Settings'
         context['unread_messages'] = ContactMessage.objects.filter(is_read=False).count()
         context['recent_messages'] = ContactMessage.objects.order_by('-created_at')[:10]
+        # General Overseer context
+        context['general_overseer'] = LeadershipProfile.objects.filter(position='general_overseer').first()
+        # Current hero images map
+        hero_map = {}
+        for key, label in self.HERO_SECTIONS:
+            pi = PageImage.objects.filter(page_section=key, display_order=0).order_by('display_order', '-created_at').first()
+            hero_map[key] = {
+                'label': label,
+                'image': pi,
+            }
+        context['hero_images'] = hero_map
         return context
 
 

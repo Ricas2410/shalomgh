@@ -7,6 +7,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import TemplateView
+from django.http import HttpResponse
 from core.sitemaps import (
     StaticViewSitemap, SermonSitemap, SermonSeriesSitemap,
     EventSitemap, MinistrySitemap
@@ -21,6 +22,10 @@ sitemaps = {
     'ministries': MinistrySitemap,
 }
 
+# Lightweight health check endpoint
+def healthz(_request):
+    return HttpResponse("ok", content_type="text/plain")
+
 urlpatterns = [
     # Admin URLs
     path('admin/', admin.site.urls),
@@ -32,6 +37,10 @@ urlpatterns = [
     path('sermons/', include('sermons.urls')),
     path('events/', include('events.urls')),
     path('ministries/', include('ministries.urls')),
+
+    # Health check URL (for Fly.io)
+    path('healthz/', healthz, name='healthz'),
+    path('healthz', healthz, name='healthz_no_slash'),
 
     # SEO URLs
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

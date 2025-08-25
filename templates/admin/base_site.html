@@ -5,7 +5,7 @@
 {% block branding %}
 <h1 id="site-name">
     <a href="{% url 'admin:index' %}">
-        <div style="display: flex; align-items: center; color: #007C91; font-weight: bold; font-size: 1.5rem;">
+        <div style="display: flex; align-items: center; color: #ffffff; font-weight: bold; font-size: 1.5rem;">
             <i class="fas fa-church" style="margin-right: 10px; font-size: 1.8rem;"></i>
             ShalomGH Church Admin
         </div>
@@ -67,10 +67,13 @@
         text-decoration: none;
     }
     
+    /* Use neutral backgrounds for section headers to avoid teal overload */
     .module h2, .module caption, .inline-group h2 {
-        background: var(--primary-color);
-        color: white;
+        background: #f3f4f6; /* neutral light gray */
+        color: #111827;      /* near-black text */
+        border-bottom: 1px solid #e5e7eb;
     }
+    .module { border: 1px solid #e5e7eb; }
     
     .button, input[type=submit], input[type=button], .submit-row input, a.button {
         background: var(--primary-color) !important;
@@ -97,10 +100,11 @@
         color: var(--secondary-color);
     }
     
-    /* Dashboard styling */
+    /* Dashboard table headers: neutral */
     .dashboard .module table th {
-        background: var(--primary-color);
-        color: white;
+        background: #f3f4f6;
+        color: #111827;
+        border-bottom: 1px solid #e5e7eb;
     }
     
     /* Form styling */
@@ -108,6 +112,35 @@
         color: #666;
         font-size: 0.9em;
     }
+    
+    /* Make header user tools and breadcrumbs readable on teal header */
+    #user-tools, #user-tools a { color: #ffffff !important; }
+    #user-tools a:hover { text-decoration: underline; }
+    #header .breadcrumbs { background: transparent; color: #e5e7eb; }
+    #header .breadcrumbs a { color: #ffffff; }
+    
+    /* Admin index app list: captions and links dark-on-light */
+    .app-list .module caption,
+    .app-list .module h2,
+    .app-list .module caption a.section {
+        background: #f3f4f6 !important;
+        color: #111827 !important;
+    }
+    .app-list .module ul li a { color: #1f2937; }
+    .app-list .module ul li a:visited { color: #374151; }
+    .app-list .module ul li a:hover { background: #eef2f7; }
+
+    /* Generic module lists (sidebars on app pages) */
+    .module caption a.section { color: #111827 !important; }
+    .module ul li a { color: #1f2937; }
+    .module ul li a:visited { color: #374151; }
+    .module ul li a:hover { background: #eef2f7; }
+    .module ul li a:focus { outline: 2px solid #9ca3af; outline-offset: 1px; }
+
+    /* Changelist filter panel headings and links */
+    #changelist-filter h2 { background: #f3f4f6; color: #111827; }
+    #changelist-filter ul li a { color: #1f2937; }
+    #changelist-filter ul li.selected a { color: var(--primary-color); font-weight: 600; }
     
     /* Custom church-themed icons */
     .model-sermon .addlink:before,

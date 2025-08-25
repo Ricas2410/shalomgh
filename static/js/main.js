@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initFormValidation();
     initLazyLoading();
     initAnimations();
+    initLightbox();
 });
 
 /**
@@ -24,6 +25,65 @@ function initMobileMenu() {
         console.log('Mobile menu already handled by header template');
         mobileMenuButton.setAttribute('data-initialized', 'true');
     }
+
+/**
+ * Accessible Lightbox for gallery images
+ * Requires:
+ *  - Triggers with class '.js-lightbox-trigger' and data-full, data-caption attributes
+ *  - Modal container with id 'lightbox-modal'
+ *  - Inside modal: #lightbox-image, #lightbox-caption, buttons #lightbox-prev, #lightbox-next
+ *  - Any element with [data-lightbox-close] inside modal closes it
+ */
+function initLightbox() {
+    const modal = document.getElementById('lightbox-modal');
+    if (!modal) return; // only on pages that include the lightbox markup
+
+    const triggers = Array.from(document.querySelectorAll('.js-lightbox-trigger'));
+    if (!triggers.length) return;
+
+    const img = document.getElementById('lightbox-image');
+    const caption = document.getElementById('lightbox-caption');
+    const btnPrev = document.getElementById('lightbox-prev');
+    const btnNext = document.getElementById('lightbox-next');
+    const closeEls = modal.querySelectorAll('[data-lightbox-close]');
+    let index = 0;
+
+    function open(i) {
+        index = i;
+        const t = triggers[index];
+        if (!t) return;
+        img.src = t.getAttribute('data-full');
+        img.alt = t.getAttribute('data-caption') || '';
+        caption.textContent = t.getAttribute('data-caption') || '';
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+    function close() {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+    function next() { open((index + 1) % triggers.length); }
+    function prev() { open((index - 1 + triggers.length) % triggers.length); }
+
+    triggers.forEach((t, i) => {
+        t.addEventListener('click', () => open(i));
+        t.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                open(i);
+            }
+        });
+    });
+    closeEls.forEach(el => el.addEventListener('click', close));
+    if (btnNext) btnNext.addEventListener('click', next);
+    if (btnPrev) btnPrev.addEventListener('click', prev);
+    document.addEventListener('keydown', (e) => {
+        if (modal.classList.contains('hidden')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowRight') next();
+        if (e.key === 'ArrowLeft') prev();
+    });
+}
 }
 
 /**

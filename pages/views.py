@@ -4,9 +4,11 @@ Views for static pages and leadership information.
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, DetailView
 from django.db.models import Q
+from urllib.parse import urlencode, urlparse, parse_qs
 
 from .models import LeadershipProfile, PageContent, WelcomeSection
 from core.models import SiteSetting
+from livestream.models import LiveStream
 
 
 class AboutView(TemplateView):
@@ -106,6 +108,12 @@ class LeadershipView(TemplateView):
             is_active=True
         ).order_by('display_order', 'last_name', 'first_name')
 
+        # Get General Overseer (if available)
+        general_overseer = LeadershipProfile.objects.filter(
+            is_active=True,
+            position='general_overseer'
+        ).order_by('display_order').first()
+
         # Group leadership by position for better organization
         leadership_by_position = {}
         for profile in leadership_profiles:
@@ -118,6 +126,7 @@ class LeadershipView(TemplateView):
             'site_settings': site_settings,
             'leadership_profiles': leadership_profiles,
             'leadership_by_position': leadership_by_position,
+            'general_overseer': general_overseer,
         })
 
         return context
@@ -178,8 +187,69 @@ class OnlineTVView(TemplateView):
         # Get site settings
         site_settings = SiteSetting.get_settings()
 
+        # Helper: build embeddable player URL for supported platforms
+        def _build_embed_url(platform_type: str, platform_url: str, host: str) -> str:
+            if not platform_url:
+                return ''
+            p = urlparse(platform_url)
+
+            # YouTube
+            if platform_type == 'youtube':
+                video_id = ''
+                if 'youtube.com' in p.netloc:
+                    qs = parse_qs(p.query)
+                    video_id = (qs.get('v') or [''])[0]
+                elif 'youtu.be' in p.netloc:
+                    video_id = p.path.strip('/')
+                if video_id:
+                    return f"https://www.youtube.com/embed/{video_id}?" + urlencode({'autoplay': 0, 'rel': 0})
+                if '/embed/' in p.path:
+                    return platform_url
+                return platform_url
+
+            # Vimeo
+            if platform_type == 'vimeo':
+                if 'vimeo.com' in p.netloc:
+                    parts = [seg for seg in p.path.split('/') if seg]
+                    if parts and parts[0].isdigit():
+                        return f"https://player.vimeo.com/video/{parts[0]}"
+                return platform_url
+
+            # Twitch
+            if platform_type == 'twitch':
+                channel = ''
+                if 'twitch.tv' in p.netloc:
+                    parts = [seg for seg in p.path.split('/') if seg]
+                    if parts:
+                        channel = parts[0]
+                params = {'parent': host, 'autoplay': 'false'}
+                if channel:
+                    base = 'https://player.twitch.tv/?' + urlencode({'channel': channel})
+                    return base + '&' + urlencode(params)
+                return 'https://player.twitch.tv/?' + urlencode(params)
+
+            # Facebook
+            if platform_type == 'facebook':
+                return 'https://www.facebook.com/plugins/video.php?' + urlencode({'href': platform_url, 'show_text': 'false', 'autoplay': 'false'})
+
+            # Fallback
+            return platform_url
+
+        # Determine the current or next available public stream
+        stream = (
+            LiveStream.objects.filter(is_public=True, status='live').order_by('-scheduled_start').first()
+            or LiveStream.objects.filter(is_public=True).order_by('-scheduled_start').first()
+        )
+
+        embed_url = ''
+        if stream:
+            b = stream.streambroadcast_set.select_related('platform').order_by('-broadcast_started').first()
+            if b and b.platform:
+                embed_url = _build_embed_url(b.platform.platform_type, (b.platform_url or '').strip(), self.request.get_host())
+
         context.update({
             'site_settings': site_settings,
+            'embed_url': embed_url,
         })
 
         return context

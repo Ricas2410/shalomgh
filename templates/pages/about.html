@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}About Us - {{ CHURCH_NAME }}{% endblock %}
+{% block title %}About {{ CHURCH_NAME }}{% endblock %}
 
-{% block meta_description %}Learn about {{ CHURCH_NAME }}, our mission, vision, values, and the leadership team that guides our church family.{% endblock %}
+{% block meta_description %}Discover {{ CHURCH_NAME }} (also known as Shalom, Living Yahweh Sabbath Assemblies): a Bible-believing Sabbath church led by Apostle Ephraim Kwaku Danso—rooted in Scripture, discipleship, and compassionate outreach to orphans, widows, persons with disabilities, and vulnerable families.{% endblock %}
 
 {% block content %}
 <!-- Ultra-Modern Hero Section -->
@@ -60,6 +60,54 @@
         </div>
     </div>
 </section>
+
+<!-- About {{ CHURCH_NAME }} Overview -->
+<section class="py-16 lg:py-20 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Who We Are</h2>
+            <p>
+                {{ CHURCH_NAME }}—also known as Shalom, Shalom  —is a Christ-centered, Bible-believing
+                Sabbath church devoted to worship, discipleship, prayer, and compassionate service. We exist to glorify God by
+                proclaiming the Gospel of Jesus Christ, nurturing believers into mature disciples, and demonstrating God’s love
+                in practical ways within our communities.
+            </p>
+            <p>
+                Our congregation gathers for vibrant Sabbath worship marked by heartfelt praise, Spirit-led prayer, and
+                Bible exposition that is faithful, clear, and applicable. We place a strong emphasis on spiritual formation—
+                equipping children, youth, and adults to follow Jesus in everyday life, honor God in work and family, and live as
+                ambassadors of the Kingdom in their neighborhoods and nations.
+            </p>
+            <h3 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">Leadership and Shepherding</h3>
+            <p>
+                Under the apostolic leadership of <strong>Apostle Ephraim Kwaku Danso</strong>, our church is shepherded by a
+                dedicated team of ministers and lay leaders who model servant leadership, biblical integrity, and pastoral care.
+                We believe leadership is a stewardship to equip the saints for the work of ministry, cultivate healthy families,
+                and raise future leaders who will serve the Church and society with wisdom and grace.
+            </p>
+            <h3 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">Compassionate Outreach</h3>
+            <p>
+                Compassion is central to our identity. Through annual charity initiatives and ongoing benevolence programs, we
+                mobilize resources, volunteers, and partnerships to support <em>orphans</em>, <em>widows</em>, <em>persons with
+                disabilities</em>, and <em>vulnerable families</em>. Our outreach includes practical relief, education support,
+                medical and accessibility aid, and mentoring. We serve not to be seen, but so that Christ would be seen through
+                tangible love.
+            </p>
+            <h3 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">What We Value</h3>
+            <p>
+                We value the authority of Scripture, the power of prayer, authentic community, holiness of life, excellence in
+                service, and mission to the world. As a multi-generational family, we celebrate cultural diversity and unity in
+                Christ. We welcome newcomers, create pathways for belonging and growth, and encourage every believer to discover
+                and deploy their God-given gifts.
+            </p>
+            <p>
+                Whether you are exploring faith, returning to church, or seeking a spiritual home for your family, we invite you
+                to worship with us, get connected, and join us in God’s mission. Together, we pursue Jesus, build one another up
+                in love, and serve our communities with grace and truth.
+            </p>
+        </div>
+    </div>
+    </section>
 
 <!-- Mission, Vision, Values Section -->
 <section id="mission-vision" class="py-20 lg:py-24 bg-gradient-to-br from-white via-blue-50/30 to-amber-50/20">
@@ -607,6 +655,53 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ CHURCH_NAME }}",
+  "alternateName": "{{ SITE_NAME }}",
+  "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'pages:about' %}",
+  "description": "{% if site_settings.meta_description %}{{ site_settings.meta_description|striptags }}{% else %}About {{ CHURCH_NAME }}—a Bible-believing Sabbath church serving our community.{% endif %}",
+  "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.png' %}",
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}",
+  "founder": "Apostle Ephraim Kwaku Danso",
+  "foundingDate": "1985",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{% if site_settings.address %}{{ site_settings.address|linebreaksbr|striptags }}{% else %}123 Church Street{% endif %}",
+    "addressLocality": "Accra",
+    "addressRegion": "Greater Accra",
+    "addressCountry": "Ghana"
+  },
+  "telephone": "{% if site_settings.phone %}{{ site_settings.phone }}{% else %}+233 XX XXX XXXX{% endif %}",
+  "email": "{% if site_settings.email %}{{ site_settings.email }}{% else %}info@shalomgh.com{% endif %}"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ request.scheme }}://{{ request.get_host }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "About",
+      "item": "{{ request.build_absolute_uri }}"
+    }
+  ]
+}
+</script>
 {% endblock %}
 
 {% block extra_js %}
